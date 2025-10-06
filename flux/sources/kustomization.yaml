@@ -6,3 +6,4 @@ resources:
   - metallb.yaml
   - traefik.yaml
   - tailscale.yaml
+  - monsterrr.yaml
