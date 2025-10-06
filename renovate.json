@@ -34,33 +34,50 @@
   "packageRules": [
     {
       "description": "Auto-merge patch updates after 2 days",
-      "matchUpdateTypes": ["patch"],
+      "matchUpdateTypes": [
+        "patch"
+      ],
       "automerge": true,
       "minimumReleaseAge": "2 days"
     },
     {
       "description": "Auto-merge digest updates",
-      "matchUpdateTypes": ["digest"],
+      "matchUpdateTypes": [
+        "digest"
+      ],
       "automerge": true
     },
     {
       "description": "Disable major Docker updates",
-      "matchDatasources": ["docker"],
-      "matchUpdateTypes": ["major"],
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchUpdateTypes": [
+        "major"
+      ],
       "enabled": false
     },
     {
       "description": "Group Helm chart updates",
-      "matchDatasources": ["helm"],
+      "matchDatasources": [
+        "helm"
+      ],
       "groupName": "Helm charts",
-      "schedule": ["every weekend"]
+      "schedule": [
+        "every weekend"
+      ]
     },
     {
       "description": "Group Flux updates",
       "groupName": "Flux",
-      "matchPackagePatterns": ["fluxcd"],
-      "matchUpdateTypes": ["patch", "minor"],
-      "automerge": true
+      "matchUpdateTypes": [
+        "patch",
+        "minor"
+      ],
+      "automerge": true,
+      "matchPackageNames": [
+        "/fluxcd/"
+      ]
     }
   ],
   "vulnerabilityAlerts": {
