@@ -28,7 +28,7 @@ spec:
     ingress:
       main:
         enabled: true
-        ingressClassName: homepage
+        ingressClassName: tailscale
         hosts:
           - host: homepage
             paths:
