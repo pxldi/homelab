@@ -5,3 +5,4 @@ resources:
   - helmrelease.yaml
   - rbac.yaml
   - ingress.yaml
+  - patch-env.yaml
