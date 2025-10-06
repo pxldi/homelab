@@ -27,8 +27,7 @@ spec:
     
     config:
       useExistingConfigMap: homepage-config
-      allowedHosts:
-        - '"*"'
+      disableHostCheck: true
     
     envFrom:
       - secretRef:
