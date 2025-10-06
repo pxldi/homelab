@@ -28,9 +28,7 @@ spec:
     config:
       useExistingConfigMap: homepage-config
       allowedHosts:
-        - "*.ts.net"
-        - "localhost"
-        - "127.0.0.1"
+        - "*"
     
     envFrom:
       - secretRef:
