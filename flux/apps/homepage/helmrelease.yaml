@@ -27,9 +27,6 @@ spec:
     
     config:
       useExistingConfigMap: homepage-config
-    app:
-      env:
-        HOMEPAGE_ALLOWED_HOSTS: "homepage.panda-logarithm.ts.net,localhost,127.0.0.1"
     
     envFrom:
       - secretRef:
