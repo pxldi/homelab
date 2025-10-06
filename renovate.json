@@ -3,6 +3,7 @@
   "extends": [
     "config:recommended"
   ],
+  "platformAutomerge": true,
   "flux": {
     "managerFilePatterns": [
       "/flux/.+\\.yaml$/"
@@ -32,22 +33,37 @@
   ],
   "packageRules": [
     {
-      "matchDatasources": [
-        "docker"
-      ],
-      "matchUpdateTypes": [
-        "major"
-      ],
+      "description": "Auto-merge patch updates after 2 days",
+      "matchUpdateTypes": ["patch"],
+      "automerge": true,
+      "minimumReleaseAge": "2 days"
+    },
+    {
+      "description": "Auto-merge digest updates",
+      "matchUpdateTypes": ["digest"],
+      "automerge": true
+    },
+    {
+      "description": "Disable major Docker updates",
+      "matchDatasources": ["docker"],
+      "matchUpdateTypes": ["major"],
       "enabled": false
     },
     {
-      "matchDatasources": [
-        "helm"
-      ],
+      "description": "Group Helm chart updates",
+      "matchDatasources": ["helm"],
       "groupName": "Helm charts",
-      "schedule": [
-        "every weekend"
-      ]
+      "schedule": ["every weekend"]
+    },
+    {
+      "description": "Group Flux updates",
+      "groupName": "Flux",
+      "matchPackagePatterns": ["fluxcd"],
+      "matchUpdateTypes": ["patch", "minor"],
+      "automerge": true
     }
-  ]
+  ],
+  "vulnerabilityAlerts": {
+    "enabled": true
+  }
 }
