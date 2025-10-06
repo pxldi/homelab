@@ -4,3 +4,4 @@ resources:
   - configmap.yaml
   - helmrelease.yaml
   - rbac.yaml
+  - ingress.yaml

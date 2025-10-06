@@ -25,19 +25,6 @@ spec:
           http:
             port: 3000
     
-    ingress:
-      main:
-        enabled: true
-        ingressClassName: tailscale
-        hosts:
-          - host: homepage
-            paths:
-              - path: /
-                pathType: Prefix
-        tls:
-          - hosts:
-            - homepage
-    
     config:
       useExistingConfigMap: homepage-config
     
