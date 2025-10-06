@@ -3,8 +3,6 @@ kind: Ingress
 metadata:
   name: homepage
   namespace: homepage
-  annotations:
-    tailscale.com/funnel: "false"
 spec:
   ingressClassName: tailscale
   rules:
@@ -17,7 +15,7 @@ spec:
               service:
                 name: homepage
                 port:
-                  number: 3000
+                  number: 80
   tls:
     - hosts:
         - homepage
