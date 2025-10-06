@@ -3,3 +3,4 @@ kind: Kustomization
 resources:
   - immich.yaml
   - media-stack.yaml
+  - homepage.yaml
