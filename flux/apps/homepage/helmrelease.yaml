@@ -27,7 +27,8 @@ spec:
     
     config:
       useExistingConfigMap: homepage-config
-      disableHostCheck: true
+      allowedHosts:
+        - "homepage.panda-logarithm.ts.net"
     
     envFrom:
       - secretRef:
