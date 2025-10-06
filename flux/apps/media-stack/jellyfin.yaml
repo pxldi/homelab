@@ -1,0 +1,56 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: jellyfin
+  namespace: media-stack
+spec:
+  interval: 1h
+  chart:
+    spec:
+      chart: jellyfin
+      version: "21.7.2"
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+
+  values:
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: tailscale
+        #annotations:
+        #  cert-manager.io/cluster-issuer: letsencrypt-production
+        hosts:
+          - host: jellyfin #pxldi.de
+            paths:
+              - path: /
+                pathType: Prefix
+        tls:
+          - hosts:
+            - jellyfin
+        #  - secretName: jellyfin-tls
+        #    hosts:
+        #      - jellyfin.pxldi.de
+
+    jellyfin:
+      env:
+        TZ: Europe/Berlin
+      resources:
+        limits:
+          cpu: 4000m
+          memory: 4Gi
+
+    persistence:
+      media:
+        enabled: true
+        existingClaim: media-pvc
+        mountPath: /media
+      config:
+        enabled: true
+        storageClass: longhorn
+        size: 10Gi
+      cache:
+        enabled: true
+        storageClass: longhorn
+        size: 5Gi

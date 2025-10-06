@@ -1,0 +1,98 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: immich
+  namespace: immich
+spec:
+  interval: 1h
+  chart:
+    spec:
+      chart: immich
+      version: "24.0.5"
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+
+  valuesFrom:
+    - kind: Secret
+      name: immich-jwt
+      valuesKey: DB_PASSWORD
+      targetPath: cnpg.main.password
+    - kind: Secret
+      name: immich-jwt
+      valuesKey: DB_PASSWORD
+      targetPath: immich.env.DB_PASSWORD
+    - kind: Secret
+      name: immich-jwt
+      valuesKey: REDIS_PASSWORD
+      targetPath: immich.env.REDIS_PASSWORD
+    - kind: Secret
+      name: immich-jwt
+      valuesKey: JWT_SECRET
+      targetPath: immich.env.JWT_SECRET
+
+  values:
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: tailscale #traefik
+        #annotations:
+        #  cert-manager.io/cluster-issuer: letsencrypt-production
+        hosts:
+          - host: immich #pxldi.de
+            paths:
+              - path: /
+                pathType: Prefix
+        tls:
+          - hosts:
+            - immich
+          #- secretName: immich-tls
+          #  hosts:
+          #    - immich.pxldi.de
+
+    immich:
+      env:
+        TZ: Europe/Berlin
+
+    persistence:
+      library:
+        enabled: true
+        storageClass: longhorn-dual-disk
+        size: 2Ti
+      uploads:
+        enabled: true
+        storageClass: longhorn
+        size: 20Gi
+      video:
+        enabled: true
+        storageClass: longhorn
+        size: 20Gi
+      thumbs:
+        enabled: true
+        storageClass: longhorn
+        size: 20Gi
+      profile:
+        enabled: true
+        storageClass: longhorn
+        size: 20Gi
+      backups:
+        enabled: true
+        storageClass: longhorn
+        size: 20Gi
+
+    cnpg:
+      main:
+        enabled: true
+        database: immich
+        user: immich
+        primary:
+          persistence:
+            enabled: true
+            storageClass: longhorn-dual-disk
+            size: 200Gi
+          walStorage:
+            storageClass: longhorn-dual-disk
+            size: 50Gi
+        backups:
+          enabled: false

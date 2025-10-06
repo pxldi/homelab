@@ -1,0 +1,44 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: sonarr
+  namespace: media-stack
+spec:
+  interval: 12h
+  chart:
+    spec:
+      chart: sonarr
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+      version: ">=23.0.0"
+  values:
+    metrics:
+      main:
+        enabled: false
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: tailscale
+        hosts:
+          - host: sonarr
+            paths:
+              - path: /
+                pathType: Prefix
+        tls:
+          - hosts:
+              - sonarr
+    persistence:
+      config:
+        enabled: true
+        storageClass: longhorn
+        size: 5Gi
+      media:
+        enabled: true
+        existingClaim: media-pvc
+        mountPath: /media
+      downloads:
+        enabled: true
+        existingClaim: downloads-pvc
+        mountPath: /downloads
