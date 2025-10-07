@@ -4,3 +4,4 @@ resources:
   - immich.yaml
   - media-stack.yaml
   - homepage.yaml
+  - pihole.yaml
