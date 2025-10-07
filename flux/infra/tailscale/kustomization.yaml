@@ -4,3 +4,4 @@ resources:
   - helmrelease.yaml
   - rbac-patch.yaml
   - dns-external.yaml
+  - pihole-dnsconfig.yaml
