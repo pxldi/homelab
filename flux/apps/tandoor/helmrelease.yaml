@@ -19,8 +19,6 @@ spec:
       valuesKey: DB_PASSWORD
       targetPath: postgresql.password
   values:
-    image:
-      tag: "1.5.31"
     env:
       TZ: "Europe/Berlin"
 
