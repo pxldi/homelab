@@ -8,23 +8,32 @@ spec:
   chart:
     spec:
       chart: pihole
-      version: 2.x.x
+      version: "2.34.0"
       sourceRef:
         kind: HelmRepository
         name: mojo2600
         namespace: flux-system
+
   values:
     DNSMASQ_LISTENING: all
-    serviceWeb:
-      type: ClusterIP
-      httpPort: 80
+
     serviceDns:
       enabled: true
       mixedService: true
+      type: NodePort
+      port: 53
+      nodePort: 3053
+      externalTrafficPolicy: Local
+
+    serviceWeb:
       type: ClusterIP
-      annotations:
-        tailscale.com/proxy-group: ingress
-        tailscale.com/hostname: pihole
+      http:
+        enabled: true
+        port: 80
+      https:
+        enabled: true
+        port: 443
+
     persistentVolumeClaim:
       enabled: true
       size: 2Gi
@@ -47,3 +56,8 @@ spec:
       tls:
         - hosts:
             - pihole
+
+    persistentVolumeClaim:
+      enabled: true
+      size: 2Gi
+      storageClass: longhorn
