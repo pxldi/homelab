@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tailscale-subnetrouter
+  namespace: tailscale
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tailscale-subnetrouter
+  template:
+    metadata:
+      labels:
+        app: tailscale-subnetrouter
+    spec:
+      serviceAccountName: tailscale-router
+      containers:
+        - name: tailscaled
+          image: tailscale/tailscale:stable
+          securityContext:
+            privileged: true
+            capabilities:
+              add: ["NET_ADMIN"]
+          env:
+            - name: TS_AUTHKEY
+              valueFrom:
+                secretKeyRef:
+                  name: tailscale-auth
+                  key: AUTHKEY
+          args:
+            - sh
+            - -c
+            - |
+              tailscaled --tun=tailscale0 --state=kube:tailscale-router &
+              sleep 5
+              tailscale up \
+                --authkey=${TS_AUTHKEY} \
+                --advertise-routes=10.96.0.0/12,10.244.0.0/16,192.168.1.0/24 \
+                --accept-dns=false
+              tail -f /dev/null
