@@ -8,3 +8,4 @@ resources:
   - tailscale.yaml
   - monsterrr.yaml
   - mojo.yaml
+  - bitnami.yaml

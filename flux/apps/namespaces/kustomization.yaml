@@ -5,3 +5,4 @@ resources:
   - media-stack.yaml
   - homepage.yaml
   - pihole.yaml
+  - tandoor.yaml
