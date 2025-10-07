@@ -21,6 +21,12 @@ spec:
   values:
     env:
       TZ: "Europe/Berlin"
+    extraEnv:
+      - name: SECRET_KEY
+        valueFrom:
+          secretKeyRef:
+            name: tandoor-secret
+            key: TANDOOR_SECRET_KEY
 
     ingress:
       main:
