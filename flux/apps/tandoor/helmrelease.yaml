@@ -50,6 +50,10 @@ spec:
     postgresql:
       enabled: true
       architecture: standalone
+      image:
+        registry: docker.io
+        repository: bitnami/postgresql
+        tag: 16.2.0-debian-11-r1
       auth:
         database: tandoor
         username: tandoor
