@@ -1,0 +1,9 @@
+apiVersion: tailscale.com/v1alpha1
+kind: ProxyGroup
+metadata:
+  name: ingress
+  namespace: tailscale
+  labels:
+    app.kubernetes.io/managed-by: flux
+spec:
+  type: ingress

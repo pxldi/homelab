@@ -4,3 +4,5 @@ resources:
   - helmrelease.yaml
   - rbac-patch.yaml
   - serveconfig.yaml
+  - pihole-proxygroup.yaml
+  - subnetrouter.yaml
