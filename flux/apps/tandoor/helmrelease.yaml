@@ -1,0 +1,62 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: tandoor
+  namespace: tandoor
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: generic-app
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+      version: 2.x.x
+  values:
+    controllers:
+      main:
+        containers:
+          main:
+            image:
+              repository: vabene1111/recipes
+              tag: latest
+            env:
+              DB_ENGINE: django.db.backends.postgresql
+              POSTGRES_HOST: tandoor-postgres.tandoor.svc.cluster.local
+              POSTGRES_PORT: "5432"
+              POSTGRES_USER: tandoor
+              POSTGRES_PASSWORD: tandoorpass
+              POSTGRES_DB: tandoor
+              ALLOWED_HOSTS: "*"
+            envFrom:
+              - secretRef:
+                  name: tandoor-secret
+            probes:
+              readiness:
+                enabled: true
+              liveness:
+                enabled: true
+    persistence:
+      media:
+        enabled: true
+        mountPath: /opt/recipes/mediafiles
+        size: 2Gi
+        storageClass: longhorn
+    service:
+      main:
+        ports:
+          http:
+            port: 8080
+    ingress:
+      main:
+        enabled: true
+        className: tailscale
+        hosts:
+          - host: recipes
+            paths:
+              - path: /
+                pathType: Prefix
+        tls:
+          - hosts:
+              - pihole
