@@ -56,3 +56,7 @@ spec:
       tls:
         - hosts:
             - pihole
+    doh:
+      enabled: true
+      envVars:
+        TUNNEL_DNS_UPSTREAM: "https://1.1.1.1/dns-query,https://1.0.0.1/dns-query"
