@@ -7,3 +7,4 @@ resources:
   - traefik.yaml
   - tailscale.yaml
   - monsterrr.yaml
+  - mojo.yaml
