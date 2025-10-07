@@ -5,6 +5,8 @@ metadata:
   namespace: tailscale
   annotations:
     tailscale.com/serve-dns: "true"
+  labels:
+    tailscale.com/serve: "true"
 spec:
   type: ExternalName
   externalName: pihole-dns-udp.pihole.svc.cluster.local
@@ -21,6 +23,8 @@ metadata:
   namespace: tailscale
   annotations:
     tailscale.com/serve-dns: "true"
+  labels:
+    tailscale.com/serve: "true"
 spec:
   type: ExternalName
   externalName: pihole-dns-tcp.pihole.svc.cluster.local

@@ -1,0 +1,19 @@
+apiVersion: tailscale.com/v1alpha1
+kind: DNSConfig
+metadata:
+  name: pihole
+  namespace: tailscale
+spec:
+  ports:
+    - name: udp
+      port: 53
+      protocol: UDP
+      serviceRef:
+        name: pihole-dns-udp
+        namespace: tailscale
+    - name: tcp
+      port: 53
+      protocol: TCP
+      serviceRef:
+        name: pihole-dns-tcp
+        namespace: tailscale
