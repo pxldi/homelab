@@ -40,10 +40,12 @@ spec:
         enabled: true
         storageClass: longhorn
         size: 5Gi
+        accessMode: ReadWriteOnce
       media:
         enabled: true
         storageClass: longhorn-dual-disk
         size: 10Gi
+        accessMode: ReadWriteOnce
 
     postgresql:
       enabled: true
