@@ -15,7 +15,7 @@ spec:
         namespace: flux-system
   valuesFrom:
     - kind: Secret
-      name: immich-jwt
+      name: tandoor-secret
       valuesKey: DB_PASSWORD
       targetPath: postgresql.auth.password
   values:
