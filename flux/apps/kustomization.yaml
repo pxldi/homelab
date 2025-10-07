@@ -6,3 +6,4 @@ resources:
   - ./media-stack
   - ./homepage
   - ./pihole
+  - ./tandoor
