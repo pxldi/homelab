@@ -20,6 +20,8 @@ spec:
         app: tailscale-subnetrouter
     spec:
       serviceAccountName: tailscale-router
+      hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
       containers:
         - name: tailscaled
           image: tailscale/tailscale:stable
