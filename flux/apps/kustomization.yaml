@@ -5,3 +5,4 @@ resources:
   - ./immich
   - ./media-stack
   - ./homepage
+  - ./pihole
