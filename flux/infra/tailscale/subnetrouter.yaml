@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tailscale-subnetrouter
+  namespace: tailscale
+  labels:
+    app: tailscale-subnetrouter
+    app.kubernetes.io/managed-by: flux
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tailscale-subnetrouter
+  template:
+    metadata:
+      labels:
+        app: tailscale-subnetrouter
+    spec:
+      containers:
+        - name: tailscaled
+          image: tailscale/tailscale:stable
+          args:
+            - tailscaled
+            - --tun=userspace-networking
+            - --state=/var/lib/tailscale/tailscaled.state
+            - --socket=/var/lib/tailscale/tailscaled.sock
+          env:
+            - name: TS_USERSPACE
+              value: "true"
+            - name: TS_ROUTES
+              value: "10.96.0.0/12"
+            - name: TS_ACCEPT_DNS
+              value: "false"
+            - name: TS_AUTHKEY
+              valueFrom:
+                secretKeyRef:
+                  name: tailscale-auth
+                  key: AUTHKEY
+          volumeMounts:
+            - name: state
+              mountPath: /var/lib/tailscale
+      volumes:
+        - name: state
+          emptyDir: {}

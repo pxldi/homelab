@@ -19,12 +19,12 @@ spec:
       type: ClusterIP
       httpPort: 80
     serviceDns:
+      enabled: true
+      mixedService: true
       type: ClusterIP
-      ports:
-        - port: 53
-          protocol: UDP
-        - port: 53
-          protocol: TCP
+      annotations:
+        tailscale.com/proxy-group: ingress
+        tailscale.com/hostname: pihole
     persistentVolumeClaim:
       enabled: true
       size: 2Gi
