@@ -1,9 +1,0 @@
-apiVersion: source.toolkit.fluxcd.io/v1beta2
-kind: HelmRepository
-metadata:
-  name: tandoor-chart
-  namespace: flux-system
-spec:
-  interval: 15m
-  type: oci
-  url: oci://ghcr.io/gabe565/charts/tandoor
