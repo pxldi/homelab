@@ -19,8 +19,12 @@ spec:
       type: ClusterIP
       httpPort: 80
     serviceDns:
-      type: LoadBalancer
-      externalTrafficPolicy: Local
+      type: ClusterIP
+      ports:
+        - port: 53
+          protocol: UDP
+        - port: 53
+          protocol: TCP
     persistentVolumeClaim:
       enabled: true
       size: 2Gi

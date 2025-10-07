@@ -1,0 +1,18 @@
+apiVersion: tailscale.com/v1alpha1
+kind: ServeConfig
+metadata:
+  name: pihole
+  namespace: tailscale
+spec:
+  tcp:
+    "53":
+      proxy:
+        serviceRef:
+          name: pihole-dns
+          namespace: pihole
+  udp:
+    "53":
+      proxy:
+        serviceRef:
+          name: pihole-dns
+          namespace: pihole
