@@ -7,17 +7,13 @@ spec:
   interval: 15m
   chart:
     spec:
-      chart: tandoor
+      chart: oci://ghcr.io/gabe565/charts/tandoor
       version: "1.5.31"
-      sourceRef:
-        kind: HelmRepository
-        name: gabe
-        namespace: flux-system
   valuesFrom:
     - kind: Secret
       name: immich-jwt
       valuesKey: DB_PASSWORD
-      targetPath: postgresql.password
+      targetPath: postgresql.auth.password
   values:
     env:
       TZ: "Europe/Berlin"
@@ -51,4 +47,3 @@ spec:
       auth:
         database: tandoor
         username: tandoor
-        password: yourStrongPassword
