@@ -22,7 +22,7 @@ spec:
       mixedService: true
       type: NodePort
       port: 53
-      nodePort: 3053
+      nodePort: 32053
       externalTrafficPolicy: Local
 
     serviceWeb:
