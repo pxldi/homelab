@@ -56,8 +56,3 @@ spec:
       tls:
         - hosts:
             - pihole
-
-    persistentVolumeClaim:
-      enabled: true
-      size: 2Gi
-      storageClass: longhorn
