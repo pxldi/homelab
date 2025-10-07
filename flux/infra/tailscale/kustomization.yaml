@@ -4,3 +4,4 @@ resources:
   - helmrelease.yaml
   - rbac-patch.yaml
   - subnetrouter.yaml
+  - subnetrouter-rbac.yaml

@@ -1,0 +1,23 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: tailscale-router-secret
+  namespace: tailscale
+rules:
+  - apiGroups: [""]
+    resources: ["secrets"]
+    verbs: ["get", "list", "create", "update", "patch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: tailscale-router-secret
+  namespace: tailscale
+subjects:
+  - kind: ServiceAccount
+    name: tailscale-router
+    namespace: tailscale
+roleRef:
+  kind: Role
+  name: tailscale-router-secret
+  apiGroup: rbac.authorization.k8s.io
