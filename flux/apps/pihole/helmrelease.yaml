@@ -32,14 +32,13 @@ spec:
     DNS2: "8.8.8.8"
 
     ingress:
-      main:
-        enabled: true
-        ingressClassName: tailscale
-        hosts:
-          - host: pihole
-            paths:
-              - path: /
-                pathType: Prefix
-        tls:
-          - hosts:
-            - pihole
+      enabled: true
+      ingressClassName: tailscale
+      hosts:
+        - host: pihole.panda-logarithm.ts.net
+          paths:
+            - path: /
+              pathType: Prefix
+      tls:
+        - hosts:
+            - pihole.panda-logarithm.ts.net
