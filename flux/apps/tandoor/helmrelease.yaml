@@ -1,0 +1,164 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: tandoor
+  namespace: tandoor
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: app-template
+      version: 4.3.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+
+  values:
+    controllers:
+      main:
+        containers:
+          main:
+            image:
+              repository: ghcr.io/tandoorrecipes/recipes
+              tag: 2.3.1
+
+            env:
+              TZ: "Europe/Berlin"
+              DEBUG: "False"
+              ALLOWED_HOSTS: "tandoor.panda-logarithm.ts.net"
+              SECRET_KEY:
+                valueFrom:
+                  secretKeyRef:
+                    name: tandoor-app-secrets
+                    key: TANDOOR_SECRET_KEY
+              ENABLE_SIGNUP: "1"
+              ENABLE_PDF_EXPORT: "1"
+
+              DB_ENGINE: "django.db.backends.postgresql"
+              POSTGRES_HOST: "tandoor-postgresql-headless"
+              POSTGRES_PORT: "5432"
+              POSTGRES_DB: "tandoor"
+              POSTGRES_USER: "tandoor"
+              POSTGRES_PASSWORD:
+                valueFrom:
+                  secretKeyRef:
+                    name: tandoor-app-secrets
+                    key: TANDOOR_DB_PASSWORD
+
+              SUPERUSER_NAME: "admin"
+              SUPERUSER_EMAIL: "xd@pxldi.de"
+              SUPERUSER_PASSWORD:
+                valueFrom:
+                  secretKeyRef:
+                    name: tandoor-app-secrets
+                    key: TANDOOR_DB_PASSWORD
+
+            probes:
+              liveness:
+                enabled: true
+                spec:
+                  httpGet:
+                    path: /
+                    port: 80
+                  initialDelaySeconds: 60
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+                  failureThreshold: 6
+              readiness:
+                enabled: true
+                spec:
+                  httpGet:
+                    path: /
+                    port: 80
+                  initialDelaySeconds: 5
+                  periodSeconds: 5
+                  timeoutSeconds: 3
+                  failureThreshold: 3
+              startup:
+                enabled: true
+                spec:
+                  httpGet:
+                    path: /
+                    port: 80
+                  failureThreshold: 60
+                  periodSeconds: 5
+
+    resources:
+      main:
+        containers:
+          main:
+            limits:
+              memory: "1Gi"
+              cpu: "1"
+            requests:
+              memory: "512Mi"
+              cpu: "250m"
+
+service:
+  main:
+    controller: main
+    ports:
+      http:
+        port: 80
+        protocol: TCP
+
+ingress:
+  main:
+    enabled: true
+    className: tailscale
+    annotations: {}
+    path: /
+    pathType: Prefix
+    hosts:
+      - tandoor
+    tls:
+      - hosts:
+          - tandoor
+
+persistence:
+  mediafiles:
+    enabled: true
+    type: persistentVolumeClaim
+    accessMode: ReadWriteOnce
+    size: 10Gi
+    storageClass: longhorn-dual-disk
+    globalMounts:
+      - path: /opt/recipes/mediafiles
+
+  staticfiles:
+    enabled: true
+    type: persistentVolumeClaim
+    accessMode: ReadWriteOnce
+    size: 2Gi
+    storageClass: longhorn
+    globalMounts:
+      - path: /opt/recipes/staticfiles
+
+postgresql:
+  enabled: true
+  image:
+    repository: ghcr.io/bitnami/postgresql
+    tag: 16.2.0-debian-11-r0
+  architecture: standalone
+  auth:
+    database: tandoor
+    username: tandoor
+    password:
+      valueFrom:
+        secretKeyRef:
+          name: tandoor-app-secrets
+          key: TANDOOR_DB_PASSWORD
+  primary:
+    persistence:
+      enabled: true
+      accessMode: ReadWriteOnce
+      size: 8Gi
+      storageClass: longhorn
