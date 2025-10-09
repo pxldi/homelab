@@ -13,10 +13,10 @@ spec:
         kind: HelmRepository
         name: bjw-s-charts
         namespace: flux-system
+  dependsOn:
+    - name: tandoor-postgresql
+      namespace: tandoor
   install:
-    dependsOn:
-      - name: tandoor-postgresql
-        namespace: tandoor
     remediation:
       retries: 3
   upgrade:
@@ -117,10 +117,14 @@ spec:
         enabled: true
         className: tailscale
         annotations: {}
-        path: /
-        pathType: Prefix
         hosts:
-          - tandoor
+          - host: tandoor
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  identifier: main
+                  port: http
         tls:
           - hosts:
               - tandoor
