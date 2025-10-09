@@ -34,7 +34,6 @@ spec:
 
             env:
               TZ: "Europe/Berlin"
-              DEBUG: "False"
               ALLOWED_HOSTS: "tandoor.panda-logarithm.ts.net"
               SECRET_KEY:
                 valueFrom:
