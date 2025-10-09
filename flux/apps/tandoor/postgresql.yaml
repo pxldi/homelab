@@ -26,14 +26,14 @@ spec:
           postgresql:
             image:
               repository: public.ecr.aws/docker/library/postgres
-              tag: 16.2.0
+              tag: 17.6
             env:
               POSTGRES_DB: tandoor
               POSTGRES_USER: tandoor
               POSTGRES_PASSWORD:
                 valueFrom:
                   secretKeyRef:
-                    name: tandoor-app-secret
+                    name: tandoor-secret
                     key: TANDOOR_DB_PASSWORD
               PGDATA: /var/lib/postgresql/data
             resources:
@@ -72,7 +72,7 @@ spec:
               DATA_SOURCE_PASS:
                 valueFrom:
                   secretKeyRef:
-                    name: tandoor-app-secrets
+                    name: tandoor-secret
                     key: TANDOOR_DB_PASSWORD
             resources:
               requests:
