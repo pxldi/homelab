@@ -34,7 +34,7 @@ spec:
                 valueFrom:
                   secretKeyRef:
                     name: tandoor-secret
-                    key: TANDOOR_DB_PASSWORD
+                    key: DB_PASSWORD
               PGDATA: /var/lib/postgresql/data
             resources:
               requests:
@@ -73,7 +73,7 @@ spec:
                 valueFrom:
                   secretKeyRef:
                     name: tandoor-secret
-                    key: TANDOOR_DB_PASSWORD
+                    key: DB_PASSWORD
             resources:
               requests:
                 cpu: 100m
