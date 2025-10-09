@@ -106,4 +106,5 @@ spec:
         size: 8Gi
         storageClass: longhorn-dual-disk
         globalMounts:
-          - path: /var/lib/postgresql/data
+          - path: /var/lib/postgresql
+            subPath: data
