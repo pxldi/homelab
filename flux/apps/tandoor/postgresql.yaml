@@ -1,0 +1,109 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: tandoor-postgresql
+  namespace: tandoor
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: app-template
+      version: 4.3.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+  values:
+    defaultPodOptions:
+      securityContext:
+        runAsUser: 999
+        runAsGroup: 999
+        fsGroup: 999
+    controllers:
+      primary:
+        type: statefulset
+        containers:
+          postgresql:
+            image:
+              repository: public.ecr.aws/docker/library/postgres
+              tag: 16.2.0
+            env:
+              POSTGRES_DB: tandoor
+              POSTGRES_USER: tandoor
+              POSTGRES_PASSWORD:
+                valueFrom:
+                  secretKeyRef:
+                    name: tandoor-app-secret
+                    key: TANDOOR_DB_PASSWORD
+              PGDATA: /var/lib/postgresql/data
+            resources:
+              requests:
+                cpu: 500m
+                memory: 512Mi
+              limits:
+                cpu: 750m
+                memory: 768Mi
+            probes:
+              liveness:
+                enabled: true
+                spec:
+                  exec:
+                    command: ["pg_isready", "-U", "tandoor", "-d", "tandoor"]
+                  initialDelaySeconds: 30
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+                  failureThreshold: 6
+              readiness:
+                enabled: true
+                spec:
+                  exec:
+                    command: ["pg_isready", "-U", "tandoor", "-d", "tandoor"]
+                  initialDelaySeconds: 5
+                  periodSeconds: 5
+                  timeoutSeconds: 3
+                  failureThreshold: 3
+          metrics:
+            image:
+              repository: quay.io/prometheuscommunity/postgres-exporter
+              tag: v0.18.1
+            env:
+              DATA_SOURCE_URI: localhost:5432/tandoor?sslmode=disable
+              DATA_SOURCE_USER: tandoor
+              DATA_SOURCE_PASS:
+                valueFrom:
+                  secretKeyRef:
+                    name: tandoor-app-secrets
+                    key: TANDOOR_DB_PASSWORD
+            resources:
+              requests:
+                cpu: 100m
+                memory: 128Mi
+              limits:
+                cpu: 150m
+                memory: 192Mi
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+    service:
+      primary:
+        controller: primary
+        ports:
+          postgresql:
+            port: 5432
+            targetPort: 5432
+      metrics:
+        controller: primary
+        ports:
+          metrics:
+            port: 9187
+            targetPort: 9187
+    persistence:
+      data:
+        enabled: true
+        accessMode: ReadWriteOnce
+        size: 8Gi
+        storageClass: longhorn-dual-disk
+        globalMounts:
+          - path: /var/lib/postgresql/data
