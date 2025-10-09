@@ -39,7 +39,7 @@ spec:
               SECRET_KEY:
                 valueFrom:
                   secretKeyRef:
-                    name: tandoor-app-secrets
+                    name: tandoor-secret
                     key: TANDOOR_SECRET_KEY
               ENABLE_SIGNUP: "1"
               ENABLE_PDF_EXPORT: "1"
@@ -52,16 +52,16 @@ spec:
               POSTGRES_PASSWORD:
                 valueFrom:
                   secretKeyRef:
-                    name: tandoor-app-secrets
-                    key: TANDOOR_DB_PASSWORD
+                    name: tandoor-secret
+                    key: DB_PASSWORD
 
               SUPERUSER_NAME: "admin"
               SUPERUSER_EMAIL: "xd@pxldi.de"
               SUPERUSER_PASSWORD:
                 valueFrom:
                   secretKeyRef:
-                    name: tandoor-app-secrets
-                    key: TANDOOR_DB_PASSWORD
+                    name: tandoor-secret
+                    key: DB_PASSWORD
 
             probes:
               liveness:
