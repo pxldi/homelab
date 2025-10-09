@@ -42,7 +42,7 @@ spec:
               ENABLE_PDF_EXPORT: "1"
 
               DB_ENGINE: "django.db.backends.postgresql"
-              POSTGRES_HOST: "tandoor-postgresql-headless"
+              POSTGRES_HOST: "tandoor-postgresql"
               POSTGRES_PORT: "5432"
               POSTGRES_DB: "tandoor"
               POSTGRES_USER: "tandoor"
