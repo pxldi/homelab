@@ -13,6 +13,9 @@ spec:
         kind: HelmRepository
         name: bjw-s-charts
         namespace: flux-system
+  dependsOn:
+    - name: tandoor-postgresql
+      namespace: tandoor
   install:
     remediation:
       retries: 3
@@ -31,34 +34,33 @@ spec:
 
             env:
               TZ: "Europe/Berlin"
-              DEBUG: "False"
               ALLOWED_HOSTS: "tandoor.panda-logarithm.ts.net"
               SECRET_KEY:
                 valueFrom:
                   secretKeyRef:
-                    name: tandoor-app-secrets
+                    name: tandoor-secret
                     key: TANDOOR_SECRET_KEY
               ENABLE_SIGNUP: "1"
               ENABLE_PDF_EXPORT: "1"
 
               DB_ENGINE: "django.db.backends.postgresql"
-              POSTGRES_HOST: "tandoor-postgresql-headless"
+              POSTGRES_HOST: "tandoor-postgresql-primary.tandoor.svc.cluster.local"
               POSTGRES_PORT: "5432"
               POSTGRES_DB: "tandoor"
               POSTGRES_USER: "tandoor"
               POSTGRES_PASSWORD:
                 valueFrom:
                   secretKeyRef:
-                    name: tandoor-app-secrets
-                    key: TANDOOR_DB_PASSWORD
+                    name: tandoor-secret
+                    key: DB_PASSWORD
 
               SUPERUSER_NAME: "admin"
               SUPERUSER_EMAIL: "xd@pxldi.de"
               SUPERUSER_PASSWORD:
                 valueFrom:
                   secretKeyRef:
-                    name: tandoor-app-secrets
-                    key: TANDOOR_DB_PASSWORD
+                    name: tandoor-secret
+                    key: DB_PASSWORD
 
             probes:
               liveness:
@@ -114,10 +116,14 @@ spec:
         enabled: true
         className: tailscale
         annotations: {}
-        path: /
-        pathType: Prefix
         hosts:
-          - tandoor
+          - host: tandoor
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  identifier: main
+                  port: http
         tls:
           - hosts:
               - tandoor
@@ -140,24 +146,3 @@ spec:
       storageClass: longhorn
       globalMounts:
         - path: /opt/recipes/staticfiles
-
-    postgresql:
-      enabled: true
-      image:
-        repository: ghcr.io/bitnami/postgresql
-        tag: 16.2.0-debian-11-r0
-      architecture: standalone
-      auth:
-        database: tandoor
-        username: tandoor
-        password:
-          valueFrom:
-            secretKeyRef:
-              name: tandoor-app-secrets
-              key: TANDOOR_DB_PASSWORD
-      primary:
-        persistence:
-          enabled: true
-          accessMode: ReadWriteOnce
-          size: 8Gi
-          storageClass: longhorn
