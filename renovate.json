@@ -33,12 +33,11 @@
   ],
   "packageRules": [
     {
-      "description": "Auto-merge patch updates after 2 days",
+      "description": "Auto-merge patch updates",
       "matchUpdateTypes": [
         "patch"
       ],
       "automerge": true,
-      "minimumReleaseAge": "2 days"
     },
     {
       "description": "Auto-merge digest updates",
