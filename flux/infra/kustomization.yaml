@@ -8,3 +8,4 @@ resources:
   - ./longhorn
   - ./tailscale
   - coredns-patch.yaml
+  - metallb-config.yaml
