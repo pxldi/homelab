@@ -127,6 +127,7 @@ spec:
         tls:
           - hosts:
               - recipes.pxldi.de
+            secretName: tandoor-tls-secret
 
     persistence:
       mediafiles:
