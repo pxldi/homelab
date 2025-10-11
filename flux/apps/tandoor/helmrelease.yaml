@@ -40,7 +40,7 @@ spec:
                   secretKeyRef:
                     name: tandoor-secret
                     key: TANDOOR_SECRET_KEY
-              ENABLE_SIGNUP: "1"
+              ENABLE_SIGNUP: "0"
               ENABLE_PDF_EXPORT: "1"
 
               DB_ENGINE: "django.db.backends.postgresql"
