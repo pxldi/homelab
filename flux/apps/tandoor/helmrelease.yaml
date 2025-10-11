@@ -34,7 +34,7 @@ spec:
 
             env:
               TZ: "Europe/Berlin"
-              ALLOWED_HOSTS: "tandoor.panda-logarithm.ts.net"
+              ALLOWED_HOSTS: "recipes.pxldi.de"
               SECRET_KEY:
                 valueFrom:
                   secretKeyRef:
