@@ -114,10 +114,10 @@ spec:
     ingress:
       main:
         enabled: true
-        className: tailscale
+        className: traefik
         annotations: {}
         hosts:
-          - host: tandoor
+          - host: recipes.pxldi.de
             paths:
               - path: /
                 pathType: Prefix
@@ -126,7 +126,7 @@ spec:
                   port: http
         tls:
           - hosts:
-              - tandoor
+              - recipes.pxldi.de
 
     persistence:
       mediafiles:
