@@ -115,7 +115,8 @@ spec:
       main:
         enabled: true
         className: traefik
-        annotations: {}
+        annotations:
+          - traefik.ingress.kubernetes.io/router.tls.certresolver: myresolver
         hosts:
           - host: recipes.pxldi.de
             paths:
