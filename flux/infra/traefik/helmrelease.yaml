@@ -68,3 +68,4 @@ spec:
       size: 1Gi
       path: /data
       storageClass: longhorn
+      defaultMode: 0600
