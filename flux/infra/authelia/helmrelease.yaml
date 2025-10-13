@@ -32,12 +32,3 @@ spec:
       enabled: true
       storageClass: longhorn
       size: 1Gi
-
-    pod:
-      extraVolumes:
-        - name: authelia-config
-          configMap:
-            name: authelia-config
-      extraVolumeMounts:
-        - name: authelia-config
-          mountPath: /config
