@@ -29,7 +29,7 @@ spec:
       annotations:
         traefik.ingress.kubernetes.io/router.entrypoints: websecure
         traefik.ingress.kubernetes.io/router.tls.certresolver: myresolver
-      hostname: auth.pxldi.de
+      subdomain: auth
       path: /
       tls: true
 
@@ -51,6 +51,6 @@ spec:
       extraVolumeMounts:
         - name: authelia-config
           mountPath: /config
-      envFrom:
-        - secretRef:
-            name: authelia-secrets
+    
+    env:
+      existingSecret: authelia-secrets
