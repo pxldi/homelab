@@ -22,7 +22,6 @@ data:
 
     session:
       name: authelia_session
-      secret: ${SESSION_SECRET}
       domain: pxldi.de
       same_site: lax
       expiration: 3600
@@ -30,7 +29,6 @@ data:
     storage:
       local:
         path: /config/db.sqlite3
-      encryption_key: ${STORAGE_ENCRYPTION_KEY}
 
     notifier:
       filesystem:
