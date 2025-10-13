@@ -23,7 +23,8 @@ spec:
       retries: 3
 
   values:
-    existingConfigMap: authelia-config
+    configMap:
+      existingConfigMap: authelia-config
     service:
       type: ClusterIP
 
