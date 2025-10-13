@@ -14,6 +14,12 @@ spec:
         name: traefik
         namespace: flux-system
   values:
+    env:
+      - name: CF_API_TOKEN
+        valueFrom:
+          secretKeyRef:
+            name: cloudflare-api-token
+            key: CF_API_TOKEN
     podSecurityContext:
       fsGroup: 65532
     additionalArguments:
@@ -62,9 +68,3 @@ spec:
       size: 1Gi
       path: /data
       storageClass: longhorn
-  env:
-    - name: CF_API_TOKEN
-      valueFrom:
-        secretKeyRef:
-          name: cloudflare-api-token
-          key: CF_API_TOKEN
