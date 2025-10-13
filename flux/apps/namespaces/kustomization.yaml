@@ -6,4 +6,3 @@ resources:
   - homepage.yaml
   - pihole.yaml
   - tandoor.yaml
-  - auth.yaml

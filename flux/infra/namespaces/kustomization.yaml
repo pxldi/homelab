@@ -3,3 +3,4 @@ kind: Kustomization
 resources:
   - tailscale.yaml
   - metallb.yaml
+  - auth.yaml
