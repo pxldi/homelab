@@ -7,5 +7,6 @@ resources:
   - ./traefik
   - ./longhorn
   - ./tailscale
+  - ./authelia
   - coredns-patch.yaml
   - metallb-config.yaml
