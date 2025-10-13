@@ -44,10 +44,6 @@ data:
         - domain: "pihole.pxldi.de"
           policy: two_factor
 
-    identity_providers:
-      oidc:
-        enabled: false
-
   users_database.yml: |
     users:
       admin:
