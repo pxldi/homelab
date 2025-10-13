@@ -14,19 +14,21 @@ spec:
         name: traefik
         namespace: flux-system
   values:
-    service:
-      enabled: true
-      type: LoadBalancer
-      loadBalancerIP: 192.168.0.200
-      annotations:
-        metallb.io/address-pool: default
-    certificatesResolvers:
+    podSecurityContext:
+      fsGroup: 65532
+    certResolvers:
       myresolver:
         acme:
           email: xd@pxldi.de
           storage: /data/acme.json
           httpChallenge:
             entryPoint: web
+    service:
+      enabled: true
+      type: LoadBalancer
+      loadBalancerIP: 192.168.0.200
+      annotations:
+        metallb.io/address-pool: default
 
     ingressClass:
       enabled: true
