@@ -18,7 +18,7 @@ spec:
               service:
                 name: authelia
                 port:
-                  number: 9091
+                  number: 80
   tls:
     - hosts:
         - auth.pxldi.de
