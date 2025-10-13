@@ -24,6 +24,7 @@ spec:
 
   values:
     configMap:
+      disabled: true
       existingConfigMap: authelia-config
     service:
       type: ClusterIP
