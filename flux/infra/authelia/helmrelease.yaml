@@ -54,6 +54,3 @@ spec:
       envFrom:
         - secretRef:
             name: authelia-secrets
-
-    envFromSecrets:
-      - name: authelia-secrets
