@@ -16,13 +16,11 @@ spec:
   values:
     podSecurityContext:
       fsGroup: 65532
-    certResolvers:
-      myresolver:
-        acme:
-          email: xd@pxldi.de
-          storage: /data/acme.json
-          httpChallenge:
-            entryPoint: web
+    additionalArguments:
+      - "--certificatesresolvers.myresolver.acme.email=admin@pxldi.de"
+      - "--certificatesresolvers.myresolver.acme.storage=/data/acme.json"
+      - "--certificatesresolvers.myresolver.acme.httpchallenge=true"
+      - "--certificatesresolvers.myresolver.acme.httpchallenge.entrypoint=web"
     service:
       enabled: true
       type: LoadBalancer
