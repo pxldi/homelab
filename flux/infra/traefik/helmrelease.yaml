@@ -19,8 +19,10 @@ spec:
     additionalArguments:
       - "--certificatesresolvers.myresolver.acme.email=admin@pxldi.de"
       - "--certificatesresolvers.myresolver.acme.storage=/data/acme.json"
-      - "--certificatesresolvers.myresolver.acme.httpchallenge=true"
-      - "--certificatesresolvers.myresolver.acme.httpchallenge.entrypoint=web"
+      - "--certificatesresolvers.myresolver.acme.dnschallenge=true"
+      - "--certificatesresolvers.myresolver.acme.dnschallenge.provider=cloudflare"
+      - "--certificatesresolvers.myresolver.acme.dnschallenge.delaybeforecheck=0"
+      - "--certificatesresolvers.myresolver.acme.keytype=RSA4096"
     service:
       enabled: true
       type: LoadBalancer
@@ -39,7 +41,6 @@ spec:
       kubernetesIngress:
         enabled: true
         ingressClass: traefik
-
 
     entrypoints:
       web:
@@ -61,3 +62,9 @@ spec:
       size: 1Gi
       path: /data
       storageClass: longhorn
+  env:
+    - name: CF_API_TOKEN
+      valueFrom:
+        secretKeyRef:
+          name: cloudflare-api-token
+          key: CF_API_TOKEN
