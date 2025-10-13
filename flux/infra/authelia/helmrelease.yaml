@@ -32,3 +32,10 @@ spec:
       enabled: true
       storageClass: longhorn
       size: 1Gi
+    pod:
+      extraVolumeMounts:
+        - name: data
+          mountPath: /var/lib/authelia
+      extraVolumes:
+        - name: data
+          emptyDir: {}
