@@ -29,27 +29,21 @@ spec:
       annotations:
         traefik.ingress.kubernetes.io/router.entrypoints: websecure
         traefik.ingress.kubernetes.io/router.tls.certresolver: myresolver
-      hosts:
-        - host: auth.pxldi.de
-          paths:
-            - path: /
-              pathType: Prefix
-      tls:
-        - hosts:
-            - auth.pxldi.de
+      hostname: auth.pxldi.de
+      path: /
+      tls: true
 
     service:
       type: ClusterIP
 
-    podAnnotations:
-      configChecksum: "{{ .Files.Checksum 'config/configuration.yml' }}"
-
     persistence:
       enabled: true
-      existingClaim: ""
       storageClass: longhorn
-      size: 1Gi
-      accessMode: ReadWriteOnce
+      size: 1G
+
+    pod:
+      annotations:
+        checksum/config: "{{ .Files.Checksum \"config/configuration.yml\" }}"
       extraVolumes:
         - name: authelia-config
           configMap:
@@ -57,6 +51,9 @@ spec:
       extraVolumeMounts:
         - name: authelia-config
           mountPath: /config
+      envFrom:
+        - secretRef:
+            name: authelia-secrets
 
     envFromSecrets:
       - name: authelia-secrets
