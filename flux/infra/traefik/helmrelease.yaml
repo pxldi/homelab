@@ -63,6 +63,7 @@ spec:
             enabled: true
     persistence:
       enabled: true
+      type: pvc
       name: traefik
       accessMode: ReadWriteOnce
       size: 1Gi
