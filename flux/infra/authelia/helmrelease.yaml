@@ -29,7 +29,7 @@ spec:
       annotations:
         traefik.ingress.kubernetes.io/router.entrypoints: websecure
         traefik.ingress.kubernetes.io/router.tls.certresolver: myresolver
-      subdomain: auth
+      host: auth.pxldi.de
       path: /
       tls: true
 
@@ -39,7 +39,7 @@ spec:
     persistence:
       enabled: true
       storageClass: longhorn
-      size: 1G
+      size: 1Gi
 
     pod:
       annotations:
@@ -52,5 +52,5 @@ spec:
         - name: authelia-config
           mountPath: /config
     
-    env:
-      existingSecret: authelia-secrets
+    envFromSecrets:
+      - name: authelia-secrets
