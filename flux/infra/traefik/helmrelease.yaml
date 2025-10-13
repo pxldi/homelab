@@ -29,6 +29,8 @@ spec:
       - "--certificatesresolvers.myresolver.acme.dnschallenge.provider=cloudflare"
       - "--certificatesresolvers.myresolver.acme.dnschallenge.delaybeforecheck=0"
       - "--certificatesresolvers.myresolver.acme.keytype=RSA4096"
+      - "--api.dashboard=true"
+      - "--entryPoints.traefik.address=:8080"
     service:
       enabled: true
       type: LoadBalancer
