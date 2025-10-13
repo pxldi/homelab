@@ -28,7 +28,7 @@ data:
 
     storage:
       local:
-        path: /var/lib/authelia/db.sqlite3
+        path: /config/db.sqlite3
 
     notifier:
       filesystem:
