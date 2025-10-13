@@ -23,17 +23,6 @@ spec:
       retries: 3
 
   values:
-    ingress:
-      enabled: true
-      className: traefik
-      annotations:
-        traefik.ingress.kubernetes.io/router.entrypoints: websecure
-        traefik.ingress.kubernetes.io/router.tls.certresolver: myresolver
-      hosts:
-        - auth.pxldi.de
-      path: /
-      tls: true
-
     service:
       type: ClusterIP
 
@@ -42,9 +31,31 @@ spec:
       storageClass: longhorn
       size: 1Gi
 
+    configMap:
+      session:
+        cookies:
+          domain: pxldi.de
+          subdomain: auth
+      storage:
+        local:
+          path: /config/db.sqlite3
+      notifier:
+        filesystem:
+          filename: /config/notification.txt
+      authentication_backend:
+        file:
+          path: /config/users_database.yml
+      access_control:
+        default_policy: deny
+        rules:
+          - domain: "auth.pxldi.de"
+            policy: bypass
+          - domain: "traefik.pxldi.de"
+            policy: two_factor
+          - domain: "pihole.pxldi.de"
+            policy: two_factor
+
     pod:
-      annotations:
-        checksum/config: "{{ .Files.Checksum \"config/configuration.yml\" }}"
       extraVolumes:
         - name: authelia-config
           configMap:
@@ -52,5 +63,3 @@ spec:
       extraVolumeMounts:
         - name: authelia-config
           mountPath: /config
-      extraEnvFromSecrets:
-        - authelia-secrets
