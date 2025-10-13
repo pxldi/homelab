@@ -10,3 +10,4 @@ resources:
   - mojo.yaml
   - bitnami.yaml
   - bjw-s.yaml
+  - authelia.yaml
