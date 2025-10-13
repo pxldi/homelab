@@ -61,6 +61,8 @@ spec:
         http:
           tls:
             enabled: true
+    podSecurityContext:
+      fsGroup: 65532
     persistence:
       enabled: true
       name: traefik
