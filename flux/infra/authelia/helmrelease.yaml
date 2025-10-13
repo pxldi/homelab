@@ -23,6 +23,7 @@ spec:
       retries: 3
 
   values:
+    existingConfigMap: authelia-config
     service:
       type: ClusterIP
 
@@ -30,30 +31,6 @@ spec:
       enabled: true
       storageClass: longhorn
       size: 1Gi
-
-    configMap:
-      session:
-        cookies:
-          domain: pxldi.de
-          subdomain: auth
-      storage:
-        local:
-          path: /config/db.sqlite3
-      notifier:
-        filesystem:
-          filename: /config/notification.txt
-      authentication_backend:
-        file:
-          path: /config/users_database.yml
-      access_control:
-        default_policy: deny
-        rules:
-          - domain: "auth.pxldi.de"
-            policy: bypass
-          - domain: "traefik.pxldi.de"
-            policy: two_factor
-          - domain: "pihole.pxldi.de"
-            policy: two_factor
 
     pod:
       extraVolumes:

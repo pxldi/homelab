@@ -33,12 +33,8 @@ data:
       encryption_key: ${STORAGE_ENCRYPTION_KEY}
 
     notifier:
-      smtp:
-        host: mail.pxldi.de
-        port: 587
-        username: "noreply@pxldi.de"
-        password: "changeme"
-        sender: "Authelia <noreply@pxldi.de>"
+      filesystem:
+        filename: /config/notification.txt
 
     access_control:
       default_policy: deny
