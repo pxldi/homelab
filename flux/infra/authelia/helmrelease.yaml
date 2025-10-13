@@ -25,7 +25,14 @@ spec:
   values:
     configMap:
       disabled: true
-      existingConfigMap: authelia-config
+    pod:
+      extraVolumes:
+        - name: authelia-config
+          configMap:
+            name: authelia-config
+      extraVolumeMounts:
+        - name: authelia-config
+          mountPath: /config
     service:
       type: ClusterIP
 
