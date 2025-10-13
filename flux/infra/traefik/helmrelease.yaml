@@ -63,7 +63,7 @@ spec:
             enabled: true
     persistence:
       enabled: true
-      name: acme-storage
+      name: traefik
       accessMode: ReadWriteOnce
       size: 1Gi
       path: /data
