@@ -4,7 +4,7 @@ metadata:
   name: authelia-config
   namespace: auth
 data:
-  configuration.yml: |
+  configuration.yaml: |
     theme: dark
     log:
       level: info
