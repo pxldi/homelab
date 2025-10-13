@@ -28,13 +28,17 @@ spec:
           httpChallenge:
             entryPoint: web
 
+    ingressClass:
+      enabled: true
+      name: traefik
+      isDefaultClass: true
+
     providers:
+      kubernetesCRD:
+        enabled: true
       kubernetesIngress:
         enabled: true
-        ingressClass:
-          enabled: true
-          name: traefik
-          isDefaultClass: true
+        ingressClass: traefik
 
 
     entrypoints:
