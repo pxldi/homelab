@@ -25,11 +25,11 @@ spec:
         path: /
         pathType: Prefix
         hosts:
-          - jeyllyfin.pxldi.de
+          - jellyfin.pxldi.de
         tls:
           - hosts:
-              - jeyllyfin.pxldi.de
-            secretName: jeyllyfin-tls-secret
+              - jellyfin.pxldi.de
+            secretName: jellyfin-tls-secret
 
     jellyfin:
       env:
