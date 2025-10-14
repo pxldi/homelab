@@ -15,8 +15,8 @@ spec:
         namespace: flux-system
 
   values:
-    main:
-      ingress:
+    ingress:
+      main:
         enabled: true
         ingressClassName: traefik
         annotations:
