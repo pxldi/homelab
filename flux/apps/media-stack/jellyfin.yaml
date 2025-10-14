@@ -15,20 +15,21 @@ spec:
         namespace: flux-system
 
   values:
-    ingress:
-      enabled: true
-      ingressClassName: traefik
-      annotations:
-        traefik.ingress.kubernetes.io/router.entrypoints: websecure
-        traefik.ingress.kubernetes.io/router.tls.certresolver: myresolver
-      path: /
-      pathType: Prefix
-      hosts:
-        - jeyllyfin.pxldi.de
-      tls:
-        - hosts:
-            - jeyllyfin.pxldi.de
-          secretName: jeyllyfin-tls-secret
+    main:
+      ingress:
+        enabled: true
+        ingressClassName: traefik
+        annotations:
+          traefik.ingress.kubernetes.io/router.entrypoints: websecure
+          traefik.ingress.kubernetes.io/router.tls.certresolver: myresolver
+        path: /
+        pathType: Prefix
+        hosts:
+          - jeyllyfin.pxldi.de
+        tls:
+          - hosts:
+              - jeyllyfin.pxldi.de
+            secretName: jeyllyfin-tls-secret
 
     jellyfin:
       env:
