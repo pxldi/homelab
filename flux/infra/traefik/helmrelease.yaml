@@ -88,7 +88,7 @@ spec:
     ingressRoute:
       dashboard:
         enabled: true
-        matchRule: "PathPrefix(`/dashboard`) || PathPrefix(`/api`)"
+        matchRule: "Host(`traefik.pxldi.de`) && (PathPrefix(`/dashboard`) || PathPrefix(`/api`))"
         entryPoints: ["websecure"]
         services:
           - name: api@internal
