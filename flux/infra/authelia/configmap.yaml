@@ -48,6 +48,13 @@ data:
         - domain: "pihole.pxldi.de"
           policy: two_factor
 
+        - domain: "jellyfin.pxldi.de"
+          policy: two_factor
+        - domain: "radarr.pxldi.de"
+          policy: two_factor
+        - domain: "sonarr.pxldi.de"
+          policy: two_factor
+
   users_database.yml: |
     users:
       admin:
