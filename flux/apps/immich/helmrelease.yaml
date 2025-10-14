@@ -36,20 +36,19 @@ spec:
     ingress:
       main:
         enabled: true
-        ingressClassName: tailscale #traefik
-        #annotations:
-        #  cert-manager.io/cluster-issuer: letsencrypt-production
+        ingressClassName: traefik
+        annotations:
+          traefik.ingress.kubernetes.io/router.entrypoints: websecure
+          traefik.ingress.kubernetes.io/router.tls.certresolver: myresolver
         hosts:
-          - host: immich #pxldi.de
+          - host: immich.pxldi.de
             paths:
               - path: /
                 pathType: Prefix
         tls:
-          - hosts:
-            - immich
-          #- secretName: immich-tls
-          #  hosts:
-          #    - immich.pxldi.de
+          - secretName: immich-tls-secret
+            hosts:
+              - immich.pxldi.de
 
     immich:
       env:
