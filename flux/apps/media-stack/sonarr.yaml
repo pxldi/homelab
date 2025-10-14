@@ -25,14 +25,15 @@ spec:
           traefik.ingress.kubernetes.io/router.middlewares: traefik-authelia-forwardauth@kubernetescrd
           traefik.ingress.kubernetes.io/router.entrypoints: websecure
           traefik.ingress.kubernetes.io/router.tls.certresolver: myresolver
-        path: /
-        pathType: Prefix
         hosts:
           - host: sonarr.pxldi.de
+            paths:
+              - path: /
+                pathType: Prefix
         tls:
-          - hosts:
-              - host: sonarr.pxldi.de
-            secretName: sonarr-tls-secret
+          - secretName: sonarr-tls-secret
+            hosts:
+              - sonarr.pxldi.de
     persistence:
       config:
         enabled: true
