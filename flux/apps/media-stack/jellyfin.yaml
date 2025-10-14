@@ -48,8 +48,7 @@ spec:
         mountPath: /media
       config:
         enabled: true
-        storageClass: longhorn
-        size: 10Gi
+        existingClaim: jellyfin-config
       cache:
         enabled: true
         storageClass: longhorn
