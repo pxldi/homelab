@@ -30,6 +30,15 @@ spec:
       - "--certificatesresolvers.myresolver.acme.dnschallenge.delaybeforecheck=0"
       - "--certificatesresolvers.myresolver.acme.keytype=RSA4096"
       - "--api.dashboard=true"
+    # The "volume-permissions" init container is required if you run into permission issues.
+    # Related issue: https://github.com/traefik/traefik-helm-chart/issues/396
+    initContainers:
+      - name: volume-permissions
+        image: busybox:latest
+        command: ["sh", "-c", "touch /data/acme.json; chmod -v 600 /data/acme.json"]
+        volumeMounts:
+          - name: traefik-acme
+            mountPath: /data
     service:
       enabled: true
       type: LoadBalancer
