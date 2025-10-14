@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: jellyfin-config
+  namespace: media-stack
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: longhorn-dual-disk
+  resources:
+    requests:
+      storage: 10Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: jellyfin-cache
+  namespace: media-stack
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: longhorn-single-disk
+  resources:
+    requests:
+      storage: 10Gi

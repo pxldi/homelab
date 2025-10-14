@@ -51,5 +51,4 @@ spec:
         existingClaim: jellyfin-config
       cache:
         enabled: true
-        storageClass: longhorn
-        size: 5Gi
+        existingClaim: jellyfin-cache
