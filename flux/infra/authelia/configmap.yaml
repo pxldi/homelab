@@ -54,6 +54,8 @@ data:
           policy: two_factor
         - domain: "sonarr.pxldi.de"
           policy: two_factor
+        - domain: "sabnzbd.pxldi.de"
+          policy: two_factor
 
   users_database.yml: |
     users:

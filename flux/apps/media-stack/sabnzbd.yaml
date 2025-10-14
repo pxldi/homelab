@@ -17,15 +17,20 @@ spec:
     ingress:
       main:
         enabled: true
-        ingressClassName: tailscale
+        ingressClassName: traefik
+        annotations:
+          traefik.ingress.kubernetes.io/router.middlewares: traefik-authelia-forwardauth@kubernetescrd
+          traefik.ingress.kubernetes.io/router.entrypoints: websecure
+          traefik.ingress.kubernetes.io/router.tls.certresolver: myresolver
         hosts:
-          - host: sabnzbd
+          - host: sabnzbd.pxldi.de
             paths:
               - path: /
                 pathType: Prefix
         tls:
-          - hosts:
-              - sabnzbd
+          - secretName: sabnzbd-tls-secret
+            hosts:
+              - sabnzbd.pxldi.de
     persistence:
       config:
         enabled: true
