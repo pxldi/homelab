@@ -28,7 +28,6 @@ data:
       remember_me: 1 month
       cookies:
           - domain: pxldi.de
-            subdomain: auth
             authelia_url: https://auth.pxldi.de
 
     storage:
