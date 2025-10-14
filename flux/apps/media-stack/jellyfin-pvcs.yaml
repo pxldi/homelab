@@ -19,7 +19,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
-  storageClassName: longhorn-single-disk
+  storageClassName: longhorn-single-replica
   resources:
     requests:
       storage: 10Gi
