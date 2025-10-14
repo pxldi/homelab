@@ -40,6 +40,10 @@ spec:
           subPath: users_database.yml
     service:
       type: ClusterIP
+      ports:
+        - name: http
+          port: 9091
+          targetPort: http
 
     persistence:
       enabled: true
