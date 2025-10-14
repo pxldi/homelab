@@ -27,9 +27,6 @@ data:
       domain: pxldi.de
       same_site: lax
       expiration: 3600
-      cookies:
-        - domain: "pxldi.de"
-          authelia_url: "https://auth.pxldi.de"
 
     storage:
       local:
