@@ -18,17 +18,20 @@ spec:
       main:
         enabled: false
     ingress:
-      main:
-        enabled: true
-        ingressClassName: tailscale
-        hosts:
-          - host: sonarr
-            paths:
-              - path: /
-                pathType: Prefix
-        tls:
-          - hosts:
-              - sonarr
+      enabled: true
+      ingressClassName: traefik
+      annotations:
+        traefik.ingress.kubernetes.io/router.middlewares: traefik-authelia-forwardauth@kubernetescrd
+        traefik.ingress.kubernetes.io/router.entrypoints: websecure
+        traefik.ingress.kubernetes.io/router.tls.certresolver: myresolver
+      path: /
+      pathType: Prefix
+      hosts:
+        - sonarr.pxldi.de
+      tls:
+        - hosts:
+            - sonarr.pxldi.de
+          secretName: sonarr-tls-secret
     persistence:
       config:
         enabled: true
