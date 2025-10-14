@@ -22,4 +22,4 @@ spec:
   tls:
     - hosts:
         - auth.pxldi.de
-          secretName: authelia-tls-secret
+      secretName: authelia-tls-secret
