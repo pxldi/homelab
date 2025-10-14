@@ -18,20 +18,18 @@ spec:
     ingress:
       main:
         enabled: true
-        ingressClassName: tailscale
-        #annotations:
-        #  cert-manager.io/cluster-issuer: letsencrypt-production
+        ingressClassName: traefik
+        annotations:
+          traefik.ingress.kubernetes.io/router.entrypoints: websecure
+          traefik.ingress.kubernetes.io/router.tls.certresolver: myresolver
+        path: /
+        pathType: Prefix
         hosts:
-          - host: jellyfin #pxldi.de
-            paths:
-              - path: /
-                pathType: Prefix
+          - jellyfin.pxldi.de
         tls:
           - hosts:
-            - jellyfin
-        #  - secretName: jellyfin-tls
-        #    hosts:
-        #      - jellyfin.pxldi.de
+              - jellyfin.pxldi.de
+            secretName: pihole-tls-secret
 
     jellyfin:
       env:
