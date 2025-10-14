@@ -28,7 +28,7 @@ spec:
       guaranteedReplicaManagerCPU: "0"
     ingress:
       enabled: true
-      ingressClassName: longhorn
+      ingressClassName: traefik
       annotations:
         traefik.ingress.kubernetes.io/router.middlewares: traefik-authelia-forwardauth@kubernetescrd
         traefik.ingress.kubernetes.io/router.entrypoints: websecure
