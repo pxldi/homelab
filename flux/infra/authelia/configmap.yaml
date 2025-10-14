@@ -9,9 +9,7 @@ data:
     log:
       level: info
       format: text
-
-    authelia_url: https://auth.pxldi.de
-
+      
     server:
       host: 0.0.0.0
       port: 9091
