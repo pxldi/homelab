@@ -28,10 +28,10 @@ spec:
         path: /
         pathType: Prefix
         hosts:
-          - sonarr.pxldi.de
+          - host: sonarr.pxldi.de
         tls:
           - hosts:
-              - sonarr.pxldi.de
+              - host: sonarr.pxldi.de
             secretName: sonarr-tls-secret
     persistence:
       config:

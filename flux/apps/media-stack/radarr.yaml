@@ -28,10 +28,10 @@ spec:
         path: /
         pathType: Prefix
         hosts:
-          - radarr.pxldi.de
+          - host: radarr.pxldi.de
         tls:
           - hosts:
-              - radarr.pxldi.de
+              - host: radarr.pxldi.de
             secretName: radarr-tls-secret
     persistence:
       config:
