@@ -16,21 +16,19 @@ spec:
 
   values:
     ingress:
-      main:
-        enabled: true
-        ingressClassName: traefik
-        annotations:
-          traefik.ingress.kubernetes.io/router.entrypoints: websecure
-          traefik.ingress.kubernetes.io/router.tls.certresolver: myresolver
-        hosts:
-          - host: jellyfin.pxldi.de
-            paths:
-              - path: /
-                pathType: Prefix
-        tls:
-          - hosts:
-            - jellyfin.pxldi.de
-            secretName: jellyfin-tls-secret
+      enabled: true
+      ingressClassName: traefik
+      annotations:
+        traefik.ingress.kubernetes.io/router.entrypoints: websecure
+        traefik.ingress.kubernetes.io/router.tls.certresolver: myresolver
+      path: /
+      pathType: Prefix
+      hosts:
+        - jeyllyfin.pxldi.de
+      tls:
+        - hosts:
+            - jeyllyfin.pxldi.de
+          secretName: jeyllyfin-tls-secret
 
     jellyfin:
       env:
