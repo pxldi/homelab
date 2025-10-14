@@ -18,20 +18,21 @@ spec:
       main:
         enabled: false
     ingress:
-      enabled: true
-      ingressClassName: traefik
-      annotations:
-        traefik.ingress.kubernetes.io/router.middlewares: traefik-authelia-forwardauth@kubernetescrd
-        traefik.ingress.kubernetes.io/router.entrypoints: websecure
-        traefik.ingress.kubernetes.io/router.tls.certresolver: myresolver
-      path: /
-      pathType: Prefix
-      hosts:
-        - radarr.pxldi.de
-      tls:
-        - hosts:
-            - radarr.pxldi.de
-          secretName: radarr-tls-secret
+      main:
+        enabled: true
+        ingressClassName: traefik
+        annotations:
+          traefik.ingress.kubernetes.io/router.middlewares: traefik-authelia-forwardauth@kubernetescrd
+          traefik.ingress.kubernetes.io/router.entrypoints: websecure
+          traefik.ingress.kubernetes.io/router.tls.certresolver: myresolver
+        path: /
+        pathType: Prefix
+        hosts:
+          - radarr.pxldi.de
+        tls:
+          - hosts:
+              - radarr.pxldi.de
+            secretName: radarr-tls-secret
     persistence:
       config:
         enabled: true
