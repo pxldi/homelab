@@ -28,8 +28,17 @@ spec:
       guaranteedReplicaManagerCPU: "0"
     ingress:
       enabled: true
-      ingressClassName: tailscale
-      host: longhorn
+      ingressClassName: longhorn
+      annotations:
+        traefik.ingress.kubernetes.io/router.middlewares: traefik-authelia-forwardauth@kubernetescrd
+        traefik.ingress.kubernetes.io/router.entrypoints: websecure
+        traefik.ingress.kubernetes.io/router.tls.certresolver: myresolver
+      hosts:
+        - host: longhorn.pxldi.de
+          paths:
+            - path: /
+              pathType: Prefix
       tls:
-          - hosts:
-            - jellyfin
+        - secretName: longhorn-tls-secret
+          hosts:
+            - longhorn.pxldi.de
