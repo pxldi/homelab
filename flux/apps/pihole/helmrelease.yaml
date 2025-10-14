@@ -47,15 +47,19 @@ spec:
 
     ingress:
       enabled: true
-      ingressClassName: tailscale
+      ingressClassName: traefik
+      annotations:
+        traefik.ingress.kubernetes.io/router.entrypoints: websecure
+        traefik.ingress.kubernetes.io/router.tls.certresolver: myresolver
       annotations: {}
       path: /
       pathType: Prefix
       hosts:
-        - pihole
+        - pihole.pxldi.de
       tls:
         - hosts:
-            - pihole
+            - pihole.pxldi.de
+          secretName: pihole-tls-secret
     doh:
       enabled: true
       envVars:
