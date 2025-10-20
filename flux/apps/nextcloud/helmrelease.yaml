@@ -49,7 +49,7 @@ spec:
           secretName: nextcloud-tls-secret
     
     phpClientHttpsFix:
-      enabled: false
+      enabled: true
       protocol: https
 
     nextcloud:
