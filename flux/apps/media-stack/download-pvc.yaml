@@ -9,4 +9,4 @@ spec:
   storageClassName: longhorn-single-replica
   resources:
     requests:
-      storage: 200Gi
+      storage: 400Gi
