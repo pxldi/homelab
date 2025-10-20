@@ -10,6 +10,3 @@ spec:
   resources:
     requests:
       storage: 400Gi
-metadata:
-  labels:
-    kustomize.toolkit.fluxcd.io/prune: disabled
