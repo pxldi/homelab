@@ -48,7 +48,9 @@ spec:
         mountPath: /media
       config:
         enabled: true
-        existingClaim: jellyfin-config
+        size: 10Gi
+        storageClass: longhorn-dual-disk
       cache:
         enabled: true
-        existingClaim: jellyfin-cache
+        size: 10Gi
+        storageClass: longhorn-single-replica
