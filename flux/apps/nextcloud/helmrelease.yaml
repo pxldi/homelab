@@ -47,6 +47,10 @@ spec:
         - hosts:
             - nextcloud.pxldi.de
           secretName: nextcloud-tls-secret
+    
+    phpClientHttpsFix:
+      enabled: false
+      protocol: https
 
     nextcloud:
       host: nextcloud.pxldi.de
