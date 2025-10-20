@@ -1,0 +1,75 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: nextcloud
+  namespace: nextcloud
+spec:
+  interval: 1h
+  chart:
+    spec:
+      chart: nextcloud
+      version: 8.4.1
+      sourceRef:
+        kind: HelmRepository
+        name: nextcloud
+        namespace: flux-system
+      interval: 1h
+
+  valuesFrom:
+    - kind: Secret
+      name: nextcloud-secret
+      valuesKey: ADMIN_USER
+      targetPath: nextcloud.username
+    - kind: Secret
+      name: nextcloud-secret
+      valuesKey: ADMIN_PW
+      targetPath: nextcloud.password
+
+  values:
+    image:
+      repository: nextcloud
+      flavor: apache
+      pullPolicy: IfNotPresent
+
+    replicaCount: 1
+
+    ingress:
+      enabled: true
+      className: traefik
+      annotations:
+        traefik.ingress.kubernetes.io/router.entrypoints: websecure
+        traefik.ingress.kubernetes.io/router.tls.certresolver: myresolver
+      path: /
+      pathType: Prefix
+      hosts:
+        - nextcloud.pxldi.de
+      tls:
+        - hosts:
+            - nextcloud.pxldi.de
+          secretName: nextcloud-tls-secret
+
+    nextcloud:
+      host: nextcloud.pxldi.de
+      update: 1
+      datadir: /var/www/html/data
+      mail:
+        enabled: false
+      trustedDomains:
+        - nextcloud.pxldi.de
+
+    service:
+      type: ClusterIP
+      port: 80
+
+    resources:
+      requests:
+        memory: 512Mi
+        cpu: 250m
+      limits:
+        memory: 2Gi
+        cpu: 1
+
+    persistence:
+      enabled: true
+      size: 500Gi
+      storageClass: longhorn-dual-disk

@@ -11,3 +11,4 @@ resources:
   - bitnami.yaml
   - bjw-s.yaml
   - authelia.yaml
+  - nextcloud.yaml
