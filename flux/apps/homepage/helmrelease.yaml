@@ -40,9 +40,3 @@ spec:
       - name: homepage-config
         mountPath: /app/config
         readOnly: true
-    
-    persistence:
-      logs:
-        enabled: true
-        storageClass: longhorn
-        size: 10Gi
