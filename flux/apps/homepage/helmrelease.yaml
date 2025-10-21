@@ -61,7 +61,3 @@ spec:
       - mountPath: /app/config/bookmarks.yaml
         name: homepage-config
         subPath: bookmarks.yaml
-
-    persistence:
-      logs:
-        enabled: true
