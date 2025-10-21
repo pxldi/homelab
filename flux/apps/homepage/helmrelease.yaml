@@ -56,11 +56,6 @@ spec:
         mountPath: /app/config/kubernetes.yaml
         subPath: kubernetes.yaml
         readOnly: true
-      # Add optional files if you have them
-      - name: homepage-config
-        mountPath: /app/config/bookmarks.yaml
-        subPath: bookmarks.yaml
-        readOnly: true
 
     persistence:
       logs:
