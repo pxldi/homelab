@@ -18,31 +18,38 @@ spec:
     serviceAccount:
       create: true
       name: homepage
-    
+
     service:
       main:
         ports:
           http:
             port: 3000
+
     config:
       allowedHosts:
         - "homepage.pxldi.de"
-    
+
     envFrom:
       - secretRef:
           name: homepage-secret
-    
+
     volumes:
       - name: homepage-config
         configMap:
           name: homepage
+      - name: homepage-custom
+        emptyDir: {}
 
     initContainers:
       - name: copy-config
         image: busybox:1.36
-        command: ["sh", "-c", "cp /configmap/* /app/config/"]
+        command: ["sh", "-c", "cp /configmap/* /custom/"]
         volumeMounts:
           - name: homepage-config
             mountPath: /configmap
-          - name: config
-            mountPath: /app/config
+          - name: homepage-custom
+            mountPath: /custom
+
+    extraVolumeMounts:
+      - name: homepage-custom
+        mountPath: /app/config
