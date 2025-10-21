@@ -4,9 +4,13 @@ metadata:
   name: homepage
   namespace: homepage
 spec:
-  ingressClassName: tailscale
+  ingressClassName: traefik
+  annotations:
+    traefik.ingress.kubernetes.io/router.middlewares: traefik-authelia-forwardauth@kubernetescrd
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls.certresolver: myresolver
   rules:
-    - host: homepage
+    - host: homepage.pxldi.de
       http:
         paths:
           - path: /
@@ -18,4 +22,4 @@ spec:
                   number: 80
   tls:
     - hosts:
-        - homepage
+        - homepage.pxldi.de

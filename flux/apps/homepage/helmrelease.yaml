@@ -28,7 +28,7 @@ spec:
     config:
       useExistingConfigMap: homepage-config
       allowedHosts:
-        - "homepage.panda-logarithm.ts.net"
+        - "homepage.pxldi.de"
     
     envFrom:
       - secretRef:
