@@ -36,6 +36,8 @@ spec:
       - name: homepage-config
         configMap:
           name: homepage
+      - name: logs
+        emptyDir: {}
     volumeMounts:
       - mountPath: /app/config/custom.js
         name: homepage-config
@@ -61,3 +63,5 @@ spec:
       - mountPath: /app/config/bookmarks.yaml
         name: homepage-config
         subPath: bookmarks.yaml
+      - mountPath: /app/logs
+        name: logs
