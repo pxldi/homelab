@@ -38,9 +38,13 @@ spec:
           name: homepage-config
     volumeMounts:
       - name: homepage-config
-        mountPath: /app/config
+        mountPath: /app/config-external
         readOnly: true
-        
+    
+    extraEnv:
+      - name: HOMEPAGE_CONFIG_DIR
+        value: /app/config-external
+
     persistence:
       logs:
-        enabled: false
+        enabled: true
