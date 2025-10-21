@@ -25,22 +25,21 @@ spec:
           http:
             port: 3000
     
-    config:
-      existingConfigMap: homepage-config
-      allowedHosts:
-        - "homepage.pxldi.de"
+    allowedHosts:
+      - "homepage.pxldi.de"
     
     envFrom:
       - secretRef:
           name: homepage-secret
     
-    resources:
-      requests:
-        cpu: 10m
-        memory: 128Mi
-      limits:
-        cpu: 500m
-        memory: 512Mi
+    volumes:
+      - name: homepage-config
+        configMap:
+          name: homepage-config
+    volumeMounts:
+      - name: homepage-config
+        mountPath: /app/config
+        readOnly: true
     
     persistence:
       logs:
