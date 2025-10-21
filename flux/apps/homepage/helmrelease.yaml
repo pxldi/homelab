@@ -3,6 +3,9 @@ kind: HelmRelease
 metadata:
   name: homepage
   namespace: homepage
+  annotations:
+    # Restart pods automatically when ConfigMap changes (Stakater Reloader)
+    configmap.reloader.stakater.com/reload: homepage-config
 spec:
   interval: 15m
   chart:
@@ -38,12 +41,26 @@ spec:
           name: homepage-config
     volumeMounts:
       - name: homepage-config
-        mountPath: /app/config-external
+        mountPath: /app/config/services.yaml
+        subPath: services.yaml
         readOnly: true
-    
-    extraEnv:
-      - name: HOMEPAGE_CONFIG_DIR
-        value: /app/config-external
+      - name: homepage-config
+        mountPath: /app/config/widgets.yaml
+        subPath: widgets.yaml
+        readOnly: true
+      - name: homepage-config
+        mountPath: /app/config/settings.yaml
+        subPath: settings.yaml
+        readOnly: true
+      - name: homepage-config
+        mountPath: /app/config/kubernetes.yaml
+        subPath: kubernetes.yaml
+        readOnly: true
+      # Add optional files if you have them
+      - name: homepage-config
+        mountPath: /app/config/bookmarks.yaml
+        subPath: bookmarks.yaml
+        readOnly: true
 
     persistence:
       logs:
