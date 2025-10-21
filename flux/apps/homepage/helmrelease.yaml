@@ -40,6 +40,7 @@ spec:
       - name: homepage-config
         mountPath: /app/config
         readOnly: true
-  persistence:
-    logs:
-      enabled: false
+        
+    persistence:
+      logs:
+        enabled: false
