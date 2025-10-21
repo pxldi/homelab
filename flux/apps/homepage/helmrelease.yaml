@@ -44,5 +44,5 @@ spec:
         volumeMounts:
           - name: homepage-config
             mountPath: /configmap
-          - name: config           # reuse chart’s own writable volume
+          - name: config
             mountPath: /app/config
