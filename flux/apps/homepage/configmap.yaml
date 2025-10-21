@@ -9,7 +9,7 @@ data:
     - Media:
         - Jellyfin:
             icon: jellyfin.png
-            href: https://jellyfin.yourdomain.com
+            href: https://jellyfin.pxldi.de
             description: Media server
             widget:
               type: jellyfin
@@ -18,39 +18,21 @@ data:
         
         - Immich:
             icon: immich.png
-            href: https://immich.yourdomain.com
+            href: https://immich.pxldi.de
             description: Photo management
             widget:
               type: immich
               url: http://immich.immich.svc.cluster.local:2283
               key: {{HOMEPAGE_VAR_IMMICH_API_KEY}}
-    
-    - Tools:
-        - Obsidian LiveSync:
-            icon: obsidian.png
-            href: https://obsidian.yourdomain.com
-            description: Note synchronization
         
     - Infrastructure:
         - Flux:
             icon: flux-cd.png
-            href: https://github.com/yourusername/homelab
+            href: https://github.com/pxldi/homelab
             description: GitOps
             widget:
               type: flux
               cluster: homelab
-        
-        - Kubernetes:
-            icon: kubernetes.png
-            href: https://k8s.yourdomain.com
-            description: Cluster dashboard
-            widget:
-              type: kubernetes
-              cluster:
-                show: true
-                cpu: true
-                memory: true
-                showLabel: true
   
   widgets.yaml: |
     ---
@@ -83,30 +65,6 @@ data:
           dateStyle: long
           timeStyle: short
           hourCycle: h23
-  
-  bookmarks.yaml: |
-    ---
-    - Developer:
-        - GitHub:
-            - icon: github.png
-              href: https://github.com/yourusername/homelab
-              description: Homelab repo
-        
-        - Flux:
-            - icon: flux-cd.png
-              href: https://fluxcd.io/docs/
-              description: Flux documentation
-    
-    - Homelab:
-        - Talos:
-            - icon: talos.png
-              href: https://www.talos.dev/
-              description: Talos documentation
-        
-        - Renovate:
-            - icon: renovate.png
-              href: https://docs.renovatebot.com/
-              description: Renovate docs
   
   settings.yaml: |
     ---
