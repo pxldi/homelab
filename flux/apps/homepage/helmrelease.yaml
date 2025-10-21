@@ -35,33 +35,14 @@ spec:
     volumes:
       - name: homepage-config
         configMap:
-          name: homepage
-      - name: logs
-        emptyDir: {}
-    volumeMounts:
-      - mountPath: /app/config/custom.js
-        name: homepage-config
-        subPath: custom.js
-      - mountPath: /app/config/custom.css
-        name: homepage-config
-        subPath: custom.css
-      - mountPath: /app/config/docker.yaml
-        name: homepage-config
-        subPath: docker.yaml
-      - mountPath: /app/config/settings.yaml
-        name: homepage-config
-        subPath: settings.yaml
-      - mountPath: /app/config/kubernetes.yaml
-        name: homepage-config
-        subPath: kubernetes.yaml
-      - mountPath: /app/config/widgets.yaml
-        name: homepage-config
-        subPath: widgets.yaml
-      - mountPath: /app/config/services.yaml
-        name: homepage-config
-        subPath: services.yaml
-      - mountPath: /app/config/bookmarks.yaml
-        name: homepage-config
-        subPath: bookmarks.yaml
-      - mountPath: /app/logs
-        name: logs
+          name: homepage-config
+
+    initContainers:
+      - name: copy-config
+        image: busybox:1.36
+        command: ["sh", "-c", "cp /configmap/* /app/config/"]
+        volumeMounts:
+          - name: homepage-config
+            mountPath: /configmap
+          - name: config           # reuse chart’s own writable volume
+            mountPath: /app/config
