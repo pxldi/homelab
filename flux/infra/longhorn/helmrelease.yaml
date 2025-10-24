@@ -40,6 +40,5 @@ spec:
             - path: /
               pathType: Prefix
       tls:
-        - secretName: longhorn-tls-secret
-          hosts:
+        - hosts:
             - longhorn.pxldi.de
