@@ -4,3 +4,4 @@ resources:
   - helmrelease.yaml
   - namespace.yaml
   - authelia-forwardauth.yaml
+  - rbac.yaml
