@@ -25,17 +25,17 @@ data:
     mode: cluster
   widgets.yaml: |
     - resources:
-    label: Cluster
-    kubernetes:
-      cluster:
-        show:
-          - cpu
-          - memory
-          - nodes
-      nodes:
-        show:
-          - cpu
-          - memory
+        label: Cluster
+        kubernetes:
+          cluster:
+            show:
+              - cpu
+              - memory
+              - nodes
+          nodes:
+            show:
+              - cpu
+              - memory
 
     - longhorn:
         label: Storage
