@@ -36,11 +36,11 @@ spec:
               liveness:
                 enabled: true
                 path: /
-                port: http
+                port: 3000
               readiness:
                 enabled: true
                 path: /
-                port: http
+                port: 3000
     service:
       app:
         controller: homepage
