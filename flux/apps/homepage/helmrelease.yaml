@@ -60,11 +60,9 @@ spec:
             paths:
               - path: /
                 pathType: Prefix
-                backend:
-                  service:
-                    name: homepage
-                    port:
-                      number: 3000
+                service:
+                  identifier: app
+                  port: http
         tls:
           - hosts:
               - homepage.pxldi.de
