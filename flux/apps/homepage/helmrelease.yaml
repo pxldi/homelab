@@ -49,22 +49,22 @@ spec:
             port: 3000
     ingress:
       app:
+        enabled: true
         className: traefik
         annotations:
           traefik.ingress.kubernetes.io/router.middlewares: traefik-authelia-forwardauth@kubernetescrd
           traefik.ingress.kubernetes.io/router.entrypoints: websecure
           traefik.ingress.kubernetes.io/router.tls.certresolver: myresolver
-        rules:
+        hosts:
           - host: homepage.pxldi.de
-            http:
-              paths:
-                - path: /
-                  pathType: Prefix
-                  backend:
-                    service:
-                      name: homepage
-                      port:
-                        number: 3000
+            paths:
+              - path: /
+                pathType: Prefix
+                backend:
+                  service:
+                    name: homepage
+                    port:
+                      number: 3000
         tls:
           - hosts:
               - homepage.pxldi.de
