@@ -2,54 +2,87 @@ apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: homepage
-  namespace: homepage
 spec:
-  interval: 15m
+  interval: 30m
   chart:
     spec:
-      chart: homepage
-      version: "4.2.0"
+      chart: app-template
+      version: 4.2.0
       sourceRef:
         kind: HelmRepository
-        name: monsterrr
+        name: bjw-s
         namespace: flux-system
   values:
-    enableRbac: true
-    serviceAccount:
-      create: true
-      name: homepage
-
+    controllers:
+      homepage:
+        replicas: 2
+        serviceAccount:
+          create: false
+          name: homepage
+        strategy: RollingUpdate
+        containers:
+          app:
+            image:
+              repository: ghcr.io/gethomepage/homepage
+              tag: v1.4.2
+            env:
+              TZ: Etc/UTC
+              HOMEPAGE_ALLOWED_HOSTS: homepage.pxldi.de
+            envFrom:
+              - secretRef:
+                  name: homepage-secret
+              - secretRef:
+                  name: homepage-other-secret
+            probes:
+              liveness:
+                enabled: true
+                path: /
+                port: http
+              readiness:
+                enabled: true
+                path: /
+                port: http
     service:
-      main:
+      app:
+        controller: homepage
         ports:
           http:
             port: 3000
-
-    config:
-      allowedHosts:
-        - "homepage.pxldi.de"
-
-    envFrom:
-      - secretRef:
-          name: homepage-secret
-
-    volumes:
-      - name: homepage-config
-        configMap:
-          name: homepage
-      - name: homepage-custom
-        emptyDir: {}
-
-    initContainers:
-      - name: copy-config
-        image: busybox:1.36
-        command: ["sh", "-c", "cp /configmap/* /custom/"]
-        volumeMounts:
-          - name: homepage-config
-            mountPath: /configmap
-          - name: homepage-custom
-            mountPath: /custom
-
-    extraVolumeMounts:
-      - name: homepage-custom
-        mountPath: /app/config
+    ingress:
+      app:
+        className: traefik
+        annotations:
+          traefik.ingress.kubernetes.io/router.middlewares: traefik-authelia-forwardauth@kubernetescrd
+          traefik.ingress.kubernetes.io/router.entrypoints: websecure
+          traefik.ingress.kubernetes.io/router.tls.certresolver: myresolver
+        rules:
+          - host: homepage.pxldi.de
+            http:
+              paths:
+                - path: /
+                  pathType: Prefix
+                  backend:
+                    service:
+                      name: homepage
+                      port:
+                        number: 3000
+        tls:
+          - hosts:
+              - homepage.pxldi.de
+    persistence:
+      config:
+        type: configMap
+        name: homepage-config
+        globalMounts:
+          - subPath: bookmarks.yaml
+            path: /app/config/bookmarks.yaml
+          - subPath: docker.yaml
+            path: /app/config/docker.yaml
+          - subPath: kubernetes.yaml
+            path: /app/config/kubernetes.yaml
+          - subPath: services.yaml
+            path: /app/config/services.yaml
+          - subPath: settings.yaml
+            path: /app/config/settings.yaml
+          - subPath: widgets.yaml
+            path: /app/config/widgets.yaml

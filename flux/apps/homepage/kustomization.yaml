@@ -3,4 +3,4 @@ kind: Kustomization
 resources:
   - configmap.yaml
   - helmrelease.yaml
-  - ingress.yaml
+  - rbac.yaml
