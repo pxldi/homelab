@@ -46,8 +46,7 @@ spec:
               - path: /
                 pathType: Prefix
         tls:
-          - secretName: immich-tls-secret
-            hosts:
+          - hosts:
               - immich.pxldi.de
 
     immich:

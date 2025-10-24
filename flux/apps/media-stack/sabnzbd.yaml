@@ -28,8 +28,7 @@ spec:
               - path: /
                 pathType: Prefix
         tls:
-          - secretName: sabnzbd-tls-secret
-            hosts:
+          - hosts:
               - sabnzbd.pxldi.de
     persistence:
       config:

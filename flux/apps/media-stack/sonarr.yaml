@@ -31,8 +31,7 @@ spec:
               - path: /
                 pathType: Prefix
         tls:
-          - secretName: sonarr-tls-secret
-            hosts:
+          - hosts:
               - sonarr.pxldi.de
     persistence:
       config:

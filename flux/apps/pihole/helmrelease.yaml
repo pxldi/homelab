@@ -59,7 +59,6 @@ spec:
       tls:
         - hosts:
             - pihole.pxldi.de
-          secretName: pihole-tls-secret
     doh:
       enabled: true
       envVars:

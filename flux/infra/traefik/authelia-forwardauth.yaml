@@ -1,7 +1,7 @@
 apiVersion: traefik.containo.us/v1alpha1
 kind: Middleware
 metadata:
-  name: authelia-forwardauth
+  name: traefik-authelia-forwardauth
   namespace: traefik
 spec:
   forwardAuth:

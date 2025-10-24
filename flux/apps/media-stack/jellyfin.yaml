@@ -29,8 +29,7 @@ spec:
               - path: /
                 pathType: Prefix
         tls:
-          - secretName: jellyfin-tls-secret
-            hosts:
+          - hosts:
               - jellyfin.pxldi.de
 
     jellyfin:
