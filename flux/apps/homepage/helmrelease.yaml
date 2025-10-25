@@ -16,7 +16,7 @@ spec:
   values:
     controllers:
       homepage:
-        replicas: 1
+        replicas: 2
         serviceAccount:
           create: false
           name: homepage
