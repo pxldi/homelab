@@ -13,7 +13,7 @@ spec:
         - name: api@internal
           kind: TraefikService
       middlewares:
-        - name: authelia-forwardauth
+        - name: traefik-authelia-forwardauth
           namespace: traefik
   tls:
     certResolver: myresolver

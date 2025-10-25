@@ -6,7 +6,7 @@ metadata:
   namespace: homepage
 data:
   settings.yaml: |
-    title: Platform
+    title: Homelab
     favicon: ""
     theme: dark
     color: slate
@@ -52,55 +52,7 @@ data:
               - cpu
               - memory
 
-  services.yaml: |
-    - Kubernetes:
-      - Traefik:
-          icon: traefik
-          href: https://traefik.pxldi.de
-          server: traefik
-          namespace: traefik
-          container: traefik
-      - Longhorn:
-          icon: longhorn
-          href: https://longhorn.pxldi.de
-          server: longhorn-ui
-          namespace: longhorn-system
-          container: longhorn-ui
-
-    - Media:
-        - Radarr:
-            icon: radarr
-            href: https://radarr.pxldi.de
-            server: radarr
-            namespace: media-stack
-            container: radarr
-        - Sonarr:
-            icon: sonarr
-            href: https://sonarr.pxldi.de
-            server: sonarr
-            namespace: media-stack
-            container: sonarr
-        - Sabnzbd:
-            icon: sabnzbd
-            href: https://sabnzbd.pxldi.de
-            server: sabnzbd
-            namespace: media-stack
-            container: sabnzbd
-        - Jellyfin:
-            icon: jellyfin
-            href: https://jellyfin.pxldi.de
-            server: jellyfin
-            namespace: media-stack
-            container: jellyfin
-
-    - Network:
-        - Pi-hole:
-            icon: pi-hole
-            href: https://pihole.pxldi.de/admin
-            server: pihole
-            namespace: pihole
-            container: pihole
-
+  services.yaml: ""
   bookmarks.yaml: ""
   docker.yaml: ""
   custom.css: ""

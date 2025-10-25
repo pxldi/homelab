@@ -47,6 +47,11 @@ spec:
       loadBalancerIP: 192.168.0.200
       annotations:
         metallb.io/address-pool: default
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/group: Kubernetes
+        gethomepage.dev/name: Traefik
+        gethomepage.dev/icon: traefik
+        gethomepage.dev/url: https://traefik.pxldi.de/dashboard
 
     ports:
       traefik:
