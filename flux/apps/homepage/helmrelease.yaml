@@ -27,8 +27,10 @@ spec:
               repository: ghcr.io/gethomepage/homepage
               tag: v1.4.2
             env:
-              - TZ: Etc/UTC
-              - HOMEPAGE_ALLOWED_HOSTS: homepage.pxldi.de
+              - name: TZ
+                value: Etc/UTC
+              - name: HOMEPAGE_ALLOWED_HOSTS
+                value: homepage.pxldi.de
               - name: CITY_NAME_ENV
                 valueFrom:
                   secretKeyRef:
