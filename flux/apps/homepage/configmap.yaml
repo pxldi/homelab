@@ -24,6 +24,21 @@ data:
   kubernetes.yaml: |
     mode: cluster
   widgets.yaml: |
+    - datetime:
+        text_size: xl
+        format:
+          timeStyle: short
+
+    - openmeteo:
+        label: $CITY_NAME_ENV
+        latitude: $CITY_LATITUDE_ENV
+        longitude: $CITY_LONGITUDE_ENV
+        timezone: Europe/Berlin
+        units: metric
+        cache: 5
+        format:
+          maximumFractionDigits: 1
+
     - resources:
         label: Cluster
         kubernetes:
@@ -36,30 +51,6 @@ data:
             show:
               - cpu
               - memory
-
-    - longhorn:
-        label: Longhorn Storage
-        url: http://longhorn-backend.longhorn-system.svc.cluster.local:9500
-
-    - pihole:
-        label: Pi-hole
-        url: http://pihole.pihole.svc.cluster.local
-        api_key: "{{PIHOLE_API_KEY}}"
-
-    - radarr:
-        label: Radarr
-        url: http://radarr.media-stack.svc.cluster.local
-        api_key: "{{RADARR_API_KEY}}"
-
-    - sonarr:
-        label: Sonarr
-        url: http://sonarr.media-stack.svc.cluster.local
-        api_key: "{{SONARR_API_KEY}}"
-
-    - sabnzbd:
-        label: Sabnzbd
-        url: http://sabnzbd.media-stack.svc.cluster.local
-        api_key: "{{SABNZBD_API_KEY}}"
 
   services.yaml: |
     - Kubernetes:
