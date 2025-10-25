@@ -18,7 +18,7 @@ spec:
       homepage:
         replicas: 2
         serviceAccount:
-          create: false
+          create: true
           name: homepage
         strategy: RollingUpdate
         containers:
