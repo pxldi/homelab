@@ -38,7 +38,7 @@ data:
               - memory
 
     - longhorn:
-        label: Storage
+        label: Longhorn Storage
         url: http://longhorn-backend.longhorn-system.svc.cluster.local:9500
 
     - pihole:
