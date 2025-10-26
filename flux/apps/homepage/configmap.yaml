@@ -10,7 +10,7 @@ data:
     background:
       image: https://images.unsplash.com/photo-1526992356629-fbf40452d54d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1773
       blur: sm # sm, "", md, xl... see https://tailwindcss.com/docs/backdrop-blur
-    favicon: ""
+    favicon: "https://raw.githubusercontent.com/pxldi/homelab/refs/heads/main/flux/apps/homepage/resources/house-icon.png"
     theme: dark
     color: cyan
 
