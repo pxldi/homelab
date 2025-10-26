@@ -59,6 +59,11 @@ data:
         - domain: "homepage.pxldi.de"
           policy: two_factor
 
+        - domain: "prometheus.pxldi.de"
+          policy: two_factor
+        - domain: "grafana.pxldi.de"
+          policy: two_factor
+
   users_database.yml: |
     users:
       admin:
