@@ -7,52 +7,49 @@ metadata:
 data:
   settings.yaml: |
     title: Homelab
+    background:
+      image: https://images.unsplash.com/photo-1526992356629-fbf40452d54d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1773
+      blur: sm # sm, "", md, xl... see https://tailwindcss.com/docs/backdrop-blur
     favicon: ""
     theme: dark
-    color: slate
-    background:
-      image: https://images.unsplash.com/photo-1478760329108-5c3ed9d495a0?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D
-      blur: sm
-      opacity: 70
+    color: cyan
+
+    useEqualHeights: true
+    cardBlur: xl
+    headerBlur: xl
+
+    debug: true
+
+    headerStyle: boxed
+    hideVersion: true
+
+    statusStyle: "dot"
+
     layout:
-      Kubernetes:
-      Cloud:
-      Network:
-      Storage:
-      Monitoring:
-      Analytics:
+      #Media:
+      #  style: columns
+      #  columns: 5
+      System:
+        style: columns
   kubernetes.yaml: |
     mode: cluster
   widgets.yaml: |
+    - resources:
+        cpu: true
+        memory: true
+        disk: /
     - datetime:
         text_size: xl
         format:
           timeStyle: short
-
-    - openmeteo:
-        label: $CITY_NAME_ENV
-        latitude: $CITY_LATITUDE_ENV
-        longitude: $CITY_LONGITUDE_ENV
-        timezone: Europe/Berlin
-        units: metric
-        cache: 5
-        format:
-          maximumFractionDigits: 1
-
-    - resources:
-        label: Cluster
-        kubernetes:
-          cluster:
-            show:
-              - cpu
-              - memory
-              - nodes
-          nodes:
-            show:
-              - cpu
-              - memory
-
-  services.yaml: ""
+  services.yaml: |
+    - System:
+      - Traefik:
+          icon: traefik.png 
+          href: https://traefik.pxldi.de
+          description: Traefik Dashboard
+          app: traefik
+          namespace: traefik
   bookmarks.yaml: ""
   docker.yaml: ""
   custom.css: ""
