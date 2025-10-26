@@ -7,3 +7,4 @@ resources:
   - pihole.yaml
   - tandoor.yaml
   - nextcloud.yaml
+  - monitoring.yaml

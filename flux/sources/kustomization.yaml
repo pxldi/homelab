@@ -12,3 +12,4 @@ resources:
   - bjw-s.yaml
   - authelia.yaml
   - nextcloud.yaml
+  - prometheus.yaml
