@@ -49,17 +49,19 @@ spec:
           - hosts:
               - prometheus.pxldi.de
       prometheusSpec:
+        secrets:
+          - talos-metrics-certs
         additionalScrapeConfigs:
-          - job_name: 'talos-node-exporter'
-            kubernetes_sd_configs:
-              - role: pod
-            relabel_configs:
-              - source_labels: [__meta_kubernetes_pod_label_app]
-                regex: talos-node-exporter
-                action: keep
-              - source_labels: [__meta_kubernetes_pod_container_port_number]
-                regex: "9100"
-                action: keep
+          - job_name: 'talos'
+            scheme: https
+            tls_config:
+              ca_file: /etc/prometheus/secrets/talos-metrics-certs/ca.crt
+              cert_file: /etc/prometheus/secrets/talos-metrics-certs/client.crt
+              key_file: /etc/prometheus/secrets/talos-metrics-certs/client.key
+              insecure_skip_verify: true
+            static_configs:
+              - targets:
+                  - 192.168.0.152:50000
     alertmanager:
       ingress:
         enabled: false
