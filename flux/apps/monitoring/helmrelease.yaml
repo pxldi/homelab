@@ -48,10 +48,22 @@ spec:
         tls:
           - hosts:
               - prometheus.pxldi.de
+      prometheusSpec:
+        additionalScrapeConfigs:
+          - job_name: 'talos-node-exporter'
+            kubernetes_sd_configs:
+              - role: pod
+            relabel_configs:
+              - source_labels: [__meta_kubernetes_pod_label_app]
+                regex: talos-node-exporter
+                action: keep
+              - source_labels: [__meta_kubernetes_pod_container_port_number]
+                regex: "9100"
+                action: keep
     alertmanager:
       ingress:
         enabled: false
     nodeExporter:
-      enabled: true
+      enabled: false
     kubeStateMetrics:
       enabled: true
