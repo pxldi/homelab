@@ -52,26 +52,6 @@ spec:
       ingress:
         enabled: false
     nodeExporter:
-      enabled: true
-      hostNetwork: true
-      hostPID: false
-      service:
-        enabled: true
-      resources:
-        requests:
-          cpu: 25m
-          memory: 64Mi
-        limits:
-          cpu: 100m
-          memory: 128Mi
-      securityContext:
-        allowPrivilegeEscalation: false
-        readOnlyRootFilesystem: true
-        runAsNonRoot: true
-        capabilities:
-          drop: ["ALL"]
-      hostRootFsMount:
-        enabled: true
-        mountPropagation: HostToContainer
+      enabled: false
     kubeStateMetrics:
       enabled: true
