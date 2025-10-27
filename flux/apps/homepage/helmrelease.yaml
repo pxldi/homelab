@@ -46,6 +46,18 @@ spec:
                   secretKeyRef:
                     name: homepage-secret
                     key: CITY_LONGITUDE
+              - name: GRAFANA_USER
+                valueFrom:
+                  secretKeyRef:
+                    name: grafana-admin
+                    namespace: monitoring
+                    key: admin-user
+              - name: GRAFANA_PASSWORD
+                valueFrom:
+                  secretKeyRef:
+                    name: grafana-admin
+                    namespace: monitoring
+                    key: admin-password
             envFrom:
               - secretRef:
                   name: homepage-secret
