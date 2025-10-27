@@ -5,4 +5,3 @@ resources:
   - namespace.yaml
   - authelia-forwardauth.yaml
   - rbac.yaml
-  - policy.yaml
