@@ -10,16 +10,15 @@ spec:
   policyTypes:
     - Ingress
   ingress:
-    # Allow API access only from homepage namespace
     - from:
-        - namespaceSelector:
+        - podSelector: {}
+          namespaceSelector:
             matchLabels:
-              kubernetes.io/metadata.name: homepage
+              name: homepage
       ports:
         - protocol: TCP
           port: 8080
     
-    # Allow web traffic from anywhere
     - ports:
         - protocol: TCP
           port: 80
