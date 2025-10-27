@@ -31,33 +31,6 @@ spec:
                 value: Etc/UTC
               - name: HOMEPAGE_ALLOWED_HOSTS
                 value: homepage.pxldi.de
-              - name: CITY_NAME_ENV
-                valueFrom:
-                  secretKeyRef:
-                    name: homepage-secret
-                    key: CITY_NAME
-              - name: CITY_LATITUDE_ENV
-                valueFrom:
-                  secretKeyRef:
-                    name: homepage-secret
-                    key: CITY_LATITUDE
-              - name: CITY_LONGITUDE_ENV
-                valueFrom:
-                  secretKeyRef:
-                    name: homepage-secret
-                    key: CITY_LONGITUDE
-              - name: GRAFANA_USER
-                valueFrom:
-                  secretKeyRef:
-                    name: grafana-admin
-                    namespace: monitoring
-                    key: admin-user
-              - name: GRAFANA_PASSWORD
-                valueFrom:
-                  secretKeyRef:
-                    name: grafana-admin
-                    namespace: monitoring
-                    key: admin-password
             envFrom:
               - secretRef:
                   name: homepage-secret
