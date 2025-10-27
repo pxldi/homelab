@@ -1,0 +1,27 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: traefik-api-internal-only
+  namespace: traefik
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: traefik
+  policyTypes:
+    - Ingress
+  ingress:
+    # Allow API access only from homepage namespace
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: homepage
+      ports:
+        - protocol: TCP
+          port: 8080
+    
+    # Allow web traffic from anywhere
+    - ports:
+        - protocol: TCP
+          port: 80
+        - protocol: TCP
+          port: 443
