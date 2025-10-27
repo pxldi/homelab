@@ -31,6 +31,31 @@ spec:
                 value: Etc/UTC
               - name: HOMEPAGE_ALLOWED_HOSTS
                 value: homepage.pxldi.de
+              - name: HOMEPAGE_VAR_CITY_NAME_ENV
+                valueFrom:
+                  secretKeyRef:
+                    name: homepage-secret
+                    key: CITY_NAME
+              - name: HOMEPAGE_VAR_CITY_LATITUDE_ENV
+                valueFrom:
+                  secretKeyRef:
+                    name: homepage-secret
+                    key: CITY_LATITUDE
+              - name: HOMEPAGE_VAR_CITY_LONGITUDE_ENV
+                valueFrom:
+                  secretKeyRef:
+                    name: homepage-secret
+                    key: CITY_LONGITUDE
+              - name: HOMEPAGE_VAR_GRAFANA_USER
+                valueFrom:
+                  secretKeyRef:
+                    name: homepage-secret
+                    key: GRAFANA_USER
+              - name: HOMEPAGE_VAR_GRAFANA_PASSWORD
+                valueFrom:
+                  secretKeyRef:
+                    name: homepage-secret
+                    key: GRAFANA_PASSWORD
             envFrom:
               - secretRef:
                   name: homepage-secret

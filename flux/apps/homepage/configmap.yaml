@@ -38,7 +38,7 @@ data:
         cpu: true
         memory: true
         disk: /
-    
+
     - search:
         provider: duckduckgo
         target: _blank
@@ -47,6 +47,13 @@ data:
         text_size: xl
         format:
           timeStyle: short
+    
+    - openmeteo:
+        label: {{HOMEPAGE_VAR_CITY_NAME_ENV}}
+        latitude: {{HOMEPAGE_VAR_CITY_LATITUDE_ENV}}
+        longitude: {{HOMEPAGE_VAR_CITY_LONGITUDE_ENV}}
+        units: metric
+        cache: 5
   services.yaml: |
     - System:
       - Traefik:
