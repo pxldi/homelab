@@ -34,10 +34,50 @@ data:
   kubernetes.yaml: |
     mode: cluster
   widgets.yaml: |
-    - resources:
+    - prometheus:
+      href: https://prometheus.pxldi.de
+      fields:
+        - label: CPU Usage
+          query: 100 - (avg(rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100)
+          format: percent
+        
+        - label: RAM Usage
+          query: 100 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes * 100)
+          format: percent
+        
+        - label: RAM Free
+          query: node_memory_MemAvailable_bytes / 1024 / 1024 / 1024
+          format: number
+          suffix: " GB"
+        
+        - label: NVMe (/var)
+          query: 100 - (node_filesystem_avail_bytes{mountpoint="/var"} / node_filesystem_size_bytes{mountpoint="/var"} * 100)
+          format: percent
+        
+        - label: HDD1
+          query: 100 - (node_filesystem_avail_bytes{mountpoint="/var/mnt/hdd1"} / node_filesystem_size_bytes{mountpoint="/var/mnt/hdd1"} * 100)
+          format: percent
+        
+        - label: HDD2
+          query: 100 - (node_filesystem_avail_bytes{mountpoint="/var/mnt/hdd2"} / node_filesystem_size_bytes{mountpoint="/var/mnt/hdd2"} * 100)
+          format: percent
+    
+    - kubernetes:
+      cluster:
+        show: true
         cpu: true
         memory: true
-        disk: /
+        showLabel: true
+      nodes:
+        show: true
+        cpu: true
+        memory: true
+        showLabel: true
+    
+    - search:
+      provider: duckduckgo
+      target: _blank
+    
     - datetime:
         text_size: xl
         format:
