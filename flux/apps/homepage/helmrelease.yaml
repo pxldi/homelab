@@ -56,6 +56,11 @@ spec:
                   secretKeyRef:
                     name: homepage-secret
                     key: GRAFANA_PASSWORD
+              - name: HOMEPAGE_VAR_SONARR_API_KEY
+                valueFrom:
+                  secretKeyRef:
+                    name: homepage-secret
+                    key: SONARR_API_KEY
             envFrom:
               - secretRef:
                   name: homepage-secret

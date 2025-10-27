@@ -78,6 +78,11 @@ data:
           icon: sonarr.png
           href: https://sonarr.pxldi.de
           description: TV Shows
+          widget:
+            type: sonarr
+            url: http://sonarr.sonarr:8989
+            key: {{HOMEPAGE_VAR_SONARR_API_KEY}}
+            enableQueue: true
 
     - Apps:
       - Grafana:
