@@ -28,7 +28,7 @@ data:
     layout:
       Infra:
           style: columns
-      Media:
+      Media-Stack:
         style: columns
         #columns: 5
       Apps:
@@ -73,16 +73,31 @@ data:
             type: traefik
             url: http://traefik.traefik:8080
 
-    - Media:
+    - Media-Stack:
+      - Sabnzbd:
+          icon: sabnzbd.png
+          href: https://sabnzbd.pxldi.de
+          description: Usenet Downloader
+          widget:
+            type: sabnzbd
+            url: http://sabnzbd.media-stack:10097
+            key: {{HOMEPAGE_VAR_SABNZBD_API_KEY}}
       - Sonarr:
           icon: sonarr.png
           href: https://sonarr.pxldi.de
           description: TV Shows
           widget:
             type: sonarr
-            url: http://sonarr.sonarr:8989
+            url: http://sonarr.media-stack:8989
             key: {{HOMEPAGE_VAR_SONARR_API_KEY}}
-            enableQueue: true
+      - Radarr:
+          icon: radarr.png
+          href: https://radarr.pxldi.de
+          description: Movies
+          widget:
+            type: radarr
+            url: http://radarr.media-stack:8989
+            key: {{HOMEPAGE_VAR_RADARR_API_KEY}}
 
     - Apps:
       - Grafana:
