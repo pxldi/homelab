@@ -26,10 +26,12 @@ data:
     statusStyle: "dot"
 
     layout:
-      #Media:
-      #  style: columns
-      #  columns: 5
-      System:
+      Infra:
+          style: columns
+      Media:
+        style: columns
+        #columns: 5
+      Apps:
         style: columns
   kubernetes.yaml: |
     mode: cluster
@@ -62,7 +64,7 @@ data:
         units: metric
         cache: 5
   services.yaml: |
-    - System:
+    - Infra:
       - Traefik:
           icon: traefik.png 
           href: https://traefik.pxldi.de
@@ -71,6 +73,13 @@ data:
             type: traefik
             url: http://traefik.traefik:8080
 
+    - Media:
+      - Sonarr:
+          icon: sonarr.png
+          href: https://sonarr.pxldi.de
+          description: TV Shows
+
+    - Apps:
       - Grafana:
           icon: grafana.png
           href: https://grafana.pxldi.de
