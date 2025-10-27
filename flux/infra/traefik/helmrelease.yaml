@@ -29,6 +29,7 @@ spec:
       - "--certificatesresolvers.myresolver.acme.dnschallenge.provider=cloudflare"
       - "--certificatesresolvers.myresolver.acme.dnschallenge.delaybeforecheck=0"
       - "--certificatesresolvers.myresolver.acme.keytype=RSA4096"
+      - "--api.insecure=true"
       - "--api.dashboard=true"
       - "--log.level=DEBUG"
     # The "volume-permissions" init container is required if you run into permission issues.
