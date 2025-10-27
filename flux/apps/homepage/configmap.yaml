@@ -96,8 +96,16 @@ data:
           description: Movies
           widget:
             type: radarr
-            url: http://radarr.media-stack:8989
+            url: http://radarr.media-stack:7878
             key: {{HOMEPAGE_VAR_RADARR_API_KEY}}
+      - Jellyfin:
+          icon: jellyfin.png
+          href: https://jellyfin.pxldi.de
+          description: Media Server
+          widget:
+            type: jellyfin
+            url: http://jellyfin.media-stack:8096
+            key: {{HOMEPAGE_VAR_JELLYFIN_API_KEY}}
 
     - Apps:
       - Grafana:
