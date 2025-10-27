@@ -35,7 +35,7 @@ data:
     mode: cluster
   widgets.yaml: |
     - prometheus:
-        href: https://prometheus.pxldi.de
+        href: http://kube-prometheus-stack-prometheus.monitoring.svc.cluster.local:9090
         fields:
           - label: CPU Usage
             query: 100 - (avg(rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100)
