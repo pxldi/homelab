@@ -52,6 +52,11 @@ spec:
       ingress:
         enabled: false
     nodeExporter:
-      enabled: false
+      enabled: true
+      hostNetwork: true
+      hostPID: true
+      hostRootFsMount:
+        enabled: true
+        mountPropagation: HostToContainer
     kubeStateMetrics:
       enabled: true
