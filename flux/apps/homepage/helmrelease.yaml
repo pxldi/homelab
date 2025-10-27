@@ -110,3 +110,26 @@ spec:
             path: /app/config/settings.yaml
           - subPath: widgets.yaml
             path: /app/config/widgets.yaml
+      hdd1:
+        type: hostPath
+        hostPath: /var/mnt/hdd1
+        hostPathType: Directory
+        globalMounts:
+          - path: /mnt/hdd1
+            readOnly: true
+      
+      hdd2:
+        type: hostPath
+        hostPath: /var/mnt/hdd2
+        hostPathType: Directory
+        globalMounts:
+          - path: /mnt/hdd2
+            readOnly: true
+      
+      nvme:
+        type: hostPath
+        hostPath: /var
+        hostPathType: Directory
+        globalMounts:
+          - path: /mnt/nvme
+            readOnly: true

@@ -37,7 +37,14 @@ data:
     - resources:
         cpu: true
         memory: true
-        disk: /
+        
+    - resources:
+        label: Disks
+        expanded: true
+        disk:
+          - /mnt/nvme
+          - /mnt/hdd1
+          - /mnt/hdd2
 
     - search:
         provider: duckduckgo
@@ -60,8 +67,10 @@ data:
           icon: traefik.png 
           href: https://traefik.pxldi.de
           description: Traefik Dashboard
-          app: traefik
-          namespace: traefik
+          widget:
+            type: traefik
+            url: http://traefik.traefik:8080
+
       - Grafana:
           icon: grafana.png
           href: https://grafana.pxldi.de
