@@ -8,7 +8,7 @@ data:
   settings.yaml: |
     title: Homelab
     background:
-      image: https://images.unsplash.com/photo-1526992356629-fbf40452d54d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1773
+      image: https://4kwallpapers.com/images/wallpapers/nebulae-cosmic-stars-dark-blue-dark-background-digital-3840x2160-3926.jpg
       blur: sm # sm, "", md, xl... see https://tailwindcss.com/docs/backdrop-blur
     favicon: "https://raw.githubusercontent.com/pxldi/homelab/refs/heads/main/flux/apps/homepage/resources/house-icon.png"
     theme: dark
@@ -58,13 +58,16 @@ data:
   widgets.yaml: |
     - logo:
         icon: "https://raw.githubusercontent.com/pxldi/homelab/refs/heads/main/flux/apps/homepage/resources/house-icon.png"
+
+    - greeting:
+        text_size: 3x1
+        text: Homelab
     
     - resources:
         cpu: true
         memory: true
         
     - resources:
-        label: Disks
         expanded: true
         disk:
           - /mnt/nvme
@@ -74,7 +77,10 @@ data:
     - datetime:
         text_size: xl
         format:
-          timeStyle: short
+          locale: de
+          dateStyle: medium
+          timeStyle: medium
+          hourCycle: h23
     
     - openmeteo:
         label: {{HOMEPAGE_VAR_CITY_NAME_ENV}}
@@ -218,31 +224,55 @@ data:
   bookmarks.yaml: ""
   docker.yaml: ""
   custom.css: |
+    /* Main container with consistent spacing */
     #widgets-wrap {
-      justify-content: center !important;
-      gap: 2rem !important;
+      display: flex !important;
+      align-items: center !important;
+      width: 100% !important;
+      padding: 0 1rem !important;
+      gap: 0 !important;
     }
     
-    #information-widgets-right {
-      justify-content: center !important;
+    /* Logo and greeting close together */
+    .information-widget-logo {
+      margin-right: 0.75rem !important;
+    }
+    
+    .information-widget-greeting {
+      margin-right: 3rem !important;
+      font-size: 1.5rem !important;
+      font-weight: 700 !important;
+      background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
+      -webkit-background-clip: text !important;
+      -webkit-text-fill-color: transparent !important;
+      background-clip: text !important;
+      letter-spacing: 0.05em !important;
+      text-shadow: 0 0 20px rgba(6, 182, 212, 0.3);
+    }
+    
+    /* Resource containers with proper spacing */
+    .widget-container:has(.information-widget-resource) {
+      display: flex !important;
+      margin-right: 2rem !important;
+    }
+    
+    .widget-container:has(.information-widget-resource) > div {
+      display: flex !important;
+      gap: 1rem !important;
+    }
+    
+    /* Individual resource items */
+    .information-widget-resource {
       margin: 0 !important;
+    }
+    
+    /* Datetime/weather with consistent spacing */
+    #information-widgets-right {
+      margin-left: 3rem !important;
+      display: flex !important;
       gap: 2rem !important;
     }
-    
-    #information-widgets-right.grow {
-      flex-grow: 0 !important;
-    }
-    
-    .widget-container {
-      margin: 0 0.5rem !important;
-    }
-    
-    .widget-container {
-      padding: 0.75rem 1rem;
-      border: 1px solid rgba(100, 116, 139, 0.2);
-      border-radius: 0.5rem;
-      backdrop-filter: blur(8px);
-    }
+
   custom.js: |
     const RELOAD_BUTTON_SELECTORS = [
       "#revalidate",
