@@ -155,10 +155,22 @@ spec:
             path: /app/config/settings.yaml
           - subPath: widgets.yaml
             path: /app/config/widgets.yaml
+      custom-css:
+        type: configMap
+        name: homepage
+        globalMounts:
           - subPath: custom.css
             path: /app/config/custom.css
-          - subPath: /app/config/custom.js
-            path: custom.js
+          - subPath: custom.css
+            path: /app/public/custom.css
+      custom-js:
+        type: configMap
+        name: homepage
+        globalMounts:
+          - subPath: custom.js
+            path: /app/config/custom.js
+          - subPath: custom.js
+            path: /app/public/custom.js
       hdd1:
         type: hostPath
         hostPath: /var/mnt/hdd1
