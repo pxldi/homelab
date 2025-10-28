@@ -91,6 +91,16 @@ spec:
                   secretKeyRef:
                     name: homepage-secret
                     key: NEXTCLOUD_API_KEY
+              - name: HOMEPAGE_VAR_CMC_API_KEY
+                valueFrom:
+                  secretKeyRef:
+                    name: homepage-secret
+                    key: CMC_API_KEY
+              - name: HOMEPAGE_VAR_FH_API_KEY
+                valueFrom:
+                  secretKeyRef:
+                    name: homepage-secret
+                    key: FH_API_KEY
             envFrom:
               - secretRef:
                   name: homepage-secret
