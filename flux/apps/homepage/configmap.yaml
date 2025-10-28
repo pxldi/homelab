@@ -25,17 +25,40 @@ data:
 
     statusStyle: "dot"
 
+    providers:
+      finnhub: {{HOMEPAGE_VAR_FH_API_KEY}}
+
     layout:
-      Infra:
-          style: columns
-      Media-Stack:
-        style: columns
-        #columns: 5
-      Apps:
-        style: columns
+      Row1:
+        header: false
+        style: row
+        columns: 3
+      Row2:
+        header: false
+        style: row
+        columns: 4
+      Row3:
+        header: false
+        style: row
+        columns: 3
+      Row4:
+        header: false
+        style: row
+        columns: 4
+      Row5:
+        header: false
+        style: row
+        columns: 4
+      Row6:
+        header: false
+        style: row
+        columns: 2
   kubernetes.yaml: |
     mode: cluster
   widgets.yaml: |
+    - logo:
+        icon: "https://raw.githubusercontent.com/pxldi/homelab/refs/heads/main/flux/apps/homepage/resources/house-icon.png"
+    
     - resources:
         cpu: true
         memory: true
@@ -47,10 +70,6 @@ data:
           - /mnt/nvme
           - /mnt/hdd1
           - /mnt/hdd2
-
-    - search:
-        provider: duckduckgo
-        target: _blank
     
     - datetime:
         text_size: xl
@@ -64,20 +83,37 @@ data:
         units: metric
         cache: 5
   services.yaml: |
-    - Infra:
+    - Row1:
       - Traefik:
           icon: traefik.png 
           href: https://traefik.pxldi.de
-          description: Traefik Dashboard
+          ping: https://traefik.pxldi.de
           widget:
             type: traefik
             url: http://traefik.traefik:8080
+      - Grafana:
+          icon: grafana.png
+          href: https://grafana.pxldi.de
+          ping: https://grafana.pxldi.de
+          widget:
+            type: grafana
+            version: 2
+            url: http://kube-prometheus-stack-grafana.monitoring:80
+            username: {{HOMEPAGE_VAR_GRAFANA_USER}}
+            password: {{HOMEPAGE_VAR_GRAFANA_PASSWORD}}
+      - Prometheus:
+          icon: prometheus.png
+          href: https://prometheus.pxldi.de
+          ping: https://prometheus.pxldi.de
+          widget:
+            type: prometheus
+            url: http://kube-prometheus-stack-prometheus.monitoring:9090
 
-    - Media-Stack:
+    - Row2:
       - Sabnzbd:
           icon: sabnzbd.png
           href: https://sabnzbd.pxldi.de
-          description: Usenet Downloader
+          ping: https://sabnzbd.pxldi.de
           widget:
             type: sabnzbd
             url: http://sabnzbd.media-stack:10097
@@ -85,7 +121,7 @@ data:
       - Sonarr:
           icon: sonarr.png
           href: https://sonarr.pxldi.de
-          description: TV Shows
+          ping: https://sonarr.pxldi.de
           widget:
             type: sonarr
             url: http://sonarr.media-stack:8989
@@ -93,7 +129,7 @@ data:
       - Radarr:
           icon: radarr.png
           href: https://radarr.pxldi.de
-          description: Movies
+          ping: https://radarr.pxldi.de
           widget:
             type: radarr
             url: http://radarr.media-stack:7878
@@ -101,24 +137,126 @@ data:
       - Jellyfin:
           icon: jellyfin.png
           href: https://jellyfin.pxldi.de
-          description: Media Server
+          ping: https://jellyfin.pxldi.de
           widget:
             type: jellyfin
             url: http://jellyfin.media-stack:8096
             key: {{HOMEPAGE_VAR_JELLYFIN_API_KEY}}
-
-    - Apps:
-      - Grafana:
-          icon: grafana.png
-          href: https://grafana.pxldi.de
-          description: Metrics Dashboard
+    
+    - Row3:
+      - Pihole:
+          icon: pi-hole.png
+          href: https://pihole.pxldi.de/admin/
+          ping: https://pihole.pxldi.de/admin/
           widget:
-            type: grafana
-            version: 2
-            url: http://kube-prometheus-stack-grafana.monitoring:80
-            username: {{HOMEPAGE_VAR_GRAFANA_USER}}
-            password: {{HOMEPAGE_VAR_GRAFANA_PASSWORD}}
+            type: pihole
+            url: http://pihole-web.pihole:80
+            version: 6
+      - Tandoor:
+          icon: tandoor-recipes.png
+          href: https://recipes.pxldi.de/
+          ping: https://recipes.pxldi.de/
+          widget:
+            type: tandoor
+            url: http://tandoor.tandoor:80
+            key: {{HOMEPAGE_VAR_TANDOOR_API_KEY}}
+      - Nextcloud:
+          icon: nextcloud.png
+          href: https://nextcloud.pxldi.de/
+          ping: https://nextcloud.pxldi.de/
+          widget:
+            type: nextcloud
+            url: https://nextcloud.pxldi.de
+            key: {{HOMEPAGE_VAR_NEXTCLOUD_API_KEY}}
+            fields: ["freespace", "activeusers", "numfiles", "numshares"]
+
+    - Row4:
+      - Homelab Repo:
+          icon: github.png
+          href: https://github.com/pxldi/homelab
+      - FluxCD Docs:
+          icon: flux-cd.png
+          href: https://fluxcd.io/flux/
+      - Cloudflare Dashboard:
+          icon: cloudflare.png
+          href: https://dash.cloudflare.com
+      - Dashboard Icons:
+          icon: dashboard-icons.png
+          href: https://dashboardicons.com/
+
+    - Row5:
+      - HomeAssistant:
+          icon: home-assistant.png
+      - Kavita:
+          icon: kavita.png
+      - SearXNG:
+          icon: searxng.png
+      - Overleaf:
+          icon: overleaf.png
+    
+    - Row6:
+      - Stocks:
+          icon: google-finance.png
+          widget:
+            type: stocks
+            provider: finnhub
+            watchlist:
+              - NVDA
+              - AAPL
+              - MSFT
+              - AMZN
+              - AMD
+      - Crypto:
+          icon: bitcoin.png
+          widget:
+            type: coinmarketcap
+            currency: USD
+            symbols: [BTC, ETH, XRP, SOL, DOGE]
+            key: {{HOMEPAGE_VAR_CMC_API_KEY}}
+            defaultinterval: 7d
+
   bookmarks.yaml: ""
   docker.yaml: ""
-  custom.css: ""
-  custom.js: ""
+  custom.css: |
+    #widgets-wrap {
+      justify-content: center !important;
+      gap: 1.5rem !important;
+    }
+    
+    #information-widgets-right {
+      justify-content: center !important;
+      margin: 0 !important;
+    }
+    
+    .widget-container {
+      margin: 0 !important;
+    }
+  custom.js: |
+    const RELOAD_BUTTON_SELECTORS = [
+      "#revalidate",
+      '[data-testid="revalidate"]',
+      ".reload-button",
+      'button[aria-label="Reload"]',
+    ];
+
+    function removeReloadButton() {
+      RELOAD_BUTTON_SELECTORS.forEach((selector) => {
+        document.querySelectorAll(selector).forEach((el) => el.remove());
+      });
+    }
+
+    function setupReloadButtonObserver() {
+      const observer = new MutationObserver(() => removeReloadButton());
+      observer.observe(document.body, {
+        childList: true,
+        subtree: true,
+      });
+      return observer;
+    }
+
+    document.addEventListener("DOMContentLoaded", removeReloadButton);
+    window.addEventListener("load", () => {
+      removeReloadButton();
+      setupReloadButtonObserver();
+      [100, 500, 1000].forEach((delay) => setTimeout(removeReloadButton, delay));
+    });
