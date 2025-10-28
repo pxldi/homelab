@@ -155,6 +155,8 @@ spec:
             path: /app/config/settings.yaml
           - subPath: widgets.yaml
             path: /app/config/widgets.yaml
+          - subPath: custom.css
+            path: /app/config/custom.css
       hdd1:
         type: hostPath
         hostPath: /var/mnt/hdd1
