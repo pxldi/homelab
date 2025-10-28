@@ -220,16 +220,28 @@ data:
   custom.css: |
     #widgets-wrap {
       justify-content: center !important;
-      gap: 1.5rem !important;
+      gap: 2rem !important;
     }
     
     #information-widgets-right {
       justify-content: center !important;
       margin: 0 !important;
+      gap: 2rem !important;
+    }
+    
+    #information-widgets-right.grow {
+      flex-grow: 0 !important;
     }
     
     .widget-container {
-      margin: 0 !important;
+      margin: 0 0.5rem !important;
+    }
+    
+    .widget-container {
+      padding: 0.75rem 1rem;
+      border: 1px solid rgba(100, 116, 139, 0.2);
+      border-radius: 0.5rem;
+      backdrop-filter: blur(8px);
     }
   custom.js: |
     const RELOAD_BUTTON_SELECTORS = [
