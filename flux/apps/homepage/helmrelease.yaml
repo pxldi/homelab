@@ -76,6 +76,11 @@ spec:
                   secretKeyRef:
                     name: homepage-secret
                     key: JELLYFIN_API_KEY
+              - name: HOMEPAGE_VAR_PIHOLE_API_KEY
+                valueFrom:
+                  secretKeyRef:
+                    name: homepage-secret
+                    key: PIHOLE_API_KEY
             envFrom:
               - secretRef:
                   name: homepage-secret
