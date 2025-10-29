@@ -12,4 +12,3 @@ parameters:
   fromBackup: ""
   fsType: "ext4"
   diskSelector: "ssd"
-  nodeSelector: "ssd"
