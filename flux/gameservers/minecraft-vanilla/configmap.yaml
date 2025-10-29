@@ -13,7 +13,7 @@ data:
       loadBalancerIP: 192.168.0.201
       
       pluginUrls:
-        - https://cdn.modrinth.com/data/9eGKb6K1/versions/lbwRkfFH/voicechat-bukkit-2.5.28.jar
+        - https://cdn.modrinth.com/data/9eGKb6K1/versions/ps3C3lpD/voicechat-bukkit-2.6.6.jar
       
       serviceType: LoadBalancer
       
