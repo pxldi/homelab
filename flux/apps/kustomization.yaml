@@ -9,3 +9,4 @@ resources:
   - ./tandoor
   - ./nextcloud
   - ./monitoring
+  - ./home-assistant

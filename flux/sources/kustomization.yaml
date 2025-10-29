@@ -14,3 +14,4 @@ resources:
   - nextcloud.yaml
   - prometheus.yaml
   - minecraft-server.yaml
+  - home-assistant.yaml

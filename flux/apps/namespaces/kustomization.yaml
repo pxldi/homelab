@@ -8,3 +8,4 @@ resources:
   - tandoor.yaml
   - nextcloud.yaml
   - monitoring.yaml
+  - home-assistant.yaml
