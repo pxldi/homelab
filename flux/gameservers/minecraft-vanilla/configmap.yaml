@@ -12,7 +12,8 @@ data:
       memory: 8192M
       loadBalancerIP: 192.168.0.201
       
-      modrinthProjects: simple-voice-chat
+      pluginUrls:
+        - https://cdn.modrinth.com/data/9eGKb6K1/versions/lbwRkfFH/voicechat-bukkit-2.5.28.jar
       
       serviceType: LoadBalancer
       
@@ -40,7 +41,7 @@ data:
     persistence:
       dataDir:
         enabled: true
-        size: 20Gi
+        Size: 20Gi
         storageClass: "longhorn-ssd-no-replica"
         
     resources:
