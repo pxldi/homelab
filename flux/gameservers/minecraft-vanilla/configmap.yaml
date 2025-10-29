@@ -14,8 +14,6 @@ data:
       serviceType: LoadBalancer
       loadBalancerIP: 192.168.0.201
       servicePort: 25565
-      serviceAnnotations:
-        metallb.universe.tf/allow-shared-ip: "minecraft"
       
       pluginUrls:
         - https://cdn.modrinth.com/data/9eGKb6K1/versions/ps3C3lpD/voicechat-bukkit-2.6.6.jar
@@ -50,6 +48,9 @@ data:
         enabled: true
         Size: 20Gi
     
+    serviceAnnotations:
+        metallb.universe.tf/allow-shared-ip: "minecraft"
+
     mcbackup:
       enabled: true
 
