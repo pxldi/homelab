@@ -13,12 +13,6 @@ spec:
         kind: HelmRepository
         name: minecraft-server
         namespace: minecraft
-  env:
-    - name: MINECRAFT_RCON_KEY
-      valueFrom:
-        secretKeyRef:
-          name: minecraft-rcon-secret
-          key: RCON_KEY
   valuesFrom:
     - kind: ConfigMap
       name: minecraft-values

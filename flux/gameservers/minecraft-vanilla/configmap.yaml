@@ -24,11 +24,18 @@ data:
             enabled: true
             type: LoadBalancer
             port: 24454
-            loadBalancerIP: ""
-      
+
+      extraEnv:
+          - name: RCON_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: minecraft-rcon-secret
+                key: RCON_KEY
+    
       rcon:
         enabled: true
-        password: {{MINECRAFT_RCON_KEY}}
+        existingSecret: minecraft-rcon-secret
+        secretKey: RCON_KEY
         
     persistence:
       dataDir:
