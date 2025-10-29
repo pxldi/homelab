@@ -10,13 +10,13 @@ data:
       version: "1.21.10"
       type: "PAPER"
       memory: 8192M
+      serviceType: LoadBalancer
       loadBalancerIP: 192.168.0.201
+      servicePort: 25565
       
       pluginUrls:
         - https://cdn.modrinth.com/data/9eGKb6K1/versions/ps3C3lpD/voicechat-bukkit-2.6.6.jar
-      
-      serviceType: LoadBalancer
-      
+
       extraPorts:
         - name: voicechat
           containerPort: 24454
@@ -24,6 +24,7 @@ data:
           service:
             enabled: true
             type: LoadBalancer
+            loadBalancerIP: "192.168.0.202"
             port: 24454
 
       extraEnv:
