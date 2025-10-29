@@ -5,4 +5,5 @@ resources:
   - sources
   - infra/kustomization-flux.yaml
   - apps/kustomization-flux.yaml
+  - gameservers/kustomization-flux.yaml
   - secrets/kustomization-flux.yaml

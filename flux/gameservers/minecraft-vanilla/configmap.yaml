@@ -1,0 +1,45 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: minecraft-values
+  namespace: minecraft
+data:
+  values.yaml: |
+    minecraftServer:
+      eula: true
+      version: "1.21.10"
+      type: "PAPER"
+      memory: 8192M
+      
+      modrinthModIds: |
+        simple-voice-chat
+      
+      serviceType: LoadBalancer
+      
+      extraPorts:
+        - name: voicechat
+          containerPort: 24454
+          protocol: UDP
+          service:
+            enabled: true
+            type: LoadBalancer
+            port: 24454
+            loadBalancerIP: ""
+      
+      rcon:
+        enabled: true
+        password: {{MINECRAFT_RCON_KEY}}
+        
+    persistence:
+      dataDir:
+        enabled: true
+        size: 10Gi
+        storageClass: "local-ssd"
+        
+    resources:
+      requests:
+        memory: 8Gi
+        cpu: 2000m
+      limits:
+        memory: 10Gi
+        cpu: 4000m

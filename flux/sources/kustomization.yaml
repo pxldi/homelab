@@ -13,3 +13,4 @@ resources:
   - authelia.yaml
   - nextcloud.yaml
   - prometheus.yaml
+  - minecraft-server.yaml

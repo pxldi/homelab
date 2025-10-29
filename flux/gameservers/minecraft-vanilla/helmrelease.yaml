@@ -1,0 +1,30 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: minecraft
+  namespace: minecraft
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: minecraft
+      version: '5.0.0'
+      sourceRef:
+        kind: HelmRepository
+        name: minecraft-server
+        namespace: minecraft
+  env:
+    - name: MINECRAFT_RCON_KEY
+      valueFrom:
+        secretKeyRef:
+          name: minecraft-rcon-secret
+          key: RCON_KEY
+  valuesFrom:
+    - kind: ConfigMap
+      name: minecraft-values
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
