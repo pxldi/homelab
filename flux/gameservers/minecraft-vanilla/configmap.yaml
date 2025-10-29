@@ -44,6 +44,47 @@ data:
       dataDir:
         enabled: true
         Size: 20Gi
+    
+    mcbackup:
+      enabled: true
+
+      image:
+        repository: itzg/mc-backup
+        tag: latest
+        pullPolicy: IfNotPresent
+
+      initialDelay: 2m
+
+      # ***set to 0 or smaller, script will run once and exit.  DO NOT SET TO 0 or smaller, this will cause K8s to kill your pod!***
+      # backupInterval="1.5d" -> backup every one and a half days (36 hours)
+      # backupInterval="2h 30m" -> backup every two and a half hours
+      backupInterval: "1h"
+      pauseIfNoPlayers: "true"
+      pruneBackupsDays: 7
+
+      rconRetries: 5
+      rconRetryInterval: 10s
+
+      excludes: "*.jar,cache,logs"
+      
+      backupMethod: tar
+      destDir: /backups
+      linkLatest: "true"
+      compressMethod: "gzip"
+      zstdParameters: "-3 --long=25 --single-thread"
+
+      resources:
+        requests:
+          memory: 512Mi
+          cpu: 500m
+
+      persistence:
+        storageClass: "longhorn-dual-disk"
+        backupDir:
+          enabled: true
+          Size: 50Gi
+          accessModes:
+            - ReadWriteOnce
         
     resources:
       requests:
