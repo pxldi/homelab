@@ -39,7 +39,7 @@ data:
         secretKey: RCON_KEY
         
     persistence:
-      storageClassName: "longhorn-ssd-no-replica"
+      storageClass: "longhorn-ssd-no-replica"
       dataDir:
         enabled: true
         Size: 20Gi
