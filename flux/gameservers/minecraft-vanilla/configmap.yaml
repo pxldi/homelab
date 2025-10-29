@@ -40,8 +40,8 @@ data:
     persistence:
       dataDir:
         enabled: true
-        size: 10Gi
-        storageClass: "local-ssd"
+        size: 20Gi
+        storageClass: "longhorn-ssd-no-replica"
         
     resources:
       requests:
