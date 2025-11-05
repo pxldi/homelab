@@ -26,14 +26,8 @@
   ],
   "packageRules": [
     {
-      "description": "Auto-merge patch updates after 2 days",
-      "matchUpdateTypes": ["patch"],
-      "automerge": true,
-      "minimumReleaseAge": "2 days"
-    },
-    {
-      "description": "Auto-merge minor updates",
-      "matchUpdateTypes": ["minor"],
+      "description": "Auto-merge minor and patch updates",
+      "matchUpdateTypes": ["minor", "patch"],
       "automerge": true
     },
     {
@@ -42,20 +36,10 @@
       "automerge": true
     },
     {
-      "description": "Disable major updates automerge (review manually)",
-      "matchUpdateTypes": ["major"],
-      "automerge": false
-    },
-    {
       "description": "Disable major Docker updates",
       "matchDatasources": ["docker"],
       "matchUpdateTypes": ["major"],
       "enabled": false
-    },
-    {
-      "description": "Group Helm chart updates",
-      "matchDatasources": ["helm"],
-      "groupName": "Helm charts"
     }
   ],
   "vulnerabilityAlerts": {
