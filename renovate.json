@@ -4,7 +4,7 @@
     "config:recommended"
   ],
   "platformAutomerge": true,
-  "automerge": true,  // Add this global default
+  "automerge": true,
   "flux": {
     "managerFilePatterns": ["/flux/.+\\.yaml$/"]
   },
