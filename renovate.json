@@ -4,27 +4,20 @@
     "config:recommended"
   ],
   "platformAutomerge": true,
+  "automerge": true,  // Add this global default
   "flux": {
-    "managerFilePatterns": [
-      "/flux/.+\\.yaml$/"
-    ]
+    "managerFilePatterns": ["/flux/.+\\.yaml$/"]
   },
   "helm-values": {
-    "managerFilePatterns": [
-      "/flux/.+\\.yaml$/"
-    ]
+    "managerFilePatterns": ["/flux/.+\\.yaml$/"]
   },
   "kubernetes": {
-    "managerFilePatterns": [
-      "/flux/.+\\.yaml$/"
-    ]
+    "managerFilePatterns": ["/flux/.+\\.yaml$/"]
   },
   "customManagers": [
     {
       "customType": "regex",
-      "managerFilePatterns": [
-        "/flux/.+\\.yaml$/"
-      ],
+      "managerFilePatterns": ["/flux/.+\\.yaml$/"],
       "matchStrings": [
         "registryUrl=(?<registryUrl>.*?)\n *chart: (?<depName>.*?)\n *version: (?<currentValue>.*)\n"
       ],
@@ -34,50 +27,35 @@
   "packageRules": [
     {
       "description": "Auto-merge patch updates after 2 days",
-      "matchUpdateTypes": [
-        "patch"
-      ],
+      "matchUpdateTypes": ["patch"],
       "automerge": true,
       "minimumReleaseAge": "2 days"
     },
     {
-      "description": "Auto-merge digest updates",
-      "matchUpdateTypes": [
-        "digest"
-      ],
+      "description": "Auto-merge minor updates",
+      "matchUpdateTypes": ["minor"],
       "automerge": true
     },
     {
+      "description": "Auto-merge digest updates",
+      "matchUpdateTypes": ["digest"],
+      "automerge": true
+    },
+    {
+      "description": "Disable major updates automerge (review manually)",
+      "matchUpdateTypes": ["major"],
+      "automerge": false
+    },
+    {
       "description": "Disable major Docker updates",
-      "matchDatasources": [
-        "docker"
-      ],
-      "matchUpdateTypes": [
-        "major"
-      ],
+      "matchDatasources": ["docker"],
+      "matchUpdateTypes": ["major"],
       "enabled": false
     },
     {
       "description": "Group Helm chart updates",
-      "matchDatasources": [
-        "helm"
-      ],
-      "groupName": "Helm charts",
-      "schedule": [
-        "every weekend"
-      ]
-    },
-    {
-      "description": "Group Flux updates",
-      "groupName": "Flux",
-      "matchUpdateTypes": [
-        "patch",
-        "minor"
-      ],
-      "automerge": true,
-      "matchPackageNames": [
-        "/fluxcd/"
-      ]
+      "matchDatasources": ["helm"],
+      "groupName": "Helm charts"
     }
   ],
   "vulnerabilityAlerts": {
