@@ -67,7 +67,7 @@ data:
         tag: latest
         pullPolicy: IfNotPresent
 
-      initialDelay: 2m
+      initialDelay: 30s
       backupInterval: "2h"
       pauseIfNoPlayers: "true"
       pruneBackupsDays: 7
