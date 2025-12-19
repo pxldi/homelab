@@ -28,6 +28,23 @@ data:
         enabled: true
         existingSecret: minecraft-rcon-secret
         secretKey: RCON_KEY
+    
+    startupProbe:
+      enabled: true
+      failureThreshold: 120
+      periodSeconds: 10
+    
+    livenessProbe:
+      enabled: true
+      initialDelaySeconds: 600
+      periodSeconds: 60
+      failureThreshold: 10
+    
+    readinessProbe:
+      enabled: true
+      initialDelaySeconds: 600
+      periodSeconds: 60
+      failureThreshold: 10
 
     persistence:
       storageClass: "longhorn-ssd-no-replica"
