@@ -6,7 +6,6 @@ metadata:
 data:
   values.yaml: |
     minecraftServer:
-      enforceWhitelist: true
       eula: true
       version: "1.21.1"
       type: "FTBA"
@@ -23,6 +22,10 @@ data:
               secretKeyRef:
                 name: minecraft-rcon-secret
                 key: RCON_KEY
+          - name: ENABLE_WHITELIST
+            value: "true"
+          - name: ENFORCE_WHITELIST
+            value: "true"
     
       rcon:
         enabled: true
