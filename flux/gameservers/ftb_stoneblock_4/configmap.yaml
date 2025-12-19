@@ -24,9 +24,10 @@ data:
                 key: RCON_KEY
           - name: ENABLE_WHITELIST
             value: "true"
-          - name: ENFORCE_WHITELIST
+          - name: ENFORCE_WHITELIST  
             value: "true"
-    
+          - name: EXISTING_WHITELIST_FILE
+            value: "MERGE"
       rcon:
         enabled: true
         existingSecret: minecraft-rcon-secret
@@ -39,15 +40,15 @@ data:
     
     livenessProbe:
       enabled: true
-      initialDelaySeconds: 600
+      initialDelaySeconds: 120
       periodSeconds: 60
       failureThreshold: 10
     
     readinessProbe:
       enabled: true
-      initialDelaySeconds: 600
-      periodSeconds: 60
-      failureThreshold: 10
+      initialDelaySeconds: 120
+      periodSeconds: 10
+      failureThreshold: 3
 
     persistence:
       storageClass: "longhorn-ssd-no-replica"
