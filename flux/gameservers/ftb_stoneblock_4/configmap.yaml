@@ -14,7 +14,7 @@ data:
       memory: 12288M
 
       serviceType: LoadBalancer
-      loadBalancerIP: 192.168.0.201
+      loadBalancerIP: 192.168.0.202
       servicePort: 25565
 
       extraEnv:
