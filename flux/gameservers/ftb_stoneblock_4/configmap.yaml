@@ -10,7 +10,6 @@ data:
       version: "1.21.1"
       type: "FTBA"
       ftbModpackId: 130
-      ftbModpackVersionId: latest
       memory: 12288M
 
       serviceType: LoadBalancer
