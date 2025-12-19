@@ -3,8 +3,9 @@
   "extends": [
     "config:recommended"
   ],
-  "platformAutomerge": true,
   "automerge": true,
+  "automergeType": "branch",
+  "automergeStrategy": "squash",
   "flux": {
     "managerFilePatterns": ["/flux/.+\\.yaml$/"]
   },
