@@ -7,20 +7,28 @@
   "automergeType": "pr",
   "platformAutomerge": true,
   "automergeStrategy": "squash",
-  "recreateClosed": true,
+  "recreateWhen": "always",
   "flux": {
-    "managerFilePatterns": ["/flux/.+\\.yaml$/"]
+    "managerFilePatterns": [
+      "/flux/.+\\.yaml$/"
+    ]
   },
   "helm-values": {
-    "managerFilePatterns": ["/flux/.+\\.yaml$/"]
+    "managerFilePatterns": [
+      "/flux/.+\\.yaml$/"
+    ]
   },
   "kubernetes": {
-    "managerFilePatterns": ["/flux/.+\\.yaml$/"]
+    "managerFilePatterns": [
+      "/flux/.+\\.yaml$/"
+    ]
   },
   "customManagers": [
     {
       "customType": "regex",
-      "managerFilePatterns": ["/flux/.+\\.yaml$/"],
+      "managerFilePatterns": [
+        "/flux/.+\\.yaml$/"
+      ],
       "matchStrings": [
         "registryUrl=(?<registryUrl>.*?)\n *chart: (?<depName>.*?)\n *version: (?<currentValue>.*)\n"
       ],
@@ -30,18 +38,27 @@
   "packageRules": [
     {
       "description": "Auto-merge minor and patch updates",
-      "matchUpdateTypes": ["minor", "patch"],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
       "automerge": true
     },
     {
       "description": "Auto-merge digest updates",
-      "matchUpdateTypes": ["digest"],
+      "matchUpdateTypes": [
+        "digest"
+      ],
       "automerge": true
     },
     {
       "description": "Disable major Docker updates",
-      "matchDatasources": ["docker"],
-      "matchUpdateTypes": ["major"],
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchUpdateTypes": [
+        "major"
+      ],
       "enabled": false
     }
   ],
