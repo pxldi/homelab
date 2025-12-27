@@ -4,8 +4,10 @@
     "config:recommended"
   ],
   "automerge": true,
-  "automergeType": "branch",
+  "automergeType": "pr",
+  "platformAutoMerge": true,
   "automergeStrategy": "squash",
+  "recreateClosed": true,
   "flux": {
     "managerFilePatterns": ["/flux/.+\\.yaml$/"]
   },
