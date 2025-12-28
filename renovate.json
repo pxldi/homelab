@@ -31,6 +31,21 @@
         "registryUrl=(?<registryUrl>.*?)\n *chart: (?<depName>.*?)\n *version: (?<currentValue>.*)\n"
       ],
       "datasourceTemplate": "helm"
+    },
+    {
+      "customType": "regex",
+      "description": "Match OCI Helm charts in HelmRelease",
+      "fileMatch": [
+        "/flux/apps/.+/helmrelease\\.yaml$",
+        "/flux/gameservers/.+/helmrelease\\.yaml$",
+        "/flux/infra/.+/helmrelease\\.yaml$"
+      ],
+      "matchStrings": [
+        "sourceRef:\\n\\s+kind: HelmRepository\\n\\s+name: (?<registryName>\\S+)\\n\\s+namespace: (?<registryNamespace>\\S+)\\n(?:.|\\n)*?chart: (?<depName>\\S+)\\n\\s+version: [\"']?(?<currentValue>[^\"'\\n]+)"
+      ],
+      "datasourceTemplate": "docker",
+      "registryUrlTemplate": "oci://oci.trueforge.org/truecharts",
+      "packageNameTemplate": "truecharts/{{depName}}"
     }
   ],
   "packageRules": [
