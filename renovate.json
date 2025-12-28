@@ -1,22 +1,32 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:recommended"],
+  "extends": [
+    "config:recommended"
+  ],
   "dependencyDashboard": true,
-  "recreateClosed": true,
+  "recreateWhen": "always",
   "ignoreTests": true,
   "flux": {
-    "managerFilePatterns": ["/flux/.+\\.yaml$/"]
+    "managerFilePatterns": [
+      "/flux/.+\\.yaml$/"
+    ]
   },
   "helm-values": {
-    "managerFilePatterns": ["/flux/.+\\.yaml$/"]
+    "managerFilePatterns": [
+      "/flux/.+\\.yaml$/"
+    ]
   },
   "kubernetes": {
-    "managerFilePatterns": ["/flux/.+\\.yaml$/"]
+    "managerFilePatterns": [
+      "/flux/.+\\.yaml$/"
+    ]
   },
   "customManagers": [
     {
       "customType": "regex",
-      "managerFilePatterns": ["/flux/.+\\.yaml$/"],
+      "managerFilePatterns": [
+        "/flux/.+\\.yaml$/"
+      ],
       "matchStrings": [
         "registryUrl=(?<registryUrl>.*?)\n *chart: (?<depName>.*?)\n *version: (?<currentValue>.*)\n"
       ],
@@ -26,24 +36,35 @@
   "packageRules": [
     {
       "description": "Auto-merge patch updates directly to branch (no PRs)",
-      "matchUpdateTypes": ["patch", "digest"],
+      "matchUpdateTypes": [
+        "patch",
+        "digest"
+      ],
       "automerge": true,
       "automergeType": "branch"
     },
     {
       "description": "Minor updates create PRs but don't automerge",
-      "matchUpdateTypes": ["minor"],
+      "matchUpdateTypes": [
+        "minor"
+      ],
       "automerge": false
     },
     {
       "description": "Major updates create PRs but don't automerge",
-      "matchUpdateTypes": ["major"],
+      "matchUpdateTypes": [
+        "major"
+      ],
       "automerge": false
     },
     {
       "description": "Disable major Docker updates",
-      "matchDatasources": ["docker"],
-      "matchUpdateTypes": ["major"],
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchUpdateTypes": [
+        "major"
+      ],
       "enabled": false
     }
   ],
