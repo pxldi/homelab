@@ -20,6 +20,8 @@ spec:
       defaultClass: true
       reclaimPolicy: Delete
     defaultSettings:
+      backupTarget: "s3://pxldi-k8s-longhorn-backups@eu-central-003/"
+      backupTargetCredentialSecret: "longhorn-backup-secret"
       defaultReplicaCount: "2"
       replicaSoftAntiAffinity: "true"
       replicaAutoBalance: "best-effort"
