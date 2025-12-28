@@ -3,44 +3,74 @@
   "extends": [
     "config:recommended"
   ],
-  "automerge": true,
-  "automergeType": "branch",
-  "automergeStrategy": "squash",
+  "dependencyDashboard": true,
+  "recreateWhen": "always",
+  "ignoreTests": true,
   "flux": {
-    "managerFilePatterns": ["/flux/.+\\.yaml$/"]
+    "managerFilePatterns": [
+      "/flux/.+\\.yaml$/"
+    ]
   },
   "helm-values": {
-    "managerFilePatterns": ["/flux/.+\\.yaml$/"]
+    "managerFilePatterns": [
+      "/flux/.+\\.yaml$/"
+    ]
   },
   "kubernetes": {
-    "managerFilePatterns": ["/flux/.+\\.yaml$/"]
+    "managerFilePatterns": [
+      "/flux/.+\\.yaml$/"
+    ]
   },
   "customManagers": [
     {
       "customType": "regex",
-      "managerFilePatterns": ["/flux/.+\\.yaml$/"],
+      "managerFilePatterns": [
+        "/flux/.+\\.yaml$/"
+      ],
       "matchStrings": [
         "registryUrl=(?<registryUrl>.*?)\n *chart: (?<depName>.*?)\n *version: (?<currentValue>.*)\n"
       ],
       "datasourceTemplate": "helm"
+    },
+    {
+      "customType": "regex",
+      "description": "Match OCI Helm charts in HelmRelease",
+      "fileMatch": [
+        "/flux/apps/.+/helmrelease\\.yaml$",
+        "/flux/gameservers/.+/helmrelease\\.yaml$",
+        "/flux/infra/.+/helmrelease\\.yaml$"
+      ],
+      "matchStrings": [
+        "sourceRef:\\n\\s+kind: HelmRepository\\n\\s+name: (?<registryName>\\S+)\\n\\s+namespace: (?<registryNamespace>\\S+)\\n(?:.|\\n)*?chart: (?<depName>\\S+)\\n\\s+version: [\"']?(?<currentValue>[^\"'\\n]+)"
+      ],
+      "datasourceTemplate": "docker",
+      "registryUrlTemplate": "oci://oci.trueforge.org/truecharts",
+      "packageNameTemplate": "truecharts/{{depName}}"
     }
   ],
   "packageRules": [
     {
-      "description": "Auto-merge minor and patch updates",
-      "matchUpdateTypes": ["minor", "patch"],
+      "description": "Auto-merge patch updates directly to branch (no PRs)",
+      "matchUpdateTypes": [
+        "patch",
+        "digest"
+      ],
+      "automerge": true,
+      "automergeType": "branch"
+    },
+    {
+      "description": "Minor updates automerge",
+      "matchUpdateTypes": [
+        "minor"
+      ],
       "automerge": true
     },
     {
-      "description": "Auto-merge digest updates",
-      "matchUpdateTypes": ["digest"],
-      "automerge": true
-    },
-    {
-      "description": "Disable major Docker updates",
-      "matchDatasources": ["docker"],
-      "matchUpdateTypes": ["major"],
-      "enabled": false
+      "description": "Major updates create PRs and don't automerge",
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "automerge": false
     }
   ],
   "vulnerabilityAlerts": {
