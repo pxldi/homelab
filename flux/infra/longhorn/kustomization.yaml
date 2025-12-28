@@ -6,3 +6,4 @@ resources:
   - storageclass-dual-disk.yaml
   - storageclass-single-replica.yaml
   - storageclass-ssd.yaml
+  - recurring-snapshots.yaml
