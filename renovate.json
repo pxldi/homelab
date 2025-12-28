@@ -59,28 +59,18 @@
       "automergeType": "branch"
     },
     {
-      "description": "Minor updates create PRs but don't automerge",
+      "description": "Minor updates automerge",
       "matchUpdateTypes": [
         "minor"
       ],
-      "automerge": false
+      "automerge": true
     },
     {
-      "description": "Major updates create PRs but don't automerge",
+      "description": "Major updates create PRs and don't automerge",
       "matchUpdateTypes": [
         "major"
       ],
       "automerge": false
-    },
-    {
-      "description": "Disable major Docker updates",
-      "matchDatasources": [
-        "docker"
-      ],
-      "matchUpdateTypes": [
-        "major"
-      ],
-      "enabled": false
     }
   ],
   "vulnerabilityAlerts": {
