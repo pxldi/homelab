@@ -90,6 +90,7 @@ spec:
 
     cnpg:
       main:
+        type: vectorchord
         enabled: true
         database: immich
         user: immich
