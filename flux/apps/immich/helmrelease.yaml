@@ -102,15 +102,4 @@ spec:
             storageClass: longhorn-dual-disk
             size: 50Gi
         backups:
-          enabled: true
-          destinationPath: s3://pxldi-k8s-longhorn-backups/immich-db-backups
-          retentionPolicy: "30d"
-          schedule: "0 0 2 * * *"
-          credentials:
-            create: false
-            name: longhorn-backup-secret
-            accessKeyId:
-              key: AWS_ACCESS_KEY_ID
-            secretAccessKey:
-              key: AWS_SECRET_ACCESS_KEY
-          endpointURL: https://s3.eu-central-003.backblazeb2.com
+          enabled: false
