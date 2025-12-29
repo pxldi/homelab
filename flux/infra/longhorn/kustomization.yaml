@@ -7,4 +7,3 @@ resources:
   - storageclass-single-replica.yaml
   - storageclass-ssd.yaml
   - recurring-snapshots.yaml
-  - backup-target.yaml
