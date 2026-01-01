@@ -45,6 +45,10 @@ spec:
         enabled: true
         existingClaim: media-pvc
         mountPath: /media
+      data:
+        enabled: true
+        size: 10Gi
+        storageClass: longhorn-dual-disk
       config:
         enabled: true
         size: 10Gi
