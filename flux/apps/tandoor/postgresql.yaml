@@ -26,7 +26,7 @@ spec:
           postgresql:
             image:
               repository: public.ecr.aws/docker/library/postgres
-              tag: 17.7
+              tag: 18.1
             env:
               POSTGRES_DB: tandoor
               POSTGRES_USER: tandoor
