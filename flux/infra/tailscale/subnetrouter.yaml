@@ -39,7 +39,7 @@ spec:
             - sh
             - -c
             - |
-              tailscaled --tun=tailscale0 --state=kube:tailscale-router &
+              tailscaled --state=kube:tailscale-router &
               sleep 5
               tailscale up \
                 --authkey=${TS_AUTHKEY} \
