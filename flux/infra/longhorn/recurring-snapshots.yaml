@@ -11,7 +11,7 @@ spec:
   labels:
     job: backup
   name: backup-daily
-  retain: 7
+  retain: 30
   task: backup
 ---
 apiVersion: longhorn.io/v1beta2
