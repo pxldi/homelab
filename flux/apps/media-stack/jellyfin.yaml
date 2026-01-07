@@ -47,8 +47,8 @@ spec:
         mountPath: /media
       data:
         enabled: true
-        size: 10Gi
-        storageClass: longhorn-dual-disk
+        size: 100Gi
+        storageClass: longhorn
       config:
         enabled: true
         size: 10Gi
