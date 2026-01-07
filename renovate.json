@@ -50,6 +50,11 @@
   ],
   "packageRules": [
     {
+      "matchDatasources": ["helm"],
+      "matchPackageNames": ["app-template"],
+      "minimumReleaseAge": "3 days"
+    },
+    {
       "description": "Auto-merge patch updates directly to branch (no PRs)",
       "matchUpdateTypes": [
         "patch",
