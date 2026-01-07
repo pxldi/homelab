@@ -4,6 +4,7 @@ resources:
   - helmrelease.yaml
   - namespace.yaml
   - storageclass-dual-disk.yaml
+  - storageclass-encrypted-dual-disk.yaml
   - storageclass-single-replica.yaml
   - storageclass-ssd.yaml
   - recurring-snapshots.yaml
