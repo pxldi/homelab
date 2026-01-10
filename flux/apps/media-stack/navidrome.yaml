@@ -43,6 +43,18 @@ spec:
           value: "true"
         - name: ND_SCANNER_EXTRACTOR
           value: ffmpeg
+        - name: ND_LASTFM_APIKEY
+          valueFrom:
+            secretKeyRef:
+              name: navidrome-lastfm
+              key: LASTFM_APIKEY
+              optional: true
+        - name: ND_LASTFM_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: navidrome-lastfm
+              key: LASTFM_SECRET
+              optional: true
         volumeMounts:
         - name: music
           mountPath: /music
