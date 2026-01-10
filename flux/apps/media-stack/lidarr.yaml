@@ -105,6 +105,9 @@ spec:
   routes:
   - match: Host(`lidarr.pxldi.de`)
     kind: Rule
+    middlewares:
+    - name: authelia-forwardauth
+      namespace: traefik
     services:
     - name: lidarr
       port: 8686

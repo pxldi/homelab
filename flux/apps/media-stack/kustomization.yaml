@@ -9,3 +9,4 @@ resources:
   - download-pvc.yaml
   - lidarr.yaml
   - navidrome.yaml
+  - lidify.yaml

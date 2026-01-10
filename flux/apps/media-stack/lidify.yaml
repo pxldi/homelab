@@ -1,0 +1,104 @@
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: lidify-secrets
+  namespace: media-stack
+type: Opaque
+stringData:
+  # Get these from https://www.last.fm/api/account/create
+  LASTFM_API_KEY: "your-lastfm-api-key-here"
+  LASTFM_API_SECRET: "your-lastfm-api-secret-here"
+  # Your Last.fm username
+  LASTFM_USERNAME: "your-lastfm-username"
+  # Get this from Lidarr Settings -> General -> API Key
+  LIDARR_API_KEY: "your-lidarr-api-key-here"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lidify
+  namespace: media-stack
+  labels:
+    app: lidify
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: lidify
+  template:
+    metadata:
+      labels:
+        app: lidify
+    spec:
+      containers:
+      - name: lidify
+        image: donahtech/lidify:latest
+        ports:
+        - containerPort: 3000
+          name: http
+        env:
+        - name: LIDARR_URL
+          value: "http://lidarr.media-stack.svc.cluster.local:8686"
+        - name: LIDARR_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: lidify-secrets
+              key: LIDARR_API_KEY
+        - name: LASTFM_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: lidify-secrets
+              key: LASTFM_API_KEY
+        - name: LASTFM_API_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: lidify-secrets
+              key: LASTFM_API_SECRET
+        - name: LASTFM_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: lidify-secrets
+              key: LASTFM_USERNAME
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "50m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: lidify
+  namespace: media-stack
+spec:
+  selector:
+    app: lidify
+  ports:
+  - name: http
+    port: 3000
+    targetPort: http
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: lidify
+  namespace: media-stack
+spec:
+  entryPoints:
+    - websecure
+  routes:
+  - match: Host(`lidify.pxldi.de`)
+    kind: Rule
+    middlewares:
+    - name: authelia-forwardauth
+      namespace: traefik
+    services:
+    - name: lidify
+      port: 3000
+  tls:
+    certResolver: myresolver
