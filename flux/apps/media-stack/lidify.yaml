@@ -7,12 +7,21 @@ metadata:
 type: Opaque
 stringData:
   # Get these from https://www.last.fm/api/account/create
-  LASTFM_API_KEY: "your-lastfm-api-key-here"
-  LASTFM_API_SECRET: "your-lastfm-api-secret-here"
-  # Your Last.fm username
-  LASTFM_USERNAME: "your-lastfm-username"
-  # Get this from Lidarr Settings -> General -> API Key
-  LIDARR_API_KEY: "your-lidarr-api-key-here"
+  last_fm_api_key: "your-lastfm-api-key-here"
+  last_fm_api_secret: "your-lastfm-api-secret-here"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: lidify-config
+  namespace: media-stack
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: longhorn
+  resources:
+    requests:
+      storage: 1Gi
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -35,33 +44,32 @@ spec:
     spec:
       containers:
       - name: lidify
-        image: donahtech/lidify:latest
+        image: thewicklowwolf/lidify:latest
         ports:
-        - containerPort: 3000
+        - containerPort: 5000
           name: http
         env:
-        - name: LIDARR_URL
+        - name: PUID
+          value: "1000"
+        - name: PGID
+          value: "1000"
+        - name: last_fm_api_key
+          valueFrom:
+            secretKeyRef:
+              name: lidify-secrets
+              key: last_fm_api_key
+        - name: last_fm_api_secret
+          valueFrom:
+            secretKeyRef:
+              name: lidify-secrets
+              key: last_fm_api_secret
+        - name: mode
+          value: "LastFM"
+        - name: lidarr_address
           value: "http://lidarr.media-stack.svc.cluster.local:8686"
-        - name: LIDARR_API_KEY
-          valueFrom:
-            secretKeyRef:
-              name: lidify-secrets
-              key: LIDARR_API_KEY
-        - name: LASTFM_API_KEY
-          valueFrom:
-            secretKeyRef:
-              name: lidify-secrets
-              key: LASTFM_API_KEY
-        - name: LASTFM_API_SECRET
-          valueFrom:
-            secretKeyRef:
-              name: lidify-secrets
-              key: LASTFM_API_SECRET
-        - name: LASTFM_USERNAME
-          valueFrom:
-            secretKeyRef:
-              name: lidify-secrets
-              key: LASTFM_USERNAME
+        volumeMounts:
+        - name: config
+          mountPath: /lidify/config
         resources:
           requests:
             memory: "128Mi"
@@ -69,6 +77,10 @@ spec:
           limits:
             memory: "512Mi"
             cpu: "500m"
+      volumes:
+      - name: config
+        persistentVolumeClaim:
+          claimName: lidify-config
 ---
 apiVersion: v1
 kind: Service
@@ -80,7 +92,7 @@ spec:
     app: lidify
   ports:
   - name: http
-    port: 3000
+    port: 5000
     targetPort: http
 ---
 apiVersion: traefik.io/v1alpha1
@@ -99,6 +111,6 @@ spec:
       namespace: traefik
     services:
     - name: lidify
-      port: 3000
+      port: 5000
   tls:
     certResolver: myresolver
