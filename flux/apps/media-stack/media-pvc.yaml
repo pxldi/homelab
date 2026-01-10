@@ -10,3 +10,29 @@ spec:
   resources:
     requests:
       storage: 4Ti
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: music-library
+  namespace: media-stack
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: longhorn-single-replica
+  resources:
+    requests:
+      storage: 500Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: navidrome-data
+  namespace: media-stack
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: longhorn-dual-disk
+  resources:
+    requests:
+      storage: 5Gi

@@ -1,0 +1,106 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: navidrome
+  namespace: media-stack
+  labels:
+    app: navidrome
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: navidrome
+  template:
+    metadata:
+      labels:
+        app: navidrome
+    spec:
+      containers:
+      - name: navidrome
+        image: deluan/navidrome:latest
+        ports:
+        - containerPort: 4533
+          name: http
+        env:
+        - name: ND_MUSICFOLDER
+          value: /music
+        - name: ND_DATAFOLDER
+          value: /data
+        - name: ND_LOGLEVEL
+          value: info
+        - name: ND_SESSIONTIMEOUT
+          value: 24h
+        - name: ND_BASEURL
+          value: ""
+        - name: ND_ENABLESHARING
+          value: "true"
+        - name: ND_ENABLESTARRATING
+          value: "true"
+        - name: ND_ENABLEUSEREDITING
+          value: "true"
+        - name: ND_SCANNER_EXTRACTOR
+          value: ffmpeg
+        volumeMounts:
+        - name: music
+          mountPath: /music
+        - name: data
+          mountPath: /data
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "1Gi"
+            cpu: "1000m"
+        livenessProbe:
+          httpGet:
+            path: /ping
+            port: http
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /ping
+            port: http
+          initialDelaySeconds: 10
+          periodSeconds: 5
+      volumes:
+      - name: music
+        persistentVolumeClaim:
+          claimName: music-library
+      - name: data
+        persistentVolumeClaim:
+          claimName: navidrome-data
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: navidrome
+  namespace: media-stack
+spec:
+  selector:
+    app: navidrome
+  ports:
+  - name: http
+    port: 4533
+    targetPort: http
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: navidrome
+  namespace: media-stack
+spec:
+  entryPoints:
+    - websecure
+  routes:
+  - match: Host(`navidrome.pxldi.de`)
+    kind: Rule
+    services:
+    - name: navidrome
+      port: 4533
+  tls:
+    certResolver: myresolver

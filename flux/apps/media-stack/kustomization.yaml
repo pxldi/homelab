@@ -7,3 +7,5 @@ resources:
   - sabnzbd.yaml
   - media-pvc.yaml
   - download-pvc.yaml
+  - lidarr.yaml
+  - navidrome.yaml
