@@ -94,22 +94,28 @@ spec:
     port: 8686
     targetPort: http
 ---
-apiVersion: traefik.io/v1alpha1
-kind: IngressRoute
+apiVersion: networking.k8s.io/v1
+kind: Ingress
 metadata:
   name: lidarr
   namespace: media-stack
+  annotations:
+    traefik.ingress.kubernetes.io/router.middlewares: traefik-authelia-forwardauth@kubernetescrd
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls.certresolver: myresolver
 spec:
-  entryPoints:
-    - websecure
-  routes:
-  - match: Host(`lidarr.pxldi.de`)
-    kind: Rule
-    middlewares:
-    - name: authelia-forwardauth
-      namespace: traefik
-    services:
-    - name: lidarr
-      port: 8686
+  ingressClassName: traefik
+  rules:
+  - host: lidarr.pxldi.de
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: lidarr
+            port:
+              number: 8686
   tls:
-    certResolver: myresolver
+  - hosts:
+    - lidarr.pxldi.de

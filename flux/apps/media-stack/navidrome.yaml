@@ -88,19 +88,27 @@ spec:
     port: 4533
     targetPort: http
 ---
-apiVersion: traefik.io/v1alpha1
-kind: IngressRoute
+apiVersion: networking.k8s.io/v1
+kind: Ingress
 metadata:
   name: navidrome
   namespace: media-stack
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls.certresolver: myresolver
 spec:
-  entryPoints:
-    - websecure
-  routes:
-  - match: Host(`navidrome.pxldi.de`)
-    kind: Rule
-    services:
-    - name: navidrome
-      port: 4533
+  ingressClassName: traefik
+  rules:
+  - host: navidrome.pxldi.de
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: navidrome
+            port:
+              number: 4533
   tls:
-    certResolver: myresolver
+  - hosts:
+    - navidrome.pxldi.de
