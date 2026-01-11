@@ -10,3 +10,4 @@ resources:
   - lidarr.yaml
   - navidrome.yaml
   - lidify.yaml
+  - slskd.yaml
