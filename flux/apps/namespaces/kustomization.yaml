@@ -9,3 +9,4 @@ resources:
   - nextcloud.yaml
   - monitoring.yaml
   - home-assistant.yaml
+  - bookshelf.yaml

@@ -64,6 +64,8 @@ data:
           policy: two_factor
         - domain: "homepage.pxldi.de"
           policy: two_factor
+        - domain: "bookshelf.pxldi.de"
+          policy: two_factor
 
         - domain: "prometheus.pxldi.de"
           policy: two_factor

@@ -10,3 +10,4 @@ resources:
   - ./nextcloud
   - ./monitoring
   - ./home-assistant
+  - ./bookshelf
