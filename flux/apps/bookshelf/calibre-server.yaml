@@ -95,17 +95,10 @@ metadata:
 spec:
   ingressClassName: traefik
   rules:
-  - host: calibre.pxldi.de
+  - host: opds.pxldi.de
     http:
       paths:
-      - path: /opds
-        pathType: Prefix
-        backend:
-          service:
-            name: cwa
-            port:
-              number: 8083
-      - path: /kosync
+      - path: /
         pathType: Prefix
         backend:
           service:
@@ -114,7 +107,7 @@ spec:
               number: 8083
   tls:
   - hosts:
-    - calibre.pxldi.de
+    - opds.pxldi.de
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
