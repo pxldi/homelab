@@ -33,7 +33,7 @@ spec:
     spec:
       containers:
       - name: lidarr
-        image: lscr.io/linuxserver/lidarr:latest
+        image: ghcr.io/hotio/lidarr:pr-plugins
         ports:
         - containerPort: 8686
           name: http
