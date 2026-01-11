@@ -9,7 +9,7 @@ spec:
   storageClassName: longhorn
   resources:
     requests:
-      storage: 2Gi
+      storage: 1Gi
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -30,8 +30,7 @@ spec:
       - name: calibre-server
         image: lscr.io/linuxserver/calibre:latest
         ports:
-        - containerPort: 8080  # Web UI
-        - containerPort: 8081  # Content Server
+        - containerPort: 8081
         env:
         - name: PUID
           value: "0"
@@ -39,6 +38,8 @@ spec:
           value: "0"
         - name: TZ
           value: "Europe/Berlin"
+        - name: CLI_ARGS
+          value: "calibre-server --port 8081 --userdb /config/users.sqlite --enable-local-write /books"
         volumeMounts:
         - name: config
           mountPath: /config
@@ -61,21 +62,17 @@ spec:
   selector:
     app: calibre-server
   ports:
-  - name: web
-    port: 8080
-    targetPort: 8080
-  - name: content
-    port: 8082
-    targetPort: 8082
+  - port: 8081
+    targetPort: 8081
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: calibre-server
+  name: calibre-opds
   namespace: media-stack
   annotations:
-    traefik.ingress.kubernetes.io/router.middlewares: traefik-authelia-forwardauth@kubernetescrd
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.priority: "20"
     traefik.ingress.kubernetes.io/router.tls.certresolver: myresolver
 spec:
   ingressClassName: traefik
@@ -83,13 +80,13 @@ spec:
   - host: calibre.pxldi.de
     http:
       paths:
-      - path: /
+      - path: /opds
         pathType: Prefix
         backend:
           service:
             name: calibre-server
             port:
-              number: 8082
+              number: 8081
   tls:
   - hosts:
     - calibre.pxldi.de
