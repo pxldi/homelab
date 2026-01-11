@@ -45,6 +45,8 @@ spec:
     DNS1: "1.1.1.1"
     DNS2: "8.8.8.8"
 
+    customDns: []
+
     ingress:
       enabled: true
       ingressClassName: traefik
