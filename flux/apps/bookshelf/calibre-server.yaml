@@ -98,7 +98,14 @@ spec:
   - host: opds.pxldi.de
     http:
       paths:
-      - path: /
+      - path: /opds
+        pathType: Prefix
+        backend:
+          service:
+            name: cwa
+            port:
+              number: 8083
+      - path: /kosync
         pathType: Prefix
         backend:
           service:
