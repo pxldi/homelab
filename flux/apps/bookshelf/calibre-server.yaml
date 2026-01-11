@@ -26,9 +26,28 @@ spec:
       labels:
         app: calibre-server
     spec:
+      initContainers:
+      - name: init-library
+        image: busybox
+        command: ['sh', '-c', 'if [ ! -f /books/metadata.db ]; then echo "Warning: No metadata.db found"; fi']
+        volumeMounts:
+        - name: books
+          mountPath: /books
       containers:
       - name: calibre-server
         image: lscr.io/linuxserver/calibre:latest
+        command: ["/bin/bash", "-c"]
+        args:
+          - |
+            # Wait for X to be ready (LinuxServer images need this)
+            while [ ! -S /tmp/.X11-unix/X1 ]; do sleep 1; done
+            # Start calibre-server
+            exec /usr/bin/calibre-server \
+              --port 8081 \
+              --listen-on 0.0.0.0 \
+              --enable-local-write \
+              --url-prefix /calibre \
+              /books
         ports:
         - containerPort: 8081
         env:
@@ -38,8 +57,6 @@ spec:
           value: "0"
         - name: TZ
           value: "Europe/Berlin"
-        - name: CLI_ARGS
-          value: "calibre-server --port 8081 --userdb /config/users.sqlite --enable-local-write /books"
         volumeMounts:
         - name: config
           mountPath: /config
@@ -65,6 +82,7 @@ spec:
   - port: 8081
     targetPort: 8081
 ---
+# OPDS endpoint (ohne Authelia)
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -80,7 +98,7 @@ spec:
   - host: calibre.pxldi.de
     http:
       paths:
-      - path: /opds
+      - path: /calibre/opds
         pathType: Prefix
         backend:
           service:
@@ -90,4 +108,31 @@ spec:
   tls:
   - hosts:
     - calibre.pxldi.de
-    secretName: calibre-tls
+---
+# Web UI (mit Authelia)
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: calibre-web
+  namespace: media-stack
+  annotations:
+    traefik.ingress.kubernetes.io/router.middlewares: traefik-authelia-forwardauth@kubernetescrd
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.priority: "10"
+    traefik.ingress.kubernetes.io/router.tls.certresolver: myresolver
+spec:
+  ingressClassName: traefik
+  rules:
+  - host: calibre.pxldi.de
+    http:
+      paths:
+      - path: /calibre
+        pathType: Prefix
+        backend:
+          service:
+            name: calibre-server
+            port:
+              number: 8081
+  tls:
+  - hosts:
+    - calibre.pxldi.de
