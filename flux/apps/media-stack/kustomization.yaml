@@ -9,5 +9,5 @@ resources:
   - download-pvc.yaml
   - lidarr.yaml
   - navidrome.yaml
-  - lidify.yaml
+  - sonobarr.yaml
   - slskd.yaml

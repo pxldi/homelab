@@ -1,19 +1,7 @@
----
-apiVersion: v1
-kind: Secret
-metadata:
-  name: lidify-secrets
-  namespace: media-stack
-type: Opaque
-stringData:
-  # Get these from https://www.last.fm/api/account/create
-  last_fm_api_key: "your-lastfm-api-key-here"
-  last_fm_api_secret: "your-lastfm-api-secret-here"
----
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: lidify-config
+  name: sonobarr-config
   namespace: media-stack
 spec:
   accessModes:
@@ -26,70 +14,98 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: lidify
+  name: sonobarr
   namespace: media-stack
   labels:
-    app: lidify
+    app: sonobarr
 spec:
   replicas: 1
   strategy:
     type: Recreate
   selector:
     matchLabels:
-      app: lidify
+      app: sonobarr
   template:
     metadata:
       labels:
-        app: lidify
+        app: sonobarr
     spec:
+      securityContext:
+        fsGroup: 1000
+        runAsUser: 1000
+        runAsGroup: 1000
       containers:
-      - name: lidify
-        image: thewicklowwolf/lidify:latest
+      - name: sonobarr
+        image: ghcr.io/dodelidoo-labs/sonobarr:latest
         ports:
         - containerPort: 5000
           name: http
         env:
-        - name: PUID
-          value: "1000"
-        - name: PGID
-          value: "1000"
+        - name: secret_key
+          valueFrom:
+            secretKeyRef:
+              name: sonobarr-secrets
+              key: secret_key
+
         - name: last_fm_api_key
           valueFrom:
             secretKeyRef:
-              name: lidify-secrets
+              name: sonobarr-secrets
               key: last_fm_api_key
         - name: last_fm_api_secret
           valueFrom:
             secretKeyRef:
-              name: lidify-secrets
+              name: sonobarr-secrets
               key: last_fm_api_secret
-        - name: mode
-          value: "LastFM"
+        
         - name: lidarr_address
           value: "http://lidarr.media-stack.svc.cluster.local:8686"
+        - name: lidarr_api_key
+          valueFrom:
+            secretKeyRef:
+              name: sonobarr-secrets
+              key: lidarr_api_key
+        - name: root_folder_path
+          value: "/music/"
+        - name: quality_profile_id
+          value: "1"
+        - name: metadata_profile_id
+          value: "1"
+
+        - name: sonobarr_superadmin_username
+          value: "admin"
+        - name: sonobarr_superadmin_password
+          valueFrom:
+            secretKeyRef:
+              name: sonobarr-secrets
+              key: sonobarr_superadmin_password
+        - name: sonobarr_superadmin_display_name
+          value: "Poldi"
         volumeMounts:
         - name: config
-          mountPath: /lidify/config
+          mountPath: /sonobarr/config
+        
         resources:
           requests:
-            memory: "128Mi"
-            cpu: "50m"
+            memory: "256Mi"
+            cpu: "100m"
           limits:
-            memory: "512Mi"
-            cpu: "500m"
+            memory: "1Gi"
+            cpu: "1000m"
+      
       volumes:
       - name: config
         persistentVolumeClaim:
-          claimName: lidify-config
+          claimName: sonobarr-config
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: lidify
+  name: sonobarr
   namespace: media-stack
 spec:
   selector:
-    app: lidify
+    app: sonobarr
   ports:
   - name: http
     port: 5000
@@ -98,7 +114,7 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: lidify
+  name: sonobarr
   namespace: media-stack
   annotations:
     traefik.ingress.kubernetes.io/router.middlewares: traefik-authelia-forwardauth@kubernetescrd
@@ -107,17 +123,16 @@ metadata:
 spec:
   ingressClassName: traefik
   rules:
-  - host: lidify.pxldi.de
+  - host: sonobarr.pxldi.de
     http:
       paths:
       - path: /
         pathType: Prefix
         backend:
           service:
-            name: lidify
+            name: sonobarr
             port:
               number: 5000
   tls:
   - hosts:
-    - lidify.pxldi.de
-    certResolver: myresolver
+    - sonobarr.pxldi.de
