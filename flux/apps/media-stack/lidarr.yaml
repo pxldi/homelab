@@ -44,6 +44,8 @@ spec:
           value: "0"
         - name: TZ
           value: Europe/Berlin
+        - name: LIDARR__METADATASOURCE
+          value: "https://api.musicinfo.pro/api/v0.4/"
         volumeMounts:
         - name: config
           mountPath: /config
