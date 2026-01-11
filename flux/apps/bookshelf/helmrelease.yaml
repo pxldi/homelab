@@ -57,12 +57,17 @@ spec:
         volumeMounts:
         - name: config
           mountPath: /config
+        - name: downloads
+          mountPath: /downloads
         - name: books
           mountPath: /books
       volumes:
       - name: config
         persistentVolumeClaim:
           claimName: bookshelf-config
+      - name: downloads
+        persistentVolumeClaim:
+          claimName: bookshelf-downloads
       - name: books
         persistentVolumeClaim:
           claimName: bookshelf-books
