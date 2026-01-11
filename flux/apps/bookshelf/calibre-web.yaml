@@ -1,0 +1,122 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: calibre-web-config
+  namespace: media-stack
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: longhorn
+  resources:
+    requests:
+      storage: 2Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: calibre-web
+  namespace: media-stack
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: calibre-web
+  template:
+    metadata:
+      labels:
+        app: calibre-web
+    spec:
+      containers:
+      - name: calibre-web
+        image: lscr.io/linuxserver/calibre-web:latest
+        ports:
+        - containerPort: 8083
+        env:
+        - name: PUID
+          value: "0"
+        - name: PGID
+          value: "0"
+        - name: TZ
+          value: "Europe/Berlin"
+        volumeMounts:
+        - name: config
+          mountPath: /config
+        - name: books
+          mountPath: /books
+      volumes:
+      - name: config
+        persistentVolumeClaim:
+          claimName: calibre-web-config
+      - name: books
+        persistentVolumeClaim:
+          claimName: bookshelf-books
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: calibre-web
+  namespace: media-stack
+spec:
+  selector:
+    app: calibre-web
+  ports:
+  - port: 8083
+    targetPort: 8083
+---
+# Ingress für Web-UI
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: calibre-web-admin
+  namespace: media-stack
+  annotations:
+    annotations:
+    traefik.ingress.kubernetes.io/router.middlewares: traefik-authelia-forwardauth@kubernetescrd
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls.certresolver: myresolver
+    traefik.ingress.kubernetes.io/router.priority: "10"
+spec:
+  ingressClassName: traefik
+  rules:
+  - host: calibre.pxldi.de
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: calibre-web
+            port:
+              number: 8083
+  tls:
+  - hosts:
+    - calibre.pxldi.de
+    secretName: calibre-web-tls
+---
+# Ingress für OPDS
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: calibre-web-opds
+  namespace: media-stack
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.priority: "20"
+    traefik.ingress.kubernetes.io/router.tls.certresolver: myresolver
+spec:
+  ingressClassName: traefik
+  rules:
+  - host: calibre.pxldi.de
+    http:
+      paths:
+      - path: /opds
+        pathType: Prefix
+        backend:
+          service:
+            name: calibre-web
+            port:
+              number: 8083
+  tls:
+  - hosts:
+    - calibre.pxldi.de
+    secretName: calibre-web-tls
