@@ -1,6 +1,19 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
+  name: book-ingest
+  namespace: media-stack
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: longhorn
+  resources:
+    requests:
+      storage: 10Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
   name: cwa-config
   namespace: media-stack
 spec:
@@ -43,12 +56,17 @@ spec:
         volumeMounts:
         - name: config
           mountPath: /config
+        - name: ingest
+          mountPath: /cwa-book-ingest
         - name: library
           mountPath: /calibre-library
       volumes:
       - name: config
         persistentVolumeClaim:
           claimName: cwa-config
+      - name: ingest
+        persistentVolumeClaim:
+          claimName: book-ingest
       - name: library
         persistentVolumeClaim:
           claimName: bookshelf-books

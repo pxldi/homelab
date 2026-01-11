@@ -61,6 +61,8 @@ spec:
           mountPath: /downloads
         - name: books
           mountPath: /books
+        - name: ingest
+          mountPath: /ingest
       volumes:
       - name: config
         persistentVolumeClaim:
@@ -71,6 +73,9 @@ spec:
       - name: books
         persistentVolumeClaim:
           claimName: bookshelf-books
+      - name: ingest
+        persistentVolumeClaim:
+          claimName: book-ingest
 ---
 apiVersion: v1
 kind: Service
