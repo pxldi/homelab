@@ -45,6 +45,7 @@ spec:
         app: slskd
     spec:
       containers:
+      containers:
       # Gluetun VPN sidecar
       - name: gluetun
         image: qmcgaw/gluetun:latest
@@ -52,24 +53,22 @@ spec:
           capabilities:
             add:
               - NET_ADMIN
-        envFrom:
-        - secretRef:
-            name: slskd-vpn-config
         env:
+        - name: VPN_SERVICE_PROVIDER
+          value: "custom"
+        - name: VPN_TYPE
+          value: "wireguard"
         - name: FIREWALL_OUTBOUND_SUBNETS
           value: "192.168.0.0/16,10.0.0.0/8"
         - name: TZ
           value: "Europe/Berlin"
-        - name: VPN_PORT_FORWARDING
-          value: "on"
-        - name: VPN_PORT_FORWARDING_PROVIDER
-          value: "protonvpn"
         ports:
         - containerPort: 8888
           name: http-proxy
         volumeMounts:
-        - name: gluetun-config
-          mountPath: /gluetun
+        - name: wireguard-config
+          mountPath: /gluetun/wireguard
+          readOnly: true
         resources:
           requests:
             memory: "128Mi"
@@ -93,12 +92,12 @@ spec:
         - name: SLSKD_SLSK_USERNAME
           valueFrom:
             secretKeyRef:
-              name: slskd-vpn-config
+              name: slskd-soulseek-creds
               key: SLSKD_SLSK_USERNAME
         - name: SLSKD_SLSK_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: slskd-vpn-config
+              name: slskd-soulseek-creds
               key: SLSKD_SLSK_PASSWORD
         - name: SLSKD_REMOTE_CONFIGURATION
           value: "true"
@@ -118,8 +117,9 @@ spec:
             cpu: "2000m"
       
       volumes:
-      - name: gluetun-config
-        emptyDir: {}
+      - name: wireguard-config
+        secret:
+          secretName: slskd-wireguard-config
       - name: config
         persistentVolumeClaim:
           claimName: slskd-config
