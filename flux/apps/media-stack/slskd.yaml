@@ -106,7 +106,7 @@ spec:
         - name: config
           mountPath: /app
         - name: downloads
-          mountPath: /var/slskd/downloads
+          mountPath: /app/downloads
         - name: music
           mountPath: /music
         resources:
@@ -126,7 +126,7 @@ spec:
           claimName: slskd-config
       - name: downloads
         persistentVolumeClaim:
-          claimName: slskd-downloads
+          claimName: downloads-pvc
       - name: music
         persistentVolumeClaim:
           claimName: music-library
