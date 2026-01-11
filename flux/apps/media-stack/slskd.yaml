@@ -101,7 +101,7 @@ spec:
               name: slskd-soulseek-creds
               key: SLSKD_SLSK_PASSWORD
         - name: SLSKD_REMOTE_CONFIGURATION
-          value: "false"
+          value: "true"
         volumeMounts:
         - name: config
           mountPath: /app
