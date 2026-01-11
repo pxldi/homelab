@@ -57,6 +57,8 @@ spec:
           value: "custom"
         - name: VPN_TYPE
           value: "wireguard"
+        - name: FIREWALL_INPUT_PORTS
+          value: "5030"
         - name: FIREWALL_OUTBOUND_SUBNETS
           value: "192.168.0.0/16,10.0.0.0/8"
         - name: TZ
@@ -87,7 +89,7 @@ spec:
         - name: SLSKD_SLSK_LISTEN_PORT
           value: "50300"
         - name: SLSKD_NO_AUTH
-          value: "false"
+          value: "true"
         - name: SLSKD_SLSK_USERNAME
           valueFrom:
             secretKeyRef:
@@ -152,7 +154,7 @@ metadata:
   annotations:
     traefik.ingress.kubernetes.io/router.middlewares: traefik-authelia-forwardauth@kubernetescrd
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
-    traefik.ingress.kubernetes.io/router.tls.certresolver: myresolver
+    traefik.ingress.kubernetes.io/router.entrypoints: web
 spec:
   ingressClassName: traefik
   rules:
@@ -166,6 +168,3 @@ spec:
             name: slskd
             port:
               number: 5030
-  tls:
-  - hosts:
-    - slskd.pxldi.de
