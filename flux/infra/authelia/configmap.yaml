@@ -59,7 +59,7 @@ data:
         - domain: "sabnzbd.pxldi.de"
           policy: two_factor
         - domain: "slskd.pxldi.de"
-        policy: two_factor
+          policy: two_factor
         - domain: "longhorn.pxldi.de"
           policy: two_factor
         - domain: "homepage.pxldi.de"
