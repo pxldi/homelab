@@ -43,17 +43,12 @@ spec:
         volumeMounts:
         - name: config
           mountPath: /config
-        - name: ingest
-          mountPath: /cwa-book-ingest
         - name: library
           mountPath: /calibre-library
       volumes:
       - name: config
         persistentVolumeClaim:
           claimName: cwa-config
-      - name: ingest
-        persistentVolumeClaim:
-          claimName: downloads-pvc
       - name: library
         persistentVolumeClaim:
           claimName: bookshelf-books
