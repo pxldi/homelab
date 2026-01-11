@@ -154,7 +154,7 @@ metadata:
   annotations:
     traefik.ingress.kubernetes.io/router.middlewares: traefik-authelia-forwardauth@kubernetescrd
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
-    traefik.ingress.kubernetes.io/router.entrypoints: web
+    traefik.ingress.kubernetes.io/router.tls.certresolver: myresolver
 spec:
   ingressClassName: traefik
   rules:
