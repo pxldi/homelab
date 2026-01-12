@@ -1,7 +1,20 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: calibre-web-config
+  name: book-ingest
+  namespace: media-stack
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: longhorn
+  resources:
+    requests:
+      storage: 10Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: cwa-config
   namespace: media-stack
 spec:
   accessModes:
@@ -14,21 +27,21 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: calibre-web
+  name: calibre-web-automated
   namespace: media-stack
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: calibre-web
+      app: cwa
   template:
     metadata:
       labels:
-        app: calibre-web
+        app: cwa
     spec:
       containers:
-      - name: calibre-web
-        image: lscr.io/linuxserver/calibre-web:latest
+      - name: cwa
+        image: crocodilestick/calibre-web-automated:dev
         ports:
         - containerPort: 8083
         env:
@@ -38,43 +51,81 @@ spec:
           value: "0"
         - name: TZ
           value: "Europe/Berlin"
+        - name: NETWORK_SHARE_MODE
+          value: "false"
         volumeMounts:
         - name: config
           mountPath: /config
-        - name: books
-          mountPath: /books
+        - name: ingest
+          mountPath: /cwa-book-ingest
+        - name: library
+          mountPath: /calibre-library
       volumes:
       - name: config
         persistentVolumeClaim:
-          claimName: calibre-web-config
-      - name: books
+          claimName: cwa-config
+      - name: ingest
+        persistentVolumeClaim:
+          claimName: book-ingest
+      - name: library
         persistentVolumeClaim:
           claimName: bookshelf-books
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: calibre-web
+  name: cwa
   namespace: media-stack
 spec:
   selector:
-    app: calibre-web
+    app: cwa
   ports:
   - port: 8083
     targetPort: 8083
 ---
-# Ingress für Web-UI
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: calibre-web-admin
+  name: cwa-opds
   namespace: media-stack
   annotations:
-    annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.priority: "20"
+    traefik.ingress.kubernetes.io/router.tls.certresolver: myresolver
+spec:
+  ingressClassName: traefik
+  rules:
+  - host: opds.pxldi.de
+    http:
+      paths:
+      - path: /opds
+        pathType: Prefix
+        backend:
+          service:
+            name: cwa
+            port:
+              number: 8083
+      - path: /kosync
+        pathType: Prefix
+        backend:
+          service:
+            name: cwa
+            port:
+              number: 8083
+  tls:
+  - hosts:
+    - opds.pxldi.de
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: cwa-web
+  namespace: media-stack
+  annotations:
     traefik.ingress.kubernetes.io/router.middlewares: traefik-authelia-forwardauth@kubernetescrd
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
-    traefik.ingress.kubernetes.io/router.tls.certresolver: myresolver
     traefik.ingress.kubernetes.io/router.priority: "10"
+    traefik.ingress.kubernetes.io/router.tls.certresolver: myresolver
 spec:
   ingressClassName: traefik
   rules:
@@ -85,38 +136,9 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: calibre-web
+            name: cwa
             port:
               number: 8083
   tls:
   - hosts:
     - calibre.pxldi.de
-    secretName: calibre-web-tls
----
-# Ingress für OPDS
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: calibre-web-opds
-  namespace: media-stack
-  annotations:
-    traefik.ingress.kubernetes.io/router.entrypoints: websecure
-    traefik.ingress.kubernetes.io/router.priority: "20"
-    traefik.ingress.kubernetes.io/router.tls.certresolver: myresolver
-spec:
-  ingressClassName: traefik
-  rules:
-  - host: calibre.pxldi.de
-    http:
-      paths:
-      - path: /opds
-        pathType: Prefix
-        backend:
-          service:
-            name: calibre-web
-            port:
-              number: 8083
-  tls:
-  - hosts:
-    - calibre.pxldi.de
-    secretName: calibre-web-tls
