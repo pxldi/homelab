@@ -4,7 +4,7 @@ namespace: booklore
 resources:
   - namespace.yaml
   - pvc.yaml
-  - secret.yaml
+  - secret.enc.yaml
   - configmap.yaml
   - helmrelease.yaml
   - ingress.yaml
