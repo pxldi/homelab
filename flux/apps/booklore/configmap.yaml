@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: booklore-config
+  namespace: booklore
+data:
+  TZ: "Europe/Berlin"
+  BOOKLORE_PORT: "6060"
+  DATABASE_URL: "jdbc:mariadb://mariadb:3306/booklore"
+  DB_USER: "booklore"
+  MYSQL_DATABASE: "booklore"
+  MYSQL_USER: "booklore"

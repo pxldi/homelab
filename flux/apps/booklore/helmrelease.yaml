@@ -1,0 +1,187 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mariadb
+  namespace: booklore
+spec:
+  ports:
+    - port: 3306
+      targetPort: 3306
+  selector:
+    app: mariadb
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mariadb
+  namespace: booklore
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: mariadb
+  template:
+    metadata:
+      labels:
+        app: mariadb
+    spec:
+      containers:
+      - name: mariadb
+        image: lscr.io/linuxserver/mariadb:11.4.5
+        env:
+        - name: PUID
+          value: "1000"
+        - name: PGID
+          value: "1000"
+        - name: TZ
+          valueFrom:
+            configMapKeyRef:
+              name: booklore-config
+              key: TZ
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: booklore-secrets
+              key: MYSQL_ROOT_PASSWORD
+        - name: MYSQL_DATABASE
+          valueFrom:
+            configMapKeyRef:
+              name: booklore-config
+              key: MYSQL_DATABASE
+        - name: MYSQL_USER
+          valueFrom:
+            configMapKeyRef:
+              name: booklore-config
+              key: MYSQL_USER
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: booklore-secrets
+              key: MYSQL_PASSWORD
+        ports:
+        - containerPort: 3306
+        volumeMounts:
+        - name: config
+          mountPath: /config
+        livenessProbe:
+          exec:
+            command:
+            - mariadb-admin
+            - ping
+            - -h
+            - localhost
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          exec:
+            command:
+            - mariadb-admin
+            - ping
+            - -h
+            - localhost
+          initialDelaySeconds: 5
+          periodSeconds: 5
+      volumes:
+      - name: config
+        persistentVolumeClaim:
+          claimName: mariadb-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: booklore
+  namespace: booklore
+spec:
+  ports:
+    - port: 6060
+      targetPort: 6060
+  selector:
+    app: booklore
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: booklore
+  namespace: booklore
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: booklore
+  template:
+    metadata:
+      labels:
+        app: booklore
+    spec:
+      initContainers:
+      - name: wait-for-db
+        image: busybox:1.36
+        command: ['sh', '-c', 'until nc -z mariadb 3306; do echo waiting for mariadb; sleep 2; done;']
+      containers:
+      - name: booklore
+        image: booklore/booklore:latest
+        env:
+        - name: USER_ID
+          value: "0"
+        - name: GROUP_ID
+          value: "0"
+        - name: TZ
+          valueFrom:
+            configMapKeyRef:
+              name: booklore-config
+              key: TZ
+        - name: DATABASE_URL
+          valueFrom:
+            configMapKeyRef:
+              name: booklore-config
+              key: DATABASE_URL
+        - name: DATABASE_USERNAME
+          valueFrom:
+            configMapKeyRef:
+              name: booklore-config
+              key: DB_USER
+        - name: DATABASE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: booklore-secrets
+              key: DB_PASSWORD
+        - name: BOOKLORE_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: booklore-config
+              key: BOOKLORE_PORT
+        ports:
+        - containerPort: 6060
+        volumeMounts:
+        - name: data
+          mountPath: /app/data
+        - name: books
+          mountPath: /books
+        - name: bookdrop
+          mountPath: /bookdrop
+        livenessProbe:
+          httpGet:
+            path: /api/v1/healthcheck
+            port: 6060
+          initialDelaySeconds: 60
+          periodSeconds: 60
+        readinessProbe:
+          httpGet:
+            path: /api/v1/healthcheck
+            port: 6060
+          initialDelaySeconds: 30
+          periodSeconds: 10
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: booklore-data
+      - name: books
+        persistentVolumeClaim:
+          claimName: booklore-books
+      - name: bookdrop
+        persistentVolumeClaim:
+          claimName: booklore-bookdrop

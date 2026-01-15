@@ -1,0 +1,51 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: booklore-data
+  namespace: booklore
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: longhorn-dual-disk
+  resources:
+    requests:
+      storage: 10Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: booklore-books
+  namespace: booklore
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: longhorn-encrypted-dual-disk
+  resources:
+    requests:
+      storage: 200Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: booklore-bookdrop
+  namespace: booklore
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: longhorn-dual-disk
+  resources:
+    requests:
+      storage: 20Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mariadb-config
+  namespace: booklore
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: longhorn-dual-disk
+  resources:
+    requests:
+      storage: 5Gi
