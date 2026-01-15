@@ -68,6 +68,8 @@ data:
           policy: two_factor
         - domain: "calibre.pxldi.de"
           policy: two_factor
+        - domain: "books.pxldi.de"
+          policy: two_factor
 
         - domain: "prometheus.pxldi.de"
           policy: two_factor
