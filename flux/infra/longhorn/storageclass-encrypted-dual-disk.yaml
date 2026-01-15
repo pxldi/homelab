@@ -9,7 +9,6 @@ allowVolumeExpansion: true
 parameters:
   numberOfReplicas: "2"
   staleReplicaTimeout: "2880"
-  fromBackup: ""
   encrypted: "true"
   csi.storage.k8s.io/provisioner-secret-name: "longhorn-crypto"
   csi.storage.k8s.io/provisioner-secret-namespace: "longhorn-system"
