@@ -2,7 +2,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: book-ingest
-  namespace: media-stack
+  namespace: books
 spec:
   accessModes:
     - ReadWriteOnce
@@ -15,7 +15,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: cwa-config
-  namespace: media-stack
+  namespace: books
 spec:
   accessModes:
     - ReadWriteOnce
@@ -28,7 +28,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: calibre-web-automated
-  namespace: media-stack
+  namespace: books
 spec:
   replicas: 1
   selector:
@@ -75,7 +75,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: cwa
-  namespace: media-stack
+  namespace: books
 spec:
   selector:
     app: cwa
@@ -87,7 +87,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: cwa-opds
-  namespace: media-stack
+  namespace: books
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
     traefik.ingress.kubernetes.io/router.priority: "20"
@@ -120,7 +120,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: cwa-web
-  namespace: media-stack
+  namespace: books
   annotations:
     traefik.ingress.kubernetes.io/router.middlewares: traefik-authelia-forwardauth@kubernetescrd
     traefik.ingress.kubernetes.io/router.entrypoints: websecure

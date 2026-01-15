@@ -2,7 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: booklore
-  namespace: booklore
+  namespace: books
   annotations:
     traefik.ingress.kubernetes.io/router.middlewares: traefik-authelia-forwardauth@kubernetescrd
     traefik.ingress.kubernetes.io/router.entrypoints: websecure

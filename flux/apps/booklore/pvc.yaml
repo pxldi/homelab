@@ -2,7 +2,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: booklore-data
-  namespace: booklore
+  namespace: books
 spec:
   accessModes:
     - ReadWriteOnce
@@ -15,7 +15,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: booklore-books
-  namespace: booklore
+  namespace: books
 spec:
   accessModes:
     - ReadWriteOnce
@@ -28,7 +28,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: booklore-bookdrop
-  namespace: booklore
+  namespace: books
 spec:
   accessModes:
     - ReadWriteOnce
@@ -41,7 +41,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: mariadb-config
-  namespace: booklore
+  namespace: books
 spec:
   accessModes:
     - ReadWriteOnce
