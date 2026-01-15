@@ -10,7 +10,7 @@ metadata:
 spec:
   ingressClassName: traefik
   rules:
-  - host: booklore.pxldi.de
+  - host: books.pxldi.de
     http:
       paths:
       - path: /
@@ -22,4 +22,4 @@ spec:
               number: 6060
   tls:
   - hosts:
-    - booklore.pxldi.de
+    - books.pxldi.de
