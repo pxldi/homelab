@@ -24,6 +24,19 @@ spec:
     requests:
       storage: 100Gi
 ---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: bookshelf-downloads
+  namespace: books
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: longhorn
+  resources:
+    requests:
+      storage: 10Gi
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -69,7 +82,7 @@ spec:
           claimName: bookshelf-config
       - name: downloads
         persistentVolumeClaim:
-          claimName: downloads-pvc
+          claimName: bookshelf-downloads
       - name: books
         persistentVolumeClaim:
           claimName: bookshelf-books
