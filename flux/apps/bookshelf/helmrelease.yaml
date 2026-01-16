@@ -76,6 +76,8 @@ spec:
           mountPath: /books
         - name: ingest
           mountPath: /ingest
+        - name: booklore-bookdrop
+          mountPath: /booklore-bookdrop
       volumes:
       - name: config
         persistentVolumeClaim:
@@ -89,6 +91,9 @@ spec:
       - name: ingest
         persistentVolumeClaim:
           claimName: book-ingest
+      - name: booklore-bookdrop
+        persistentVolumeClaim:
+          claimName: booklore-bookdrop
 ---
 apiVersion: v1
 kind: Service
