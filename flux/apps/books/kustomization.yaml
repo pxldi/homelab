@@ -6,5 +6,6 @@ resources:
   - pvc.yaml
   - secret.yaml
   - configmap.yaml
-  - helmrelease.yaml
+  - booklore.yaml
+  - bookshelf.yaml
   - ingress.yaml

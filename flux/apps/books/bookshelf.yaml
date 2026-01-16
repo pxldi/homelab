@@ -58,11 +58,6 @@ spec:
         ports:
         - containerPort: 8787
         env:
-        - name: HARDCOVER_AUTH
-          valueFrom:
-            secretKeyRef:
-              name: bookshelf-secrets
-              key: hardcover-token
         - name: PUID
           value: "0"
         - name: PGID
@@ -132,4 +127,3 @@ spec:
   tls:
   - hosts:
     - bookshelf.pxldi.de
-    secretName: bookshelf-tls

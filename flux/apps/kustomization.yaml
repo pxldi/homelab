@@ -10,5 +10,4 @@ resources:
   - ./nextcloud
   - ./monitoring
   - ./home-assistant
-  - ./bookshelf
-  - ./booklore
+  - ./books
