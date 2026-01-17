@@ -1,0 +1,91 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: soulsync
+  namespace: music
+  labels:
+    app: soulsync
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: soulsync
+  template:
+    metadata:
+      labels:
+        app: soulsync
+    spec:
+      containers:
+      - name: soulsync
+        image: boulderbadgedad/soulsync:latest
+        ports:
+        - containerPort: 8008
+          name: http
+        - containerPort: 8888
+          name: spotify-oauth
+        - containerPort: 8889
+          name: tidal-oauth
+        env:
+        - name: PUID
+          value: "1000"
+        - name: PGID
+          value: "1000"
+        - name: UMASK
+          value: "022"
+        - name: FLASK_ENV
+          value: "production"
+        - name: PYTHONPATH
+          value: "/app"
+        - name: SOULSYNC_CONFIG_PATH
+          value: "/app/config/config.json"
+        - name: TZ
+          value: "Europe/Berlin"
+        volumeMounts:
+        - name: config
+          mountPath: /app/config
+        - name: logs
+          mountPath: /app/logs
+        - name: data
+          mountPath: /app/data
+        - name: downloads
+          mountPath: /app/downloads
+        - name: music
+          mountPath: /music
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "500m"
+          limits:
+            memory: "2Gi"
+            cpu: "2000m"
+        livenessProbe:
+          httpGet:
+            path: /
+            port: http
+          initialDelaySeconds: 60
+          periodSeconds: 30
+          timeoutSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /
+            port: http
+          initialDelaySeconds: 30
+          periodSeconds: 10
+      volumes:
+      - name: config
+        persistentVolumeClaim:
+          claimName: soulsync-config
+      - name: logs
+        persistentVolumeClaim:
+          claimName: soulsync-logs
+      - name: data
+        persistentVolumeClaim:
+          claimName: soulsync-data
+      - name: downloads
+        persistentVolumeClaim:
+          claimName: downloads-pvc 
+      - name: music
+        persistentVolumeClaim:
+          claimName: music-library

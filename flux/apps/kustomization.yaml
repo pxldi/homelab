@@ -10,4 +10,5 @@ resources:
   - ./nextcloud
   - ./monitoring
   - ./home-assistant
-  - ./books
+  - ./media/books
+  - ./media/music
