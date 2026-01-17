@@ -63,3 +63,44 @@ spec:
   resources:
     requests:
       storage: 5Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: music-library
+  namespace: music
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: longhorn-single-replica
+  volumeName: pvc-5301018c-1348-454d-9c1e-974c1dfefd80
+  resources:
+    requests:
+      storage: 500Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: navidrome-data
+  namespace: music
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: longhorn-dual-disk
+  volumeName: pvc-0f136b3d-5d36-45a8-9f60-5865e443fef5
+  resources:
+    requests:
+      storage: 5Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: downloads-pvc
+  namespace: music
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: longhorn-single-replica
+  resources:
+    requests:
+      storage: 100Gi
