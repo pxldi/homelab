@@ -56,6 +56,9 @@ spec:
       # Slskd main container
       - name: slskd
         image: slskd/slskd:latest
+        securityContext:
+          runAsUser: 1000
+          runAsGroup: 1000
         env:
         - name: PUID
           value: "1000"
