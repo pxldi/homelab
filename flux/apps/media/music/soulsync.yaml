@@ -22,9 +22,6 @@ spec:
       containers:
       - name: soulsync
         image: boulderbadgedad/soulsync:latest
-        securityContext:
-          runAsUser: 1000
-          runAsGroup: 1000
         ports:
         - containerPort: 8008
           name: http
