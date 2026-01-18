@@ -17,6 +17,8 @@ spec:
       labels:
         app: slskd
     spec:
+      securityContext:
+        fsGroup: 1000
       containers:
       # Gluetun VPN sidecar
       - name: gluetun
@@ -55,6 +57,10 @@ spec:
       - name: slskd
         image: slskd/slskd:latest
         env:
+        - name: PUID
+          value: "1000"
+        - name: PGID
+          value: "1000"
         - name: SLSKD_HTTP_PORT
           value: "5030"
         - name: SLSKD_HTTPS_PORT
