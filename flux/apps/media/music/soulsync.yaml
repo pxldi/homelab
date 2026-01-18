@@ -19,14 +19,10 @@ spec:
     spec:
       securityContext:
         fsGroup: 1000
-        runAsUser: 1000
-        runAsGroup: 100
       containers:
       - name: soulsync
         image: boulderbadgedad/soulsync:latest
         securityContext:
-          allowPrivilegeEscalation: false
-          runAsNonRoot: true
           runAsUser: 1000
           runAsGroup: 1000
         ports:
