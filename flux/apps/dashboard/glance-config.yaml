@@ -36,7 +36,7 @@ pages:
 
   - name: Media
     columns:
-      - size: small
+      - size: full
         widgets:
           - type: monitor
             cache: 1m
@@ -50,11 +50,6 @@ pages:
                 url: https://navidrome.pxldi.de
                 check-url: http://navidrome.music.svc.cluster.local:4533
                 icon: si:navidrome
-
-          - type: monitor
-            cache: 1m
-            title: Books
-            sites:
               - title: Booklore
                 url: https://books.pxldi.de
                 icon: si:bookstack
@@ -62,8 +57,6 @@ pages:
                 url: https://bookshelf.pxldi.de
                 icon: si:bookstack
 
-      - size: small
-        widgets:
           - type: monitor
             cache: 1m
             title: Media Management
@@ -80,11 +73,6 @@ pages:
                 url: https://lidarr.pxldi.de
                 check-url: http://lidarr.media-stack.svc.cluster.local:8686
                 icon: si:lidarr
-
-          - type: monitor
-            cache: 1m
-            title: Downloads
-            sites:
               - title: Sabnzbd
                 url: https://sabnzbd.pxldi.de
                 check-url: http://sabnzbd.media-stack.svc.cluster.local:8080
@@ -95,7 +83,7 @@ pages:
 
   - name: Infrastructure
     columns:
-      - size: small
+      - size: full
         widgets:
           - type: monitor
             cache: 1m
@@ -112,8 +100,6 @@ pages:
                 url: https://immich.pxldi.de
                 icon: si:immich
 
-      - size: small
-        widgets:
           - type: monitor
             cache: 1m
             title: Network & Monitoring
@@ -133,79 +119,83 @@ pages:
 
   - name: News
     columns:
-      - size: small
+      - size: full
         widgets:
-          - type: rss
-            title: Computerbase
-            limit: 15
-            collapse-after: 8
-            feeds:
-              - url: https://www.computerbase.de/rss/news.xml
+          - type: group
+            widgets:
+              - type: rss
+                title: Computerbase
+                limit: 15
+                collapse-after: 8
+                feeds:
+                  - url: https://www.computerbase.de/rss/news.xml
 
-          - type: rss
-            title: Heise
-            limit: 15
-            collapse-after: 8
-            feeds:
-              - url: https://www.heise.de/rss/heise.rdf
+              - type: rss
+                title: Heise
+                limit: 15
+                collapse-after: 8
+                feeds:
+                  - url: https://www.heise.de/rss/heise.rdf
 
-      - size: small
+      - size: full
         widgets:
-          - type: rss
-            title: Ars Technica
-            limit: 15
-            collapse-after: 8
-            feeds:
-              - url: https://feeds.arstechnica.com/arstechnica/technology-lab
+          - type: group
+            widgets:
+              - type: rss
+                title: Ars Technica
+                limit: 15
+                collapse-after: 8
+                feeds:
+                  - url: https://feeds.arstechnica.com/arstechnica/technology-lab
 
-          - type: rss
-            title: The Verge
-            limit: 15
-            collapse-after: 8
-            feeds:
-              - url: https://www.theverge.com/rss/index.xml
+              - type: rss
+                title: The Verge
+                limit: 15
+                collapse-after: 8
+                feeds:
+                  - url: https://www.theverge.com/rss/index.xml
 
   - name: Markets
     columns:
-      - size: small
+      - size: full
         widgets:
-          - type: markets
-            title: Indices
-            markets:
-              - symbol: SPY
-                name: S&P 500
-              - symbol: DX-Y.NYB
-                name: Dollar Index
-              - symbol: ^VIX
-                name: VIX
+          - type: group
+            widgets:
+              - type: markets
+                title: Indices
+                markets:
+                  - symbol: SPY
+                    name: S&P 500
+                  - symbol: DX-Y.NYB
+                    name: Dollar Index
+                  - symbol: ^VIX
+                    name: VIX
 
-          - type: markets
-            title: Crypto
-            markets:
-              - symbol: BTC-USD
-                name: Bitcoin
-              - symbol: ETH-USD
-                name: Ethereum
-              - symbol: SOL-USD
-                name: Solana
+              - type: markets
+                title: Crypto
+                markets:
+                  - symbol: BTC-USD
+                    name: Bitcoin
+                  - symbol: ETH-USD
+                    name: Ethereum
+                  - symbol: SOL-USD
+                    name: Solana
 
-      - size: small
-        widgets:
-          - type: markets
-            title: Tech Stocks
-            sort-by: absolute-change
-            markets:
-              - symbol: NVDA
-                name: NVIDIA
-              - symbol: AAPL
-                name: Apple
-              - symbol: MSFT
-                name: Microsoft
-              - symbol: GOOGL
-                name: Google
-              - symbol: AMZN
-                name: Amazon
-              - symbol: META
-                name: Meta
-              - symbol: TSLA
-                name: Tesla
+              - type: markets
+                title: Tech Stocks
+                sort-by: absolute-change
+                markets:
+                  - symbol: NVDA
+                    name: NVIDIA
+                  - symbol: AAPL
+                    name: Apple
+                  - symbol: MSFT
+                    name: Microsoft
+                  - symbol: GOOGL
+                    name: Google
+                  - symbol: AMZN
+                    name: Amazon
+                  - symbol: META
+                    name: Meta
+                  - symbol: TSLA
+                    name: Tesla
