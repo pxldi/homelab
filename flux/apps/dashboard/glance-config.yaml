@@ -1,6 +1,5 @@
 pages:
   - name: Home
-    width: slim
     center-vertically: true
     columns:
       - size: full
@@ -15,107 +14,92 @@ pages:
 
               - type: calendar
 
-          - type: bookmarks
-            groups:
-              - title: Quick Access
-                links:
-                  - title: Gmail
-                    url: https://mail.google.com/
-                  - title: GitHub
-                    url: https://github.com/
-                  - title: Google Drive
-                    url: https://drive.google.com/
-              - title: Entertainment
-                links:
-                  - title: YouTube
-                    url: https://www.youtube.com/
-                  - title: Reddit
-                    url: https://www.reddit.com/
-                  - title: Twitch
-                    url: https://www.twitch.tv/
-
   - name: Media
     columns:
       - size: full
         widgets:
-          - type: monitor
-            cache: 1m
-            title: Streaming
-            sites:
-              - title: Jellyfin
-                url: https://jellyfin.pxldi.de
-                check-url: http://jellyfin.media-stack.svc.cluster.local:8096
-                icon: si:jellyfin
-              - title: Navidrome
-                url: https://navidrome.pxldi.de
-                check-url: http://navidrome.music.svc.cluster.local:4533
-                icon: si:navidrome
-              - title: Booklore
-                url: https://books.pxldi.de
-                icon: si:bookstack
-              - title: Bookshelf
-                url: https://bookshelf.pxldi.de
-                icon: si:bookstack
+          - type: group
+            widgets:
+              - type: monitor
+                cache: 1m
+                title: Streaming
+                sites:
+                  - title: Jellyfin
+                    url: https://jellyfin.pxldi.de
+                    check-url: http://jellyfin.media-stack.svc.cluster.local:8096
+                    icon: si:jellyfin
+                  - title: Navidrome
+                    url: https://navidrome.pxldi.de
+                    check-url: http://navidrome.music.svc.cluster.local:4533
+                    icon: si:navidrome
+                  - title: Booklore
+                    url: https://books.pxldi.de
+                    icon: si:bookstack
+                  - title: Bookshelf
+                    url: https://bookshelf.pxldi.de
+                    icon: si:bookstack
 
-          - type: monitor
-            cache: 1m
-            title: Media Management
-            sites:
-              - title: Sonarr
-                url: https://sonarr.pxldi.de
-                check-url: http://sonarr.media-stack.svc.cluster.local:8989
-                icon: si:sonarr
-              - title: Radarr
-                url: https://radarr.pxldi.de
-                check-url: http://radarr.media-stack.svc.cluster.local:7878
-                icon: si:radarr
-              - title: Lidarr
-                url: https://lidarr.pxldi.de
-                check-url: http://lidarr.media-stack.svc.cluster.local:8686
-                icon: si:lidarr
-              - title: Sabnzbd
-                url: https://sabnzbd.pxldi.de
-                check-url: http://sabnzbd.media-stack.svc.cluster.local:8080
-                icon: si:sabnzbd
-              - title: Slskd
-                url: https://slskd.pxldi.de
-                icon: si:slskd
+              - type: monitor
+                cache: 1m
+                title: Media Management
+                sites:
+                  - title: Sonarr
+                    url: https://sonarr.pxldi.de
+                    check-url: http://sonarr.media-stack.svc.cluster.local:8989
+                    icon: si:sonarr
+                  - title: Radarr
+                    url: https://radarr.pxldi.de
+                    check-url: http://radarr.media-stack.svc.cluster.local:7878
+                    icon: si:radarr
+                  - title: Lidarr
+                    url: https://lidarr.pxldi.de
+                    check-url: http://lidarr.media-stack.svc.cluster.local:8686
+                    icon: si:lidarr
+                  - title: Sabnzbd
+                    url: https://sabnzbd.pxldi.de
+                    check-url: http://sabnzbd.media-stack.svc.cluster.local:8080
+                    icon: si:sabnzbd
+                  - title: Slskd
+                    url: https://slskd.pxldi.de
+                    icon: si:slskd
 
   - name: Infrastructure
     columns:
       - size: full
         widgets:
-          - type: monitor
-            cache: 1m
-            title: Home & Storage
-            sites:
-              - title: Home Assistant
-                url: https://home.pxldi.de
-                check-url: http://home-assistant.home-assistant.svc.cluster.local:8123
-                icon: si:homeassistant
-              - title: Nextcloud
-                url: https://nextcloud.pxldi.de
-                icon: si:nextcloud
-              - title: Immich
-                url: https://immich.pxldi.de
-                icon: si:immich
+          - type: group
+            widgets:
+              - type: monitor
+                cache: 1m
+                title: Home & Storage
+                sites:
+                  - title: Home Assistant
+                    url: https://home.pxldi.de
+                    check-url: http://home-assistant.home-assistant.svc.cluster.local:8123
+                    icon: si:homeassistant
+                  - title: Nextcloud
+                    url: https://nextcloud.pxldi.de
+                    icon: si:nextcloud
+                  - title: Immich
+                    url: https://immich.pxldi.de
+                    icon: si:immich
 
-          - type: monitor
-            cache: 1m
-            title: Network & Monitoring
-            sites:
-              - title: Pihole
-                url: https://pihole.pxldi.de/admin/
-                icon: si:pihole
-              - title: Grafana
-                url: https://grafana.pxldi.de
-                icon: si:grafana
-              - title: Prometheus
-                url: https://prometheus.pxldi.de
-                icon: si:prometheus
-              - title: Recipes
-                url: https://recipes.pxldi.de
-                icon: mdi:chef-hat
+              - type: monitor
+                cache: 1m
+                title: Network & Monitoring
+                sites:
+                  - title: Pihole
+                    url: https://pihole.pxldi.de/admin/
+                    icon: si:pihole
+                  - title: Grafana
+                    url: https://grafana.pxldi.de
+                    icon: si:grafana
+                  - title: Prometheus
+                    url: https://prometheus.pxldi.de
+                    icon: si:prometheus
+                  - title: Recipes
+                    url: https://recipes.pxldi.de
+                    icon: mdi:chef-hat
 
   - name: News
     columns:
@@ -137,10 +121,6 @@ pages:
                 feeds:
                   - url: https://www.heise.de/rss/heise.rdf
 
-      - size: full
-        widgets:
-          - type: group
-            widgets:
               - type: rss
                 title: Ars Technica
                 limit: 15
