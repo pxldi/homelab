@@ -13,7 +13,8 @@ pages:
             title: Services
             sites:
               - title: Jellyfin
-                url: https://yourdomain.com/
+                url: https://jellyfin.pxldi.de
+                check-url: http://jellyfin.media-stack.svc.cluster.local:8096
                 icon: si:jellyfin
               - title: Gitea
                 url: https://yourdomain.com/
