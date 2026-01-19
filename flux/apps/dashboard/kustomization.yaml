@@ -10,4 +10,4 @@ resources:
 configMapGenerator:
   - name: glance-config
     files:
-      - glance.yml=glance-config.yml 
+      - glance.yaml=glance-config.yaml 
