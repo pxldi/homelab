@@ -1,5 +1,5 @@
 pages:
-  - name: Startpage
+  - name: Home
     width: slim
     center-vertically: true
     columns:
@@ -8,56 +8,163 @@ pages:
           - type: search
             autofocus: true
 
+          - type: group
+            widgets:
+              - type: weather
+                location: ${GLANCE_WEATHER_LOCATION}
+
+              - type: calendar
+
+          - type: bookmarks
+            groups:
+              - title: Quick Access
+                links:
+                  - title: Gmail
+                    url: https://mail.google.com/
+                  - title: GitHub
+                    url: https://github.com/
+                  - title: Google Drive
+                    url: https://drive.google.com/
+              - title: Entertainment
+                links:
+                  - title: YouTube
+                    url: https://www.youtube.com/
+                  - title: Reddit
+                    url: https://www.reddit.com/
+                  - title: Twitch
+                    url: https://www.twitch.tv/
+
+  - name: Media
+    columns:
+      - size: small
+        widgets:
           - type: monitor
             cache: 1m
-            title: Services
+            title: Streaming
             sites:
               - title: Jellyfin
                 url: https://jellyfin.pxldi.de
                 check-url: http://jellyfin.media-stack.svc.cluster.local:8096
                 icon: si:jellyfin
-              - title: Gitea
-                url: https://yourdomain.com/
-                icon: si:gitea
-              - title: qBittorrent # only for Linux ISOs, of course
-                url: https://yourdomain.com/
-                icon: si:qbittorrent
-              - title: Immich
-                url: https://yourdomain.com/
-                icon: si:immich
-              - title: AdGuard Home
-                url: https://yourdomain.com/
-                icon: si:adguard
-              - title: Vaultwarden
-                url: https://yourdomain.com/
-                icon: si:vaultwarden
+              - title: Navidrome
+                url: https://navidrome.pxldi.de
+                check-url: http://navidrome.music.svc.cluster.local:4533
+                icon: si:navidrome
 
-          - type: bookmarks
-            groups:
-              - title: General
-                links:
-                  - title: Gmail
-                    url: https://mail.google.com/mail/u/0/
-                  - title: Amazon
-                    url: https://www.amazon.com/
-                  - title: Github
-                    url: https://github.com/
-              - title: Entertainment
-                links:
-                  - title: YouTube
-                    url: https://www.youtube.com/
-                  - title: Prime Video
-                    url: https://www.primevideo.com/
-                  - title: Disney+
-                    url: https://www.disneyplus.com/
-              - title: Social
-                links:
-                  - title: Reddit
-                    url: https://www.reddit.com/
-                  - title: Twitter
-                    url: https://twitter.com/
-                  - title: Instagram
-                    url: https://www.instagram.com/
+          - type: monitor
+            cache: 1m
+            title: Books
+            sites:
+              - title: Booklore
+                url: https://books.pxldi.de
+                icon: si:bookstack
+              - title: Bookshelf
+                url: https://bookshelf.pxldi.de
+                icon: si:bookstack
+
+      - size: small
+        widgets:
+          - type: monitor
+            cache: 1m
+            title: Media Management
+            sites:
+              - title: Sonarr
+                url: https://sonarr.pxldi.de
+                check-url: http://sonarr.media-stack.svc.cluster.local:8989
+                icon: si:sonarr
+              - title: Radarr
+                url: https://radarr.pxldi.de
+                check-url: http://radarr.media-stack.svc.cluster.local:7878
+                icon: si:radarr
+              - title: Lidarr
+                url: https://lidarr.pxldi.de
+                check-url: http://lidarr.media-stack.svc.cluster.local:8686
+                icon: si:lidarr
+
+          - type: monitor
+            cache: 1m
+            title: Downloads
+            sites:
+              - title: Sabnzbd
+                url: https://sabnzbd.pxldi.de
+                check-url: http://sabnzbd.media-stack.svc.cluster.local:8080
+                icon: si:sabnzbd
+              - title: Slskd
+                url: https://slskd.pxldi.de
+                icon: si:slskd
+
+  - name: Infrastructure
+    columns:
+      - size: small
+        widgets:
+          - type: monitor
+            cache: 1m
+            title: Home & Storage
+            sites:
+              - title: Home Assistant
+                url: https://home.pxldi.de
+                check-url: http://home-assistant.home-assistant.svc.cluster.local:8123
+                icon: si:homeassistant
+              - title: Nextcloud
+                url: https://nextcloud.pxldi.de
+                icon: si:nextcloud
+              - title: Immich
+                url: https://immich.pxldi.de
+                icon: si:immich
+
+      - size: small
+        widgets:
+          - type: monitor
+            cache: 1m
+            title: Network & Monitoring
+            sites:
+              - title: Pihole
+                url: https://pihole.pxldi.de/admin/
+                icon: si:pihole
+              - title: Grafana
+                url: https://grafana.pxldi.de
+                icon: si:grafana
+              - title: Prometheus
+                url: https://prometheus.pxldi.de
+                icon: si:prometheus
+              - title: Recipes
+                url: https://recipes.pxldi.de
+                icon: mdi:chef-hat
+
+  - name: News
+    columns:
+      - size: small
+        widgets:
+          - type: rss
+            title: Computerbase
+            limit: 15
+            collapse-after: 8
+            feeds:
+              - url: https://www.computerbase.de/rss/news.xml
+
+          - type: rss
+            title: Heise
+            limit: 15
+            collapse-after: 8
+            feeds:
+              - url: https://www.heise.de/rss/heise.rdf
+
+      - size: small
+        widgets:
+          - type: rss
+            title: Ars Technica
+            limit: 15
+            collapse-after: 8
+            feeds:
+              - url: https://feeds.arstechnica.com/arstechnica/technology-lab
+
+          - type: rss
+            title: The Verge
+            limit: 15
+            collapse-after: 8
+            feeds:
+              - url: https://www.theverge.com/rss/index.xml
+
   - name: Markets
     columns:
       - size: small
@@ -69,6 +176,8 @@ pages:
                 name: S&P 500
               - symbol: DX-Y.NYB
                 name: Dollar Index
+              - symbol: ^VIX
+                name: VIX
 
           - type: markets
             title: Crypto
@@ -77,9 +186,13 @@ pages:
                 name: Bitcoin
               - symbol: ETH-USD
                 name: Ethereum
+              - symbol: SOL-USD
+                name: Solana
 
+      - size: small
+        widgets:
           - type: markets
-            title: Stocks
+            title: Tech Stocks
             sort-by: absolute-change
             markets:
               - symbol: NVDA
@@ -90,96 +203,9 @@ pages:
                 name: Microsoft
               - symbol: GOOGL
                 name: Google
-              - symbol: AMD
-                name: AMD
-              - symbol: RDDT
-                name: Reddit
               - symbol: AMZN
                 name: Amazon
-              - symbol: TSLA
-                name: Tesla
-              - symbol: INTC
-                name: Intel
               - symbol: META
                 name: Meta
-
-      - size: full
-        widgets:
-          - type: rss
-            title: News
-            style: horizontal-cards
-            feeds:
-              - url: https://feeds.bloomberg.com/markets/news.rss
-                title: Bloomberg
-              - url: https://moxie.foxbusiness.com/google-publisher/markets.xml
-                title: Fox Business
-              - url: https://moxie.foxbusiness.com/google-publisher/technology.xml
-                title: Fox Business
-
-          - type: group
-            widgets:
-              - type: reddit
-                show-thumbnails: true
-                subreddit: technology
-              - type: reddit
-                show-thumbnails: true
-                subreddit: wallstreetbets
-
-          - type: videos
-            style: grid-cards
-            collapse-after-rows: 3
-            channels:
-              - UCvSXMi2LebwJEM1s4bz5IBA # New Money
-              - UCV6KDgJskWaEckne5aPA0aQ # Graham Stephan
-              - UCAzhpt9DmG6PnHXjmJTvRGQ # Federal Reserve
-
-      - size: small
-        widgets:
-          - type: rss
-            title: News
-            limit: 30
-            collapse-after: 13
-            feeds:
-              - url: https://www.ft.com/technology?format=rss
-                title: Financial Times
-              - url: https://feeds.a.dj.com/rss/RSSMarketsMain.xml
-                title: Wall Street Journal
-  - name: Gaming
-    columns:
-      - size: small
-        widgets:
-          - type: twitch-top-games
-            limit: 20
-            collapse-after: 13
-            exclude:
-              - just-chatting
-              - pools-hot-tubs-and-beaches
-              - music
-              - art
-              - asmr
-
-      - size: full
-        widgets:
-          - type: group
-            widgets:
-              - type: reddit
-                show-thumbnails: true
-                subreddit: pcgaming
-              - type: reddit
-                subreddit: games
-
-          - type: videos
-            style: grid-cards
-            collapse-after-rows: 3
-            channels:
-              - UCNvzD7Z-g64bPXxGzaQaa4g # gameranx
-              - UCZ7AeeVbyslLM_8-nVy2B8Q # Skill Up
-              - UCHDxYLv8iovIbhrfl16CNyg # GameLinked
-              - UC9PBzalIcEQCsiIkq36PyUA # Digital Foundry
-
-      - size: small
-        widgets:
-          - type: reddit
-            subreddit: gamingnews
-            limit: 7
-            style: vertical-cards
+              - symbol: TSLA
+                name: Tesla
