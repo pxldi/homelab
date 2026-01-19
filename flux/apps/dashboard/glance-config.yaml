@@ -3,9 +3,8 @@ pages:
     columns:
       - size: small
         widgets:
-          widgets:
-          - type: calendar
-          - type: weather
-            location: ${CITY} 
-            units: metric
-            hour-format: 24h
+        - type: calendar
+        - type: weather
+          location: ${CITY} 
+          units: metric
+          hour-format: 24h
