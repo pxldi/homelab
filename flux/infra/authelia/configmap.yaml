@@ -74,6 +74,11 @@ data:
         - domain: "grafana.pxldi.de"
           policy: two_factor
 
+        - domain: "pxldi.de"
+          policy: two_factor
+        - domain: "www.pxldi.de"
+          policy: two_factor
+
   users_database.yml: |
     users:
       admin:
