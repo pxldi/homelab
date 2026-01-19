@@ -11,7 +11,7 @@ pages:
           - type: group
             widgets:
               - type: weather
-                location: ${GLANCE_WEATHER_LOCATION}
+                location: ${CITY}
 
               - type: calendar
 
