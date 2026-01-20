@@ -235,13 +235,12 @@ data:
       transform: translateY(-1px) !important;
     }
 
-    /* Header bar - rounded */
+    /* Header bar - rounded and floating */
     #information-widgets {
       background: rgba(15, 23, 42, 0.8) !important;
-      border-radius: 0 0 16px 16px !important;
-      margin: 0 1rem !important;
+      border-radius: 16px !important;
+      margin: 1rem !important;
       border: 1px solid rgba(55, 65, 81, 0.3) !important;
-      border-top: none !important;
     }
 
     /* Main container with consistent spacing */
