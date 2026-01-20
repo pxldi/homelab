@@ -217,12 +217,12 @@ data:
   bookmarks.yaml: ""
   docker.yaml: ""
   custom.css: |
-    /* Subtle dark gradient */
+    /* Subtle purple/blue gradient */
     html.dark.theme-slate body,
     html.dark.theme-slate #__next,
     html.dark.theme-slate #page_wrapper,
     html.dark.theme-slate #inner_wrapper {
-      background: linear-gradient(160deg, #0f1419 0%, #1a2332 50%, #0f1419 100%) !important;
+      background: linear-gradient(135deg, #0f1219 0%, #1a1a2e 25%, #16213e 50%, #1a1a2e 75%, #0f1219 100%) !important;
       background-attachment: fixed !important;
     }
 
@@ -235,12 +235,13 @@ data:
       transform: translateY(-1px) !important;
     }
 
-    /* Header bar - rounded and floating */
+    /* Header bar - rounded, floating, glassmorphism */
     #information-widgets {
-      background: rgba(15, 23, 42, 0.8) !important;
+      background: rgba(15, 23, 42, 0.3) !important;
+      backdrop-filter: blur(16px) !important;
       border-radius: 16px !important;
       margin: 1rem !important;
-      border: 1px solid rgba(55, 65, 81, 0.3) !important;
+      border: 1px solid rgba(55, 65, 81, 0.2) !important;
     }
 
     /* Main container with consistent spacing */
