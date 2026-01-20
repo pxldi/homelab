@@ -217,33 +217,35 @@ data:
   bookmarks.yaml: ""
   docker.yaml: ""
   custom.css: |
-    /* Clean gradient background */
+    /* Global background gradient */
     #page_container {
-      background: linear-gradient(145deg, #0f172a 0%, #1e293b 50%, #0f172a 100%) !important;
+      background: linear-gradient(160deg, #0a0f1a 0%, #1a2744 40%, #0f1829 70%, #0a0f1a 100%) !important;
       min-height: 100vh;
     }
 
-    /* Modern card styling */
+    /* Modern card styling with depth */
     .service-card, .service {
-      background: rgba(30, 41, 59, 0.8) !important;
-      border: 1px solid rgba(71, 85, 105, 0.4) !important;
+      background: rgba(22, 33, 54, 0.9) !important;
+      border: 1px solid rgba(71, 85, 105, 0.35) !important;
       border-radius: 12px !important;
       backdrop-filter: blur(8px) !important;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4), 0 1px 3px rgba(0, 0, 0, 0.3) !important;
       transition: all 0.2s ease !important;
     }
 
     .service-card:hover, .service:hover {
-      background: rgba(51, 65, 85, 0.9) !important;
-      border-color: rgba(100, 116, 139, 0.6) !important;
+      background: rgba(35, 50, 75, 0.95) !important;
+      border-color: rgba(100, 116, 139, 0.5) !important;
       transform: translateY(-2px) !important;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3) !important;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5), 0 4px 8px rgba(0, 0, 0, 0.3) !important;
     }
 
     /* Widget cards */
     .widget {
-      background: rgba(30, 41, 59, 0.6) !important;
+      background: rgba(22, 33, 54, 0.85) !important;
       border: 1px solid rgba(71, 85, 105, 0.3) !important;
       border-radius: 10px !important;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
     }
 
     /* Header bar styling */
