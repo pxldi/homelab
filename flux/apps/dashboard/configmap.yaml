@@ -7,20 +7,13 @@ metadata:
 data:
   settings.yaml: |
     title: Homelab
-    background:
-      image: https://4kwallpapers.com/images/wallpapers/nebulae-cosmic-stars-dark-blue-dark-background-digital-3840x2160-3926.jpg
-      blur: sm # sm, "", md, xl... see https://tailwindcss.com/docs/backdrop-blur
     favicon: "https://raw.githubusercontent.com/pxldi/homelab/refs/heads/main/flux/apps/dashboard/resources/house-icon.png"
     theme: dark
-    color: cyan
+    color: slate
 
     useEqualHeights: true
-    cardBlur: xl
-    headerBlur: xl
 
-    debug: true
-
-    headerStyle: boxed
+    headerStyle: clean
     hideVersion: true
 
     statusStyle: "dot"
@@ -224,6 +217,42 @@ data:
   bookmarks.yaml: ""
   docker.yaml: ""
   custom.css: |
+    /* Clean gradient background */
+    #page_container {
+      background: linear-gradient(145deg, #0f172a 0%, #1e293b 50%, #0f172a 100%) !important;
+      min-height: 100vh;
+    }
+
+    /* Modern card styling */
+    .service-card, .service {
+      background: rgba(30, 41, 59, 0.8) !important;
+      border: 1px solid rgba(71, 85, 105, 0.4) !important;
+      border-radius: 12px !important;
+      backdrop-filter: blur(8px) !important;
+      transition: all 0.2s ease !important;
+    }
+
+    .service-card:hover, .service:hover {
+      background: rgba(51, 65, 85, 0.9) !important;
+      border-color: rgba(100, 116, 139, 0.6) !important;
+      transform: translateY(-2px) !important;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3) !important;
+    }
+
+    /* Widget cards */
+    .widget {
+      background: rgba(30, 41, 59, 0.6) !important;
+      border: 1px solid rgba(71, 85, 105, 0.3) !important;
+      border-radius: 10px !important;
+    }
+
+    /* Header bar styling */
+    #information-widgets {
+      background: rgba(15, 23, 42, 0.9) !important;
+      border-bottom: 1px solid rgba(71, 85, 105, 0.3) !important;
+      backdrop-filter: blur(12px) !important;
+    }
+
     /* Main container with consistent spacing */
     #widgets-wrap {
       display: flex !important;
@@ -241,13 +270,10 @@ data:
     .information-widget-greeting {
       margin-right: 3rem !important;
       font-size: 1.5rem !important;
-      font-weight: 700 !important;
-      background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
-      -webkit-background-clip: text !important;
-      -webkit-text-fill-color: transparent !important;
-      background-clip: text !important;
-      letter-spacing: 0.05em !important;
-      text-shadow: 0 0 20px rgba(6, 182, 212, 0.3);
+      font-weight: 600 !important;
+      color: #e2e8f0 !important;
+      -webkit-text-fill-color: #e2e8f0 !important;
+      letter-spacing: 0.02em !important;
     }
 
     /* Resource containers with proper spacing */
@@ -271,6 +297,20 @@ data:
       margin-left: 3rem !important;
       display: flex !important;
       gap: 2rem !important;
+    }
+
+    /* Clean text colors */
+    .text-theme-700 {
+      color: #cbd5e1 !important;
+    }
+
+    .text-theme-500 {
+      color: #94a3b8 !important;
+    }
+
+    /* Status dots */
+    .status-dot {
+      box-shadow: 0 0 8px currentColor !important;
     }
 
   custom.js: |
