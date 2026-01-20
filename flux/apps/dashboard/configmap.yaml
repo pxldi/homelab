@@ -217,35 +217,44 @@ data:
   bookmarks.yaml: ""
   docker.yaml: ""
   custom.css: |
-    /* Global background gradient */
+    /* gradient background */
     #page_container {
-      background: linear-gradient(160deg, #0a0f1a 0%, #1a2744 40%, #0f1829 70%, #0a0f1a 100%) !important;
+      background:
+        radial-gradient(ellipse at 20% 20%, rgba(30, 64, 115, 0.4) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 80%, rgba(45, 30, 80, 0.3) 0%, transparent 50%),
+        linear-gradient(160deg, #050810 0%, #0c1929 30%, #152238 50%, #0c1929 70%, #050810 100%) !important;
       min-height: 100vh;
     }
 
-    /* Modern card styling with depth */
+    /* Modern card styling with strong depth */
     .service-card, .service {
-      background: rgba(22, 33, 54, 0.9) !important;
-      border: 1px solid rgba(71, 85, 105, 0.35) !important;
-      border-radius: 12px !important;
-      backdrop-filter: blur(8px) !important;
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4), 0 1px 3px rgba(0, 0, 0, 0.3) !important;
-      transition: all 0.2s ease !important;
+      background: rgba(15, 25, 45, 0.95) !important;
+      border: 1px solid rgba(80, 100, 130, 0.3) !important;
+      border-radius: 14px !important;
+      backdrop-filter: blur(10px) !important;
+      box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.6),
+        0 2px 8px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.03) !important;
+      transition: all 0.25s ease !important;
     }
 
     .service-card:hover, .service:hover {
-      background: rgba(35, 50, 75, 0.95) !important;
-      border-color: rgba(100, 116, 139, 0.5) !important;
-      transform: translateY(-2px) !important;
-      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5), 0 4px 8px rgba(0, 0, 0, 0.3) !important;
+      background: rgba(25, 40, 65, 0.98) !important;
+      border-color: rgba(100, 130, 170, 0.4) !important;
+      transform: translateY(-3px) !important;
+      box-shadow:
+        0 16px 48px rgba(0, 0, 0, 0.7),
+        0 8px 16px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
     }
 
     /* Widget cards */
     .widget {
-      background: rgba(22, 33, 54, 0.85) !important;
-      border: 1px solid rgba(71, 85, 105, 0.3) !important;
-      border-radius: 10px !important;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+      background: rgba(15, 25, 45, 0.9) !important;
+      border: 1px solid rgba(80, 100, 130, 0.25) !important;
+      border-radius: 12px !important;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5) !important;
     }
 
     /* Header bar styling */
