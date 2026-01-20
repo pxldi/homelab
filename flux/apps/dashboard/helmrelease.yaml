@@ -101,6 +101,31 @@ spec:
                   secretKeyRef:
                     name: homepage-secret
                     key: FH_API_KEY
+              - name: HOMEPAGE_VAR_NAVIDROME_USER
+                valueFrom:
+                  secretKeyRef:
+                    name: homepage-secret
+                    key: NAVIDROME_USER
+              - name: HOMEPAGE_VAR_NAVIDROME_TOKEN
+                valueFrom:
+                  secretKeyRef:
+                    name: homepage-secret
+                    key: NAVIDROME_TOKEN
+              - name: HOMEPAGE_VAR_NAVIDROME_SALT
+                valueFrom:
+                  secretKeyRef:
+                    name: homepage-secret
+                    key: NAVIDROME_SALT
+              - name: HOMEPAGE_VAR_SLSKD_API_KEY
+                valueFrom:
+                  secretKeyRef:
+                    name: homepage-secret
+                    key: SLSKD_API_KEY
+              - name: HOMEPAGE_VAR_HOMEASSISTANT_API_KEY
+                valueFrom:
+                  secretKeyRef:
+                    name: homepage-secret
+                    key: HOMEASSISTANT_API_KEY
             envFrom:
               - secretRef:
                   name: homepage-secret

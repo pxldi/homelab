@@ -22,30 +22,42 @@ data:
       finnhub: {{HOMEPAGE_VAR_FH_API_KEY}}
 
     layout:
-      Row1:
+      Infrastructure:
         header: false
         style: row
         columns: 3
-      Row2:
+      Video:
         header: false
         style: row
         columns: 4
-      Row3:
-        header: false
-        style: row
-        columns: 3
-      Row4:
-        header: false
-        style: row
-        columns: 4
-      Row5:
-        header: false
-        style: row
-        columns: 4
-      Row6:
+      Music:
         header: false
         style: row
         columns: 2
+      Services:
+        header: false
+        style: row
+        columns: 3
+      Apps:
+        header: false
+        style: row
+        columns: 4
+      Utilities:
+        header: false
+        style: row
+        columns: 2
+      Links:
+        header: false
+        style: row
+        columns: 4
+      Financial:
+        header: false
+        style: row
+        columns: 2
+      News:
+        header: false
+        style: row
+        columns: 4
   kubernetes.yaml: |
     mode: cluster
   widgets.yaml: |
@@ -82,7 +94,7 @@ data:
         units: metric
         cache: 5
   services.yaml: |
-    - Row1:
+    - Infrastructure:
       - Traefik:
           icon: traefik.png
           href: https://traefik.pxldi.de
@@ -108,7 +120,7 @@ data:
             type: prometheus
             url: http://kube-prometheus-stack-prometheus.monitoring:9090
 
-    - Row2:
+    - Video:
       - Sabnzbd:
           icon: sabnzbd.png
           href: https://sabnzbd.pxldi.de
@@ -142,7 +154,27 @@ data:
             url: http://jellyfin.media-stack:8096
             key: {{HOMEPAGE_VAR_JELLYFIN_API_KEY}}
 
-    - Row3:
+    - Music:
+      - Navidrome:
+          icon: navidrome.png
+          href: https://navidrome.pxldi.de
+          ping: https://navidrome.pxldi.de
+          widget:
+            type: navidrome
+            url: http://navidrome.media-stack:4533
+            user: {{HOMEPAGE_VAR_NAVIDROME_USER}}
+            token: {{HOMEPAGE_VAR_NAVIDROME_TOKEN}}
+            salt: {{HOMEPAGE_VAR_NAVIDROME_SALT}}
+      - slskd:
+          icon: slskd.png
+          href: https://slskd.pxldi.de
+          ping: https://slskd.pxldi.de
+          widget:
+            type: slskd
+            url: http://slskd.media-stack:5030
+            key: {{HOMEPAGE_VAR_SLSKD_API_KEY}}
+
+    - Services:
       - Pihole:
           icon: pi-hole.png
           href: https://pihole.pxldi.de/admin/
@@ -169,7 +201,40 @@ data:
             key: {{HOMEPAGE_VAR_NEXTCLOUD_API_KEY}}
             fields: ["freespace", "activeusers", "numfiles", "numshares"]
 
-    - Row4:
+    - Apps:
+      - HomeAssistant:
+          icon: home-assistant.png
+          href: https://home.pxldi.de
+          ping: https://home.pxldi.de
+          widget:
+            type: homeassistant
+            url: http://home-assistant.home-assistant:8123
+            key: {{HOMEPAGE_VAR_HOMEASSISTANT_API_KEY}}
+      - Immich:
+          icon: immich.png
+          href: https://immich.pxldi.de
+          ping: https://immich.pxldi.de
+          widget:
+            type: immich
+            url: http://immich.immich:3001
+            key: {{HOMEPAGE_VAR_IMMICH_API_KEY}}
+      - Kavita:
+          icon: kavita.png
+          description: Not deployed yet
+      - Booklore:
+          icon: booklore.png
+          href: https://books.pxldi.de
+          ping: https://books.pxldi.de
+
+    - Utilities:
+      - SearXNG:
+          icon: searxng.png
+          description: Not deployed yet
+      - Overleaf:
+          icon: overleaf.png
+          href: https://overleaf.com
+
+    - Links:
       - Homelab Repo:
           icon: github.png
           href: https://github.com/pxldi/homelab
@@ -183,17 +248,7 @@ data:
           icon: dashboard-icons.png
           href: https://dashboardicons.com/
 
-    - Row5:
-      - HomeAssistant:
-          icon: home-assistant.png
-      - Kavita:
-          icon: kavita.png
-      - SearXNG:
-          icon: searxng.png
-      - Overleaf:
-          icon: overleaf.png
-
-    - Row6:
+    - Financial:
       - Stocks:
           icon: google-finance.png
           widget:
@@ -213,6 +268,36 @@ data:
             symbols: [BTC, ETH, XRP, SOL, DOGE]
             key: {{HOMEPAGE_VAR_CMC_API_KEY}}
             defaultinterval: 7d
+
+    - News:
+      - Ars Technica:
+          icon: arstechnica.png
+          href: https://arstechnica.com
+          widget:
+            type: rss
+            url: https://feeds.arstechnica.com/arstechnica/index
+            target: _blank
+      - Computerbase:
+          icon: computerbase.png
+          href: https://www.computerbase.de
+          widget:
+            type: rss
+            url: https://www.computerbase.de/rss/news.xml
+            target: _blank
+      - The Verge:
+          icon: theverge.png
+          href: https://www.theverge.com
+          widget:
+            type: rss
+            url: https://www.theverge.com/rss/index.xml
+            target: _blank
+      - Heise:
+          icon: heise.png
+          href: https://www.heise.de
+          widget:
+            type: rss
+            url: https://www.heise.de/rss/heise-atom.xml
+            target: _blank
 
   bookmarks.yaml: ""
   docker.yaml: ""
