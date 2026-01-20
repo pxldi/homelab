@@ -4,7 +4,6 @@ resources:
   - ./namespaces
   - ./immich
   - ./media-stack
-  - ./homepage
   - ./pihole
   - ./tandoor
   - ./nextcloud

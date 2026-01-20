@@ -3,11 +3,7 @@ kind: Kustomization
 namespace: dashboard
 resources:
   - namespace.yaml
+  - rbac.yaml
+  - configmap.yaml
+  - helmrelease.yaml
   - secret.yaml
-  - glance.yaml
-  - service.yaml
-  - ingress.yaml
-configMapGenerator:
-  - name: glance-config
-    files:
-      - glance.yml=glance-config.yaml 

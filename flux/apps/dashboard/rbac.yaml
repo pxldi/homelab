@@ -23,7 +23,7 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name: homepage
-    namespace: homepage
+    namespace: dashboard
 roleRef:
   kind: ClusterRole
   name: homepage-clusterrole
@@ -33,4 +33,4 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: homepage
-  namespace: homepage
+  namespace: dashboard

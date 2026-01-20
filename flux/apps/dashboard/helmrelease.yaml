@@ -2,7 +2,7 @@ apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: homepage
-  namespace: homepage
+  namespace: dashboard
 spec:
   interval: 30m
   chart:
@@ -30,7 +30,7 @@ spec:
               - name: TZ
                 value: Etc/UTC
               - name: HOMEPAGE_ALLOWED_HOSTS
-                value: homepage.pxldi.de
+                value: pxldi.de,www.pxldi.de
               - name: HOMEPAGE_VAR_CITY_NAME_ENV
                 valueFrom:
                   secretKeyRef:
@@ -128,7 +128,14 @@ spec:
           traefik.ingress.kubernetes.io/router.entrypoints: websecure
           traefik.ingress.kubernetes.io/router.tls.certresolver: myresolver
         hosts:
-          - host: homepage.pxldi.de
+          - host: pxldi.de
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  identifier: app
+                  port: http
+          - host: www.pxldi.de
             paths:
               - path: /
                 pathType: Prefix
@@ -137,7 +144,8 @@ spec:
                   port: http
         tls:
           - hosts:
-              - homepage.pxldi.de
+              - pxldi.de
+              - www.pxldi.de
     persistence:
       config:
         type: configMap
@@ -166,7 +174,7 @@ spec:
         globalMounts:
           - path: /mnt/hdd1
             readOnly: true
-      
+
       hdd2:
         type: hostPath
         hostPath: /var/mnt/hdd2
@@ -174,7 +182,7 @@ spec:
         globalMounts:
           - path: /mnt/hdd2
             readOnly: true
-      
+
       nvme:
         type: hostPath
         hostPath: /var

@@ -3,14 +3,14 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: homepage
-  namespace: homepage
+  namespace: dashboard
 data:
   settings.yaml: |
     title: Homelab
     background:
       image: https://4kwallpapers.com/images/wallpapers/nebulae-cosmic-stars-dark-blue-dark-background-digital-3840x2160-3926.jpg
       blur: sm # sm, "", md, xl... see https://tailwindcss.com/docs/backdrop-blur
-    favicon: "https://raw.githubusercontent.com/pxldi/homelab/refs/heads/main/flux/apps/homepage/resources/house-icon.png"
+    favicon: "https://raw.githubusercontent.com/pxldi/homelab/refs/heads/main/flux/apps/dashboard/resources/house-icon.png"
     theme: dark
     color: cyan
 
@@ -57,23 +57,23 @@ data:
     mode: cluster
   widgets.yaml: |
     - logo:
-        icon: "https://raw.githubusercontent.com/pxldi/homelab/refs/heads/main/flux/apps/homepage/resources/house-icon.png"
+        icon: "https://raw.githubusercontent.com/pxldi/homelab/refs/heads/main/flux/apps/dashboard/resources/house-icon.png"
 
     - greeting:
         text_size: 3x1
         text: Homelab
-    
+
     - resources:
         cpu: true
         memory: true
-        
+
     - resources:
         expanded: true
         disk:
           - /mnt/nvme
           - /mnt/hdd1
           - /mnt/hdd2
-    
+
     - datetime:
         text_size: xl
         format:
@@ -81,7 +81,7 @@ data:
           dateStyle: medium
           timeStyle: medium
           hourCycle: h23
-    
+
     - openmeteo:
         label: {{HOMEPAGE_VAR_CITY_NAME_ENV}}
         latitude: {{HOMEPAGE_VAR_CITY_LATITUDE_ENV}}
@@ -91,7 +91,7 @@ data:
   services.yaml: |
     - Row1:
       - Traefik:
-          icon: traefik.png 
+          icon: traefik.png
           href: https://traefik.pxldi.de
           ping: https://traefik.pxldi.de
           widget:
@@ -148,7 +148,7 @@ data:
             type: jellyfin
             url: http://jellyfin.media-stack:8096
             key: {{HOMEPAGE_VAR_JELLYFIN_API_KEY}}
-    
+
     - Row3:
       - Pihole:
           icon: pi-hole.png
@@ -199,7 +199,7 @@ data:
           icon: searxng.png
       - Overleaf:
           icon: overleaf.png
-    
+
     - Row6:
       - Stocks:
           icon: google-finance.png
@@ -232,12 +232,12 @@ data:
       padding: 0 1rem !important;
       gap: 0 !important;
     }
-    
+
     /* Logo and greeting close together */
     .information-widget-logo {
       margin-right: 0.75rem !important;
     }
-    
+
     .information-widget-greeting {
       margin-right: 3rem !important;
       font-size: 1.5rem !important;
@@ -249,23 +249,23 @@ data:
       letter-spacing: 0.05em !important;
       text-shadow: 0 0 20px rgba(6, 182, 212, 0.3);
     }
-    
+
     /* Resource containers with proper spacing */
     .widget-container:has(.information-widget-resource) {
       display: flex !important;
       margin-right: 2rem !important;
     }
-    
+
     .widget-container:has(.information-widget-resource) > div {
       display: flex !important;
       gap: 1rem !important;
     }
-    
+
     /* Individual resource items */
     .information-widget-resource {
       margin: 0 !important;
     }
-    
+
     /* Datetime/weather with consistent spacing */
     #information-widgets-right {
       margin-left: 3rem !important;
