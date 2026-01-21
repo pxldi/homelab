@@ -1,0 +1,110 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: glance-proxy-script
+  namespace: freshrss
+data:
+  app.py: |
+    from flask import Flask, request, jsonify
+    import requests
+    import os
+
+    app = Flask(__name__)
+
+    FRESHRSS_URL = os.getenv("FRESHRSS_URL", "http://freshrss.freshrss.svc.cluster.local")
+    USER = os.getenv("FRESHRSS_USER")
+    PASS = os.getenv("FRESHRSS_PASS")
+
+    def get_freshrss_data():
+        try:
+            login_url = f"{FRESHRSS_URL}/api/greader.php/accounts/ClientLogin"
+            res = requests.post(login_url, data={'Email': USER, 'Passwd': PASS}, timeout=5)
+            if res.status_code != 200:
+                return []
+            auth = res.text.split('Auth=')[1].strip()
+            
+            list_url = f"{FRESHRSS_URL}/api/greader.php/reader/api/0/stream/contents/user/-/state/com.google/reading-list?xt=user/-/state/com.google/read"
+            headers = {'Authorization': f'GoogleLogin auth={auth}'}
+            items_res = requests.get(list_url, headers=headers, timeout=5).json()
+            return items_res.get('items', [])
+        except Exception as e:
+            print(f"Error: {e}")
+            return []
+
+    @app.route('/freshrss/glance')
+    def glance_api():
+        feed_filter = request.args.get('feed')
+        raw_items = get_freshrss_data()
+        
+        glance_items = []
+        for item in raw_items:
+            feed_name = item.get('origin', {}).get('title', 'Unknown')
+            
+            if feed_filter and feed_filter.lower() not in feed_name.lower():
+                continue
+                
+            glance_items.append({
+                "title": feed_name,
+                "subtitle": item.get('title'),
+                "url": item.get('alternate', [{}])[0].get('href')
+            })
+
+        return jsonify(glance_items[:10])
+
+    if __name__ == '__main__':
+        app.run(host='0.0.0.0', port=5000)
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: glance-proxy
+  namespace: freshrss
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: glance-proxy
+  template:
+    metadata:
+      labels:
+        app: glance-proxy
+    spec:
+      containers:
+      - name: proxy
+        image: python:3.12-slim
+        command: ["sh", "-c", "pip install flask requests && python /app/app.py"]
+        ports:
+        - containerPort: 5000
+        env:
+        - name: FRESHRSS_URL
+          value: "http://freshrss.freshrss.svc.cluster.local"
+        - name: FRESHRSS_USER
+          valueFrom:
+            secretKeyRef:
+              name: freshrss
+              key: username
+        - name: FRESHRSS_PASS
+          valueFrom:
+            secretKeyRef:
+              name: freshrss
+              key: password
+        volumeMounts:
+        - name: code
+          mountPath: /app
+      volumes:
+      - name: code
+        configMap:
+          name: glance-proxy-script
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: glance-proxy
+  namespace: freshrss
+spec:
+  selector:
+    app: glance-proxy
+  ports:
+  - port: 5000
+    targetPort: 5000

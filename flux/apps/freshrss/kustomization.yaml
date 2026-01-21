@@ -10,3 +10,4 @@ resources:
   - ingress.yaml
   - api-service.yaml
   - deployment-api.yaml
+  - glance-proxy-script.yaml
