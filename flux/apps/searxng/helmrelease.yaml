@@ -11,28 +11,52 @@ spec:
       version: 3.5.1
       sourceRef:
         kind: HelmRepository
-        name: bjw-s-charts
+        name: bjw-s
         namespace: flux-system
   values:
     controllers:
       searxng:
+        annotations:
+          secret.reloader.stakater.com/reload: searxng-secret
+        strategy: RollingUpdate
+        pod:
+          securityContext:
+            fsGroup: 1000
+            fsGroupChangePolicy: "OnRootMismatch"
+            runAsGroup: 1000
+            runAsUser: 1000
+            runAsNonRoot: true
         containers:
           app:
             image:
-              repository: searxng/searxng
+              repository: ghcr.io/searxng/searxng
               tag: 2025.1.21-e7e11c5df
             env:
               SEARXNG_BASE_URL: "https://search.pxldi.de"
-              SEARXNG_SECRET_KEY:
-                valueFrom:
-                  secretKeyRef:
-                    name: searxng-secret
-                    key: secret-key
+              SEARXNG_URL: "https://search.pxldi.de"
+              SEARXNG_PORT: &port 8080
+              UWSGI_WORKERS: 2
+              UWSGI_THREADS: 4
+            envFrom:
+              - secretRef:
+                  name: searxng-secret
             probes:
-              liveness:
+              liveness: &probes
                 enabled: true
-              readiness:
-                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /healthz
+                    port: *port
+                  initialDelaySeconds: 15
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities: {drop: ["ALL"]}
+              readOnlyRootFilesystem: false
             resources:
               requests:
                 cpu: 100m
@@ -45,7 +69,7 @@ spec:
         controller: searxng
         ports:
           http:
-            port: 8080
+            port: *port
 
     ingress:
       app:
@@ -69,10 +93,16 @@ spec:
 
     persistence:
       config:
-        enabled: true
         type: configMap
         name: searxng-config
         globalMounts:
           - path: /etc/searxng/settings.yml
             subPath: settings.yml
             readOnly: true
+      tmpfs:
+        type: emptyDir
+        advancedMounts:
+          searxng:
+            app:
+              - path: /tmp
+                subPath: tmp
