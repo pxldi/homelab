@@ -49,7 +49,6 @@ data:
                 "url": item.get('alternate', [{}])[0].get('href')
             })
 
-        # Wir geben ein Dictionary zurück, keine nackte Liste
         return jsonify({"entries": glance_items[:10]})
 
     if __name__ == '__main__':
