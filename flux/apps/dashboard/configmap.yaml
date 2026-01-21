@@ -23,7 +23,7 @@ data:
       hideInternetSearch: false
       hideVisitURL: false
       provider: custom
-      url: https://www.startpage.com/sp/search?query=
+      url: https://search.pxldi.de/search?q=
 
     providers:
       finnhub: {{HOMEPAGE_VAR_FH_API_KEY}}
