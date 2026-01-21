@@ -1,0 +1,65 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: searxng
+  namespace: searxng
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: searxng
+      version: "10.13.27"
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+  values:
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              env:
+                SEARXNG_BASE_URL: "https://search.pxldi.de"
+                SEARXNG_SECRET_KEY:
+                  secretKeyRef:
+                    name: searxng-secret
+                    key: secret-key
+              probes:
+                liveness:
+                  enabled: true
+                readiness:
+                  enabled: true
+    
+    service:
+      main:
+        ports:
+          main:
+            port: 8080
+            protocol: http
+    
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: traefik
+        annotations:
+          traefik.ingress.kubernetes.io/router.entrypoints: websecure
+          traefik.ingress.kubernetes.io/router.middlewares: traefik-authelia-forwardauth@kubernetescrd
+          traefik.ingress.kubernetes.io/router.tls.certresolver: myresolver
+        hosts:
+          - host: search.pxldi.de
+            paths:
+              - path: /
+                pathType: Prefix
+        tls:
+          - hosts:
+              - search.pxldi.de
+    
+    persistence:
+      config:
+        enabled: true
+        type: configmap
+        objectName: searxng-config
+        mountPath: /etc/searxng/settings.yml
+        subPath: settings.yml
+        readOnly: true

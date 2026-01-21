@@ -76,7 +76,8 @@ data:
 
         - domain: "pxldi.de"
           policy: two_factor
-        - domain: "www.pxldi.de"
+
+        - domain: "search.pxldi.de"
           policy: two_factor
 
   users_database.yml: |
