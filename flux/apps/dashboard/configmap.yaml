@@ -29,23 +29,19 @@ data:
       finnhub: {{HOMEPAGE_VAR_FH_API_KEY}}
 
     layout:
-      Infrastructure:
+      Services1:
         header: false
         style: row
         columns: 3
-      Video:
+      Services2:
         header: false
         style: row
         columns: 4
-      Music:
+      Services3:
         header: false
         style: row
-        columns: 2
-      Services:
-        header: false
-        style: row
-        columns: 3
-      Apps:
+        columns: 4
+      Services4:
         header: false
         style: row
         columns: 4
@@ -101,7 +97,7 @@ data:
         units: metric
         cache: 5
   services.yaml: |
-    - Infrastructure:
+    - Services1:
       - Traefik:
           icon: traefik.png
           href: https://traefik.pxldi.de
@@ -127,7 +123,7 @@ data:
             type: prometheus
             url: http://kube-prometheus-stack-prometheus.monitoring:9090
 
-    - Video:
+    - Services2:
       - Sabnzbd:
           icon: sabnzbd.png
           href: https://sabnzbd.pxldi.de
@@ -161,7 +157,7 @@ data:
             url: http://jellyfin.media-stack:8096
             key: {{HOMEPAGE_VAR_JELLYFIN_API_KEY}}
 
-    - Music:
+    - Services3:
       - Navidrome:
           icon: navidrome.png
           href: https://navidrome.pxldi.de
@@ -180,8 +176,6 @@ data:
             type: slskd
             url: http://slskd.music:5030
             key: {{HOMEPAGE_VAR_SLSKD_API_KEY}}
-
-    - Services:
       - Pihole:
           icon: pi-hole.png
           href: https://pihole.pxldi.de/admin/
@@ -190,14 +184,6 @@ data:
             type: pihole
             url: http://pihole-web.pihole:80
             version: 6
-      - Tandoor:
-          icon: tandoor-recipes.png
-          href: https://recipes.pxldi.de/
-          ping: https://recipes.pxldi.de/
-          widget:
-            type: tandoor
-            url: http://tandoor.tandoor:80
-            key: {{HOMEPAGE_VAR_TANDOOR_API_KEY}}
       - Nextcloud:
           icon: nextcloud.png
           href: https://nextcloud.pxldi.de/
@@ -208,7 +194,15 @@ data:
             key: {{HOMEPAGE_VAR_NEXTCLOUD_API_KEY}}
             fields: ["freespace", "activeusers", "numfiles", "numshares"]
 
-    - Apps:
+    - Services4:
+      - Tandoor:
+          icon: tandoor-recipes.png
+          href: https://recipes.pxldi.de/
+          ping: https://recipes.pxldi.de/
+          widget:
+            type: tandoor
+            url: http://tandoor.tandoor:80
+            key: {{HOMEPAGE_VAR_TANDOOR_API_KEY}}
       - HomeAssistant:
           icon: home-assistant.png
           href: https://home.pxldi.de
@@ -226,9 +220,6 @@ data:
             url: http://immich.immich:10323
             key: {{HOMEPAGE_VAR_IMMICH_API_KEY}}
             version: 2
-      - Kavita:
-          icon: kavita.png
-          description: Not deployed yet
       - Booklore:
           icon: booklore.png
           href: https://books.pxldi.de
