@@ -36,22 +36,23 @@ data:
     def glance_api():
         feed_filter = request.args.get('feed')
         raw_items = get_freshrss_data()
-      
-        glance_items = []
-        for item in raw_items:
-            feed_name = item.get('origin', {}).get('title', 'Unknown')
-            if feed_filter and feed_filter.lower() not in feed_name.lower():
-                continue
 
+        print(f"Total items: {len(raw_items)}")
+        
+        glance_items = []
+        for item in raw_items[:10]:  # Nur erste 10, egal welcher Feed
+            feed_name = item.get('origin', {}).get('title', 'Unknown')
             title = item.get('title', 'No title')
             url = item.get('alternate', [{}])[0].get('href', '#')
+            
+            print(f"Feed: {feed_name}, Title: {title}")
             
             glance_items.append({
                 "title": title,
                 "link": url
             })
 
-        return jsonify(glance_items[:10])
+        return jsonify(glance_items)
 
     if __name__ == '__main__':
         app.run(host='0.0.0.0', port=5000)
