@@ -18,6 +18,13 @@ data:
 
     statusStyle: "dot"
 
+    quicklaunch:
+      searchDescriptions: true
+      hideInternetSearch: false
+      hideVisitURL: false
+      provider: custom
+      url: https://www.startpage.com/sp/search?query=
+
     providers:
       finnhub: {{HOMEPAGE_VAR_FH_API_KEY}}
 
@@ -53,7 +60,7 @@ data:
       Financial:
         header: false
         style: row
-        columns: 3
+        columns: 2
       RSS:
         header: false
         style: row
@@ -161,7 +168,7 @@ data:
           ping: https://navidrome.pxldi.de
           widget:
             type: navidrome
-            url: http://navidrome.media-stack:4533
+            url: http://navidrome.music:4533
             user: {{HOMEPAGE_VAR_NAVIDROME_USER}}
             token: {{HOMEPAGE_VAR_NAVIDROME_TOKEN}}
             salt: {{HOMEPAGE_VAR_NAVIDROME_SALT}}
@@ -171,7 +178,7 @@ data:
           ping: https://slskd.pxldi.de
           widget:
             type: slskd
-            url: http://slskd.media-stack:5030
+            url: http://slskd.music:5030
             key: {{HOMEPAGE_VAR_SLSKD_API_KEY}}
 
     - Services:
@@ -216,7 +223,7 @@ data:
           ping: https://immich.pxldi.de
           widget:
             type: immich
-            url: http://immich.immich:3001
+            url: http://immich.immich:10323
             key: {{HOMEPAGE_VAR_IMMICH_API_KEY}}
       - Kavita:
           icon: kavita.png
