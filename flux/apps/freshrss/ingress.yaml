@@ -4,6 +4,7 @@ metadata:
   name: freshrss
   namespace: freshrss
   annotations:
+    traefik.ingress.kubernetes.io/router.middlewares: freshrss-allow-framing@kubernetescrd
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
     traefik.ingress.kubernetes.io/router.tls.certresolver: myresolver
 spec:

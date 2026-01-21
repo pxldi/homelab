@@ -1,0 +1,9 @@
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: allow-framing
+  namespace: freshrss
+spec:
+  headers:
+    customFrameOptionsValue: "ALLOW-FROM https://pxldi.de"
+    contentSecurityPolicy: "frame-ancestors 'self' https://pxldi.de"
