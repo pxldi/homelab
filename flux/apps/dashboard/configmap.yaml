@@ -235,7 +235,7 @@ data:
           ping: https://books.pxldi.de
           widget:
             type: booklore
-            url: http://booklore.booklore:6060
+            url: http://booklore.books:6060
             username: {{HOMEPAGE_VAR_BOOKLORE_USER}}
             password: {{HOMEPAGE_VAR_BOOKLORE_PASS}}
 
