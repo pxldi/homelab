@@ -53,11 +53,11 @@ data:
       Financial:
         header: false
         style: row
-        columns: 2
-      News:
+        columns: 3
+      RSS:
         header: false
         style: row
-        columns: 4
+        columns: 3
   kubernetes.yaml: |
     mode: cluster
   widgets.yaml: |
@@ -268,36 +268,41 @@ data:
             symbols: [BTC, ETH, XRP, SOL, DOGE]
             key: {{HOMEPAGE_VAR_CMC_API_KEY}}
             defaultinterval: 7d
-
-    - News:
-      - Ars Technica:
-          icon: arstechnica.png
-          href: https://arstechnica.com
-          widget:
-            type: rss
-            url: https://feeds.arstechnica.com/arstechnica/index
-            target: _blank
-      - Computerbase:
-          icon: computerbase.png
-          href: https://www.computerbase.de
-          widget:
-            type: rss
-            url: https://www.computerbase.de/rss/news.xml
-            target: _blank
+    
+    - RSS:
       - The Verge:
-          icon: theverge.png
-          href: https://www.theverge.com
+          icon: https://www.theverge.com/favicon.ico
           widget:
-            type: rss
-            url: https://www.theverge.com/rss/index.xml
-            target: _blank
-      - Heise:
-          icon: heise.png
-          href: https://www.heise.de
+            type: customapi
+            url: http://glance-proxy.freshrss.svc.cluster.local:5000/freshrss/glance?feed=The%20Verge
+            display: dynamic-list
+            mappings:
+              name: title
+              label: " "
+              target: "{link}"
+              limit: 10
+      - Computerbase:
+          icon: https://www.computerbase.de/favicon.ico
           widget:
-            type: rss
-            url: https://www.heise.de/rss/heise-atom.xml
-            target: _blank
+            type: customapi
+            url: http://glance-proxy.freshrss.svc.cluster.local:5000/freshrss/glance?feed=Computerbase
+            display: dynamic-list
+            mappings:
+              name: title
+              label: " "
+              target: "{link}"
+              limit: 10
+      - Ars Technica:
+          icon: https://arstechnica.com/favicon.ico
+          widget:
+            type: customapi
+            url: http://glance-proxy.freshrss.svc.cluster.local:5000/freshrss/glance?feed=Ars%20Technica
+            display: dynamic-list
+            mappings:
+              name: title
+              label: " "
+              target: "{link}"
+              limit: 10
 
   bookmarks.yaml: ""
   docker.yaml: ""
