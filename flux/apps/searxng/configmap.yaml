@@ -19,7 +19,7 @@ data:
     ui:
       static_use_hash: true
       default_theme: simple
-      default_locale: de
+      default_locale: en
       theme_args:
         simple_style: dark
       infinite_scroll: true
@@ -28,7 +28,7 @@ data:
     search:
       safe_search: 0
       autocomplete: "duckduckgo"
-      default_lang: "de"
+      default_lang: "en"
       formats:
         - html
         - json
