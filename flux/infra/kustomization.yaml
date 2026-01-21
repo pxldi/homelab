@@ -9,3 +9,4 @@ resources:
   - ./tailscale
   - ./authelia
   - metallb-config.yaml
+  - coredns-patch.yaml
