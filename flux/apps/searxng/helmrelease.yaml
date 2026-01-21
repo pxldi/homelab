@@ -37,6 +37,7 @@ spec:
               SEARXNG_PORT: &port 8080
               UWSGI_WORKERS: 2
               UWSGI_THREADS: 4
+              INSTANCE_NAME: "SearXNG"
             envFrom:
               - secretRef:
                   name: searxng-secret
