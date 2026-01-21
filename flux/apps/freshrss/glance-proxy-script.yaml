@@ -26,7 +26,7 @@ data:
                 return []
             auth = res.text.split('Auth=')[1].strip()
           
-            list_url = f"{FRESHRSS_URL}/api/greader.php/reader/api/0/stream/contents/user/-/state/com.google/reading-list?xt=user/-/state/com.google/read"
+            list_url = f"{FRESHRSS_URL}/api/greader.php/reader/api/0/stream/contents/user/-/state/com.google/reading-list?xt=user/-/state/com.google/read&n=1000"
             headers = {'Authorization': f'GoogleLogin auth={auth}'}
             items_res = requests.get(list_url, headers=headers, timeout=5)
             items = items_res.json().get('items', [])
