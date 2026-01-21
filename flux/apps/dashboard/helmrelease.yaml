@@ -96,6 +96,16 @@ spec:
                   secretKeyRef:
                     name: homepage-secret
                     key: NEXTCLOUD_API_KEY
+              - name: HOMEPAGE_VAR_BOOKLORE_USER
+                valueFrom:
+                  secretKeyRef:
+                    name: homepage-secret
+                    key: BOOKLORE_USER
+              - name: HOMEPAGE_VAR_BOOKLORE_PASS
+                valueFrom:
+                  secretKeyRef:
+                    name: homepage-secret
+                    key: BOOKLORE_PASS
               - name: HOMEPAGE_VAR_CMC_API_KEY
                 valueFrom:
                   secretKeyRef:
