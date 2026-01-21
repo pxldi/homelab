@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rss-api
+  namespace: freshrss
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rss-api
+  template:
+    metadata:
+      labels:
+        app: rss-api
+    spec:
+      containers:
+      - name: rss-api
+        image: ghcr.io/skulldorom/rss-api:latest
+        env:
+        - name: FRESHRSS_URL
+          value: "http://freshrss.freshrss.svc.cluster.local"
+        - name: FRESHRSS_USER
+          valueFrom:
+            secretKeyRef:
+              name: freshrss
+              key: username
+        - name: FRESHRSS_PASS
+          valueFrom:
+            secretKeyRef:
+              name: freshrss
+              key: password
+        ports:
+        - containerPort: 5000

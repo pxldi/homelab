@@ -4,6 +4,9 @@ namespace: freshrss
 resources:
   - namespace.yaml
   - pvc.yaml
+  - secret.yaml
   - deployment.yaml
   - service.yaml
   - ingress.yaml
+  - api-service.yaml
+  - deployment-api.yaml
