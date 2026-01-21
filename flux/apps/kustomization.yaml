@@ -12,3 +12,4 @@ resources:
   - ./media/books
   - ./media/music
   - ./dashboard
+  - ./freshrss
