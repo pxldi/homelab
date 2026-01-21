@@ -22,9 +22,10 @@ spec:
               env:
                 SEARXNG_BASE_URL: "https://search.pxldi.de"
                 SEARXNG_SECRET_KEY:
-                  secretKeyRef:
-                    name: searxng-secret
-                    key: secret-key
+                  valueFrom:
+                    secretKeyRef:
+                      name: searxng-secret
+                      key: secret-key
               probes:
                 liveness:
                   enabled: true
