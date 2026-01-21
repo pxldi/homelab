@@ -7,42 +7,50 @@ spec:
   interval: 30m
   chart:
     spec:
-      chart: searxng
-      version: "10.13.27"
+      chart: app-template
+      version: 3.5.1
       sourceRef:
         kind: HelmRepository
-        name: truecharts
+        name: bjw-s
         namespace: flux-system
   values:
-    workload:
-      main:
-        podSpec:
-          containers:
-            main:
-              env:
-                SEARXNG_BASE_URL: "https://search.pxldi.de"
-                SEARXNG_SECRET_KEY:
-                  valueFrom:
-                    secretKeyRef:
-                      name: searxng-secret
-                      key: secret-key
-              probes:
-                liveness:
-                  enabled: true
-                readiness:
-                  enabled: true
-    
+    controllers:
+      searxng:
+        containers:
+          app:
+            image:
+              repository: searxng/searxng
+              tag: 2025.1.21-e7e11c5df
+            env:
+              SEARXNG_BASE_URL: "https://search.pxldi.de"
+              SEARXNG_SECRET_KEY:
+                valueFrom:
+                  secretKeyRef:
+                    name: searxng-secret
+                    key: secret-key
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+            resources:
+              requests:
+                cpu: 100m
+                memory: 256Mi
+              limits:
+                memory: 512Mi
+
     service:
-      main:
+      app:
+        controller: searxng
         ports:
-          main:
+          http:
             port: 8080
-            protocol: http
-    
+
     ingress:
-      main:
+      app:
         enabled: true
-        ingressClassName: traefik
+        className: traefik
         annotations:
           traefik.ingress.kubernetes.io/router.entrypoints: websecure
           traefik.ingress.kubernetes.io/router.middlewares: traefik-authelia-forwardauth@kubernetescrd
@@ -52,15 +60,19 @@ spec:
             paths:
               - path: /
                 pathType: Prefix
+                service:
+                  identifier: app
+                  port: http
         tls:
           - hosts:
               - search.pxldi.de
-    
+
     persistence:
       config:
         enabled: true
-        type: configmap
-        objectName: searxng-config
-        mountPath: /etc/searxng/settings.yml
-        subPath: settings.yml
-        readOnly: true
+        type: configMap
+        name: searxng-config
+        globalMounts:
+          - path: /etc/searxng/settings.yml
+            subPath: settings.yml
+            readOnly: true
