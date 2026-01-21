@@ -30,7 +30,7 @@ spec:
           app:
             image:
               repository: ghcr.io/searxng/searxng
-              tag: 2025.1.21-e7e11c5df
+              tag: latest
             env:
               SEARXNG_BASE_URL: "https://search.pxldi.de"
               SEARXNG_URL: "https://search.pxldi.de"
