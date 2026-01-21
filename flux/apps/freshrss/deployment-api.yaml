@@ -17,7 +17,7 @@ spec:
       - name: rss-api
         image: ghcr.io/skulldorom/rss-api:latest
         env:
-        - name: FRESHRSS_URL
+        - name: FRESHRSS_HOST
           value: "http://freshrss.freshrss.svc.cluster.local"
         - name: FRESHRSS_USER
           valueFrom:
