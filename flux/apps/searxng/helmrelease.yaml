@@ -99,7 +99,7 @@ spec:
         globalMounts:
           - path: /etc/searxng/settings.yml
             subPath: settings.yml
-            readOnly: true
+            readOnly: false
       tmpfs:
         type: emptyDir
         advancedMounts:
