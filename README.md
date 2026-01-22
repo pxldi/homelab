@@ -13,4 +13,4 @@ Homelab running on Kubernetes Talos Linux, managed by Flux CD and Renovate.
 - **Secrets**: [SOPS](https://github.com/getsops/sops) + [age](https://github.com/FiloSottile/age) - Encrypted secrets
 - **Backup**: [Backblaze B2](https://www.backblaze.com/b2/cloud-storage.html) - Offsite backups
 
-## More documentation Soon
+## More documentation Soon™
