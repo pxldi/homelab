@@ -28,15 +28,18 @@ spec:
             runAsNonRoot: true
         initContainers:
           fix-permissions:
-              image: alpine:latest
-              command: ["sh", "-c", "cp /tmp/config/settings.yml /etc/searxng/settings.yml && cp /tmp/config/limiter.toml /etc/searxng/limiter.toml && chown -R 1000:1000 /etc/searxng"]
-              securityContext:
-                runAsUser: 0
-              volumeMounts:
-                - name: config-source
-                  mountPath: /tmp/config
-                - name: config
-                  mountPath: /etc/searxng
+            image:
+              repository: alpine
+              tag: latest
+            command:
+              - sh
+              - -c
+              - |
+                cp /tmp/config/settings.yml /etc/searxng/settings.yml
+                cp /tmp/config/limiter.toml /etc/searxng/limiter.toml
+                chown -R 1000:1000 /etc/searxng
+            securityContext:
+              runAsUser: 0
         containers:
           app:
             image:
