@@ -7,7 +7,7 @@ spec:
   interval: 5m
   path: ./flux/infra
   prune: true
+  timeout: 2m
   sourceRef:
     kind: GitRepository
     name: flux-system
-  timeout: 2m

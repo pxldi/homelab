@@ -7,8 +7,6 @@ spec:
   interval: 5m
   path: ./flux/apps
   prune: true
-  suspend: false
-  wait: true
   timeout: 2m
   sourceRef:
     kind: GitRepository
