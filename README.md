@@ -4,7 +4,7 @@
 ![Talos](https://img.shields.io/badge/talos-v1.8-orange?logo=linux)
 ![Flux](https://img.shields.io/badge/flux-v2-purple?logo=flux)
 
-GitOps-managed Kubernetes homelab running on Talos Linux with Flux CD.
+Homelab running on Kubernetes Talos Linux, managed by Flux CD and Renovate.
 
 ## Stack
 
