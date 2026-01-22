@@ -23,9 +23,20 @@ spec:
           securityContext:
             fsGroup: 1000
             fsGroupChangePolicy: "OnRootMismatch"
-            runAsGroup: 911
-            runAsUser: 911
+            runAsGroup: 1000
+            runAsUser: 1000
             runAsNonRoot: true
+        initContainers:
+          fix-permissions:
+              image: alpine:latest
+              command: ["sh", "-c", "cp /tmp/config/settings.yml /etc/searxng/settings.yml && cp /tmp/config/limiter.toml /etc/searxng/limiter.toml && chown -R 1000:1000 /etc/searxng"]
+              securityContext:
+                runAsUser: 0
+              volumeMounts:
+                - name: config-source
+                  mountPath: /tmp/config
+                - name: config
+                  mountPath: /etc/searxng
         containers:
           app:
             image:
@@ -79,8 +90,8 @@ spec:
         annotations:
           traefik.ingress.kubernetes.io/router.entrypoints: websecure
           traefik.ingress.kubernetes.io/router.middlewares: |
-            traefik-authelia-forwardauth@kubernetescrd,
-            searxng-headers@kubernetescrd
+            auth-traefik-authelia-forwardauth@kubernetescrd,
+            searxng-searxng-headers@kubernetescrd
           traefik.ingress.kubernetes.io/router.tls.certresolver: myresolver
         hosts:
           - host: search.pxldi.de
@@ -95,13 +106,17 @@ spec:
               - search.pxldi.de
 
     persistence:
-      config:
+      config-source:
         type: configMap
         name: searxng-config
+        advancedMounts:
+          searxng:
+            fix-permissions:
+              - path: /tmp/config
+      config:
+        type: emptyDir
         globalMounts:
-          - path: /etc/searxng/settings.yml
-            subPath: settings.yml
-            readOnly: false
+          - path: /etc/searxng
       tmpfs:
         type: emptyDir
         advancedMounts:

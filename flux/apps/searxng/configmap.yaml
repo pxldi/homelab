@@ -83,3 +83,13 @@ data:
         disabled: false
       - name: youtube
         disabled: false
+
+      - name: ahmia
+        disabled: true
+      - name: torch
+        disabled: true
+  limiter.toml: |
+    # Limiter configuration for SearXNG
+    # Since limiter is disabled in settings.yml, this is a minimal config
+    [botdetection.ip_limit]
+    # Empty config since limiter is disabled
