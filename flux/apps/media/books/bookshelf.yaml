@@ -69,8 +69,6 @@ spec:
           mountPath: /downloads
         - name: books
           mountPath: /books
-        - name: ingest
-          mountPath: /ingest
         - name: booklore-bookdrop
           mountPath: /booklore-bookdrop
       volumes:
@@ -83,9 +81,6 @@ spec:
       - name: books
         persistentVolumeClaim:
           claimName: bookshelf-books
-      - name: ingest
-        persistentVolumeClaim:
-          claimName: book-ingest
       - name: booklore-bookdrop
         persistentVolumeClaim:
           claimName: booklore-bookdrop
