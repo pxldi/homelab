@@ -45,14 +45,6 @@ data:
         header: false
         style: row
         columns: 4
-      Utilities:
-        header: false
-        style: row
-        columns: 2
-      Links:
-        header: false
-        style: row
-        columns: 4
       Financial:
         header: false
         style: row
@@ -229,28 +221,6 @@ data:
             url: http://booklore.books:6060
             username: {{HOMEPAGE_VAR_BOOKLORE_USER}}
             password: {{HOMEPAGE_VAR_BOOKLORE_PASS}}
-
-    - Utilities:
-      - SearXNG:
-          icon: searxng.png
-          description: Not deployed yet
-      - Overleaf:
-          icon: overleaf.png
-          href: https://overleaf.com
-
-    - Links:
-      - Homelab Repo:
-          icon: github.png
-          href: https://github.com/pxldi/homelab
-      - FluxCD Docs:
-          icon: flux-cd.png
-          href: https://fluxcd.io/flux/
-      - Cloudflare Dashboard:
-          icon: cloudflare.png
-          href: https://dash.cloudflare.com
-      - Dashboard Icons:
-          icon: dashboard-icons.png
-          href: https://dashboardicons.com/
 
     - Financial:
       - Stocks:
