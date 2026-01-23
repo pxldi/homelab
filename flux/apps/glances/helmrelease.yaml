@@ -1,0 +1,91 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: glances
+  namespace: glances
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 4.6.2
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+  values:
+    controllers:
+      glances:
+        type: deployment
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: nicolargo/glances
+              tag: latest-full
+            env:
+              GLANCES_OPT: "-w"
+              PROCFS_PATH: "/host/proc"
+            resources:
+              requests:
+                cpu: 100m
+                memory: 128Mi
+              limits:
+                cpu: 500m
+                memory: 512Mi
+            securityContext:
+              privileged: true
+        pod:
+          hostNetwork: true
+          hostPID: true
+    service:
+      app:
+        controller: glances
+        ports:
+          http:
+            port: 61208
+    ingress:
+      app:
+        enabled: true
+        className: traefik
+        annotations:
+          traefik.ingress.kubernetes.io/router.middlewares: traefik-authelia-forwardauth@kubernetescrd
+          traefik.ingress.kubernetes.io/router.entrypoints: websecure
+          traefik.ingress.kubernetes.io/router.tls.certresolver: myresolver
+        hosts:
+          - host: glances.pxldi.de
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  identifier: app
+                  port: http
+        tls:
+          - hosts:
+              - glances.pxldi.de
+    persistence:
+      docker-socket:
+        type: hostPath
+        hostPath: /var/run/docker.sock
+        globalMounts:
+          - path: /var/run/docker.sock
+            readOnly: true
+      os-release:
+        type: hostPath
+        hostPath: /etc/os-release
+        globalMounts:
+          - path: /etc/os-release
+            readOnly: true
+      proc:
+        type: hostPath
+        hostPath: /proc
+        globalMounts:
+          - path: /host/proc
+            readOnly: true
+      sys:
+        type: hostPath
+        hostPath: /sys
+        globalMounts:
+          - path: /host/sys
+            readOnly: true

@@ -1,0 +1,86 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: obsidian-sync
+  namespace: obsidian-sync
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 4.6.2
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+  values:
+    controllers:
+      obsidian-sync:
+        type: statefulset
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: couchdb
+              tag: 3.3.3
+            env:
+              COUCHDB_USER:
+                valueFrom:
+                  secretKeyRef:
+                    name: obsidian-sync-secret
+                    key: COUCHDB_USER
+              COUCHDB_PASSWORD:
+                valueFrom:
+                  secretKeyRef:
+                    name: obsidian-sync-secret
+                    key: COUCHDB_PASSWORD
+            resources:
+              requests:
+                cpu: 200m
+                memory: 256Mi
+              limits:
+                cpu: 1000m
+                memory: 1Gi
+    service:
+      app:
+        controller: obsidian-sync
+        ports:
+          http:
+            port: 5984
+    ingress:
+      app:
+        enabled: true
+        className: traefik
+        annotations:
+          traefik.ingress.kubernetes.io/router.entrypoints: websecure
+          traefik.ingress.kubernetes.io/router.tls.certresolver: myresolver
+        hosts:
+          - host: obsidian-sync.pxldi.de
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  identifier: app
+                  port: http
+        tls:
+          - hosts:
+              - obsidian-sync.pxldi.de
+    persistence:
+      data:
+        enabled: true
+        type: persistentVolumeClaim
+        accessMode: ReadWriteOnce
+        size: 10Gi
+        storageClass: longhorn
+        labels:
+          recurring-job.longhorn.io/source: enabled
+        globalMounts:
+          - path: /opt/couchdb/data
+      config:
+        type: configMap
+        name: couchdb-config
+        globalMounts:
+          - path: /opt/couchdb/etc/local.d/obsidian.ini
+            subPath: obsidian.ini
+            readOnly: true
