@@ -65,16 +65,17 @@ spec:
           default: true
         exposedPort: 80
         protocol: TCP
-        redirections:
-          entryPoint:
-            to: websecure
-            scheme: https
+        redirectTo:
+          port: websecure
+          scheme: https
       websecure:
         port: 443
         expose:
           default: true
         exposedPort: 443
         protocol: TCP
+        http3:
+          enabled: false
         tls:
           enabled: true
 
