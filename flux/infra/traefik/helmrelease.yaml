@@ -32,6 +32,9 @@ spec:
       - "--api.insecure=true"
       - "--api.dashboard=true"
       - "--log.level=DEBUG"
+      - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
+      - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
+      - "--entrypoints.web.http.redirections.entrypoint.permanent=true"
     # The "volume-permissions" init container is required if you run into permission issues.
     # Related issue: https://github.com/traefik/traefik-helm-chart/issues/396
     deployment:
@@ -65,11 +68,6 @@ spec:
           default: true
         exposedPort: 80
         protocol: TCP
-        redirections:
-          entryPoint:
-            to: websecure
-            scheme: https
-            permanent: true
       websecure:
         port: 443
         expose:
