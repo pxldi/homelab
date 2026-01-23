@@ -29,6 +29,14 @@ data:
       finnhub: {{HOMEPAGE_VAR_FH_API_KEY}}
 
     layout:
+      Metrics1:
+        header: false
+        style: row
+        columns: 4
+      Metrics2:
+        header: false
+        style: row
+        columns: 4
       Services1:
         header: false
         style: row
@@ -89,6 +97,77 @@ data:
         units: metric
         cache: 5
   services.yaml: |
+    - Metrics1:
+      - CPU Usage:
+          widget:
+            type: glances
+            url: http://glances.glances:61208
+            version: 4
+            metric: cpu
+            chart: true
+            pointsLimit: 30
+      
+      - CPU Temp:
+          widget:
+            type: glances
+            url: http://glances.glances:61208
+            version: 4
+            metric: sensor:Tctl
+            chart: true
+            pointsLimit: 30
+      
+      - Memory Usage:
+          widget:
+            type: glances
+            url: http://glances.glances:61208
+            version: 4
+            metric: memory
+            chart: true
+      
+      - Network Usage:
+          widget:
+            type: glances
+            url: http://glances.glances:61208
+            version: 4
+            metric: network:enp7s0
+            chart: true
+            pointsLimit: 30
+
+    - Metrics2:
+      - SSD I/O:
+          widget:
+            type: glances
+            url: http://glances.glances:61208
+            version: 4
+            metric: disk:nvme0n1
+            chart: true
+            pointsLimit: 30
+      
+      - HDD 1 I/O:
+          widget:
+            type: glances
+            url: http://glances.glances:61208
+            version: 4
+            metric: disk:sda
+            chart: true
+            pointsLimit: 30
+      
+      - HDD 2 I/O:
+          widget:
+            type: glances
+            url: http://glances.glances:61208
+            version: 4
+            metric: disk:sdc
+            chart: true
+            pointsLimit: 30
+      
+      - Top Processes:
+          widget:
+            type: glances
+            url: http://glances.glances:61208
+            version: 4
+            metric: process
+
     - Services1:
       - Traefik:
           icon: traefik.png
