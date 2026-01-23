@@ -17,6 +17,24 @@ spec:
     controllers:
       obsidian-sync:
         type: statefulset
+        initContainers:
+          fix-permissions:
+            image:
+              repository: busybox
+              tag: "1.36"
+            command:
+              - sh
+              - -c
+              - |
+                echo "Current permissions:"
+                ls -lan /opt/couchdb/data
+                echo "Fixing permissions for CouchDB (UID 5984)..."
+                chown -Rv 5984:5984 /opt/couchdb/data
+                chmod -Rv 755 /opt/couchdb/data
+                echo "New permissions:"
+                ls -lan /opt/couchdb/data
+            securityContext:
+              runAsUser: 0
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
