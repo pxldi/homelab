@@ -8,3 +8,5 @@ resources:
   - nextcloud.yaml
   - monitoring.yaml
   - home-assistant.yaml
+  - glances.yaml
+  - obsidian-sync.yaml
