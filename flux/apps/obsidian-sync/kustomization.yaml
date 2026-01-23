@@ -4,3 +4,4 @@ namespace: obsidian-sync
 resources:
   - configmap.yaml
   - helmrelease.yaml
+  - secret.yaml
