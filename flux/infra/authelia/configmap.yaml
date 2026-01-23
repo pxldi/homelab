@@ -80,6 +80,9 @@ data:
         - domain: "search.pxldi.de"
           policy: two_factor
 
+        - domain: "glances.pxldi.de"
+          policy: two_factor
+
   users_database.yml: |
     users:
       admin:
