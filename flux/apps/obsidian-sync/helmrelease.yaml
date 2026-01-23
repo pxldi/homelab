@@ -95,10 +95,10 @@ spec:
           recurring-job.longhorn.io/source: enabled
         globalMounts:
           - path: /opt/couchdb/data
-      config:
-        type: configMap
-        name: couchdb-config
-        globalMounts:
-          - path: /opt/couchdb/etc/local.d/obsidian.ini
-            subPath: obsidian.ini
-            readOnly: true
+      #config:
+      #  type: configMap
+      #  name: couchdb-config
+      #  globalMounts:
+      #    - path: /opt/couchdb/etc/local.d/obsidian.ini
+      #      subPath: obsidian.ini
+      #      readOnly: true
