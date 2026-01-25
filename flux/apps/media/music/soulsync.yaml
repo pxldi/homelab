@@ -21,7 +21,7 @@ spec:
         fsGroup: 1000
       containers:
       - name: soulsync
-        image: boulderbadgedad/soulsync:latest
+        image: boulderbadgedad/soulsync:v1.4
         ports:
         - containerPort: 8008
           name: http
