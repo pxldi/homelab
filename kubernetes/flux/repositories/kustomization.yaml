@@ -1,0 +1,19 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+metadata:
+  name: flux-repositories
+resources:
+  - authelia.yaml
+  - bitnami.yaml
+  - bjw-s.yaml
+  - home-assistant.yaml
+  - longhorn.yaml
+  - metallb.yaml
+  - minecraft-server.yaml
+  - mojo.yaml
+  - monsterrr.yaml
+  - nextcloud.yaml
+  - prometheus.yaml
+  - tailscale.yaml
+  - traefik.yaml
+  - truecharts.yaml

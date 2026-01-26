@@ -1,0 +1,14 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+metadata:
+  name: apps
+resources:
+  - home/kustomization.yaml
+  - kube-system/kustomization.yaml
+  - media/kustomization.yaml
+  - monitoring/kustomization.yaml
+  - network/kustomization.yaml
+  - security/kustomization.yaml
+  - storage/kustomization.yaml
+  - selfhosted/kustomization.yaml
+  - games/kustomization.yaml
