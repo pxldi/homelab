@@ -104,3 +104,20 @@ spec:
   resources:
     requests:
       storage: 100Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: lidarr-config
+  namespace: music
+  labels:
+    app.kubernetes.io/name: lidarr
+    app.kubernetes.io/component: arr-service
+    app.kubernetes.io/instance: primary
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: longhorn-dual-disk
+  resources:
+    requests:
+      storage: 5Gi

@@ -11,19 +11,19 @@ metadata:
 spec:
   ingressClassName: traefik
   rules:
-  - host: music.pxldi.de
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: soulsync
-            port:
-              number: 8008
+    - host: music.pxldi.de
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: soulsync
+                port:
+                  number: 8008
   tls:
-  - hosts:
-    - music.pxldi.de
+    - hosts:
+        - music.pxldi.de
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -37,19 +37,19 @@ metadata:
 spec:
   ingressClassName: traefik
   rules:
-  - host: slskd.pxldi.de
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: slskd
-            port:
-              number: 5030
+    - host: slskd.pxldi.de
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: slskd
+                port:
+                  number: 5030
   tls:
-  - hosts:
-    - slskd.pxldi.de
+    - hosts:
+        - slskd.pxldi.de
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -62,16 +62,46 @@ metadata:
 spec:
   ingressClassName: traefik
   rules:
-  - host: navidrome.pxldi.de
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: navidrome
-            port:
-              number: 4533
+    - host: navidrome.pxldi.de
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: navidrome
+                port:
+                  number: 4533
   tls:
-  - hosts:
-    - navidrome.pxldi.de
+    - hosts:
+        - navidrome.pxldi.de
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: lidarr
+  namespace: music
+  labels:
+    app.kubernetes.io/name: lidarr
+    app.kubernetes.io/component: arr-service
+    app.kubernetes.io/instance: primary
+  annotations:
+    traefik.ingress.kubernetes.io/router.middlewares: traefik-authelia-forwardauth@kubernetescrd
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls.certresolver: myresolver
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: lidarr.pxldi.de
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: lidarr
+                port:
+                  number: 8686
+  tls:
+    - hosts:
+        - lidarr.pxldi.de

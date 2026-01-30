@@ -8,5 +8,6 @@ resources:
   - navidrome.yaml
   - slskd.yaml
   - soulsync.yaml
+  - lidarr.yaml
   - service.yaml
   - ingress.yaml
