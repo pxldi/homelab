@@ -2,3 +2,4 @@ talosconfig
 /tools
 /talos
 age.key
+kubeconfig
