@@ -47,10 +47,12 @@ data:
           policy: two_factor
         - domain: "pihole.pxldi.de"
           policy: two_factor
-          
+
         - domain: "radarr.pxldi.de"
           policy: two_factor
         - domain: "sonarr.pxldi.de"
+          policy: two_factor
+        - domain: "lidarr.pxldi.de"
           policy: two_factor
         - domain: "music.pxldi.de"
           policy: two_factor
