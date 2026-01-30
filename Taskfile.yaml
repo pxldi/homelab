@@ -1,0 +1,171 @@
+version: '3'
+
+vars:
+  TALOS_CONFIG: "{{.ROOT_DIR}}/talosconfig"
+  CLUSTER_NAME: homelab
+  CONTROL_PLANE: 192.168.0.152
+
+env:
+  TALOSCONFIG: "{{.TALOS_CONFIG}}"
+  KUBECONFIG: "{{.ROOT_DIR}}/kubeconfig"
+
+tasks:
+  # === Talos Tasks ===
+  talos:health:
+    desc: Check Talos cluster health
+    cmd: talosctl health
+
+  talos:dashboard:
+    desc: Open Talos dashboard
+    cmd: talosctl dashboard
+
+  talos:upgrade:
+    desc: Upgrade Talos (specify VERSION=v1.x.x)
+    cmd: talosctl upgrade --nodes {{.CONTROL_PLANE}} --image ghcr.io/siderolabs/installer:{{.VERSION}}
+    requires:
+      vars: [VERSION]
+
+  talos:logs:
+    desc: Follow Talos logs for a service (SERVICE=kubelet)
+    cmd: talosctl logs {{.SERVICE}} -f
+    vars:
+      SERVICE: '{{.SERVICE | default "kubelet"}}'
+
+  talos:reboot:
+    desc: Reboot a node (NODE=192.168.0.152)
+    cmd: talosctl reboot -n {{.NODE}}
+    requires:
+      vars: [NODE]
+
+  # === Kubernetes Tasks ===
+  k8s:get-kubeconfig:
+    desc: Fetch kubeconfig from Talos
+    cmd: talosctl kubeconfig -f {{.KUBECONFIG}}
+
+  k8s:nodes:
+    desc: List all nodes
+    cmd: kubectl get nodes -o wide
+
+  k8s:pods:
+    desc: List all pods (NS for specific namespace)
+    cmd: kubectl get pods {{if .NS}}-n {{.NS}}{{else}}--all-namespaces{{end}} -o wide
+
+  k8s:events:
+    desc: Watch cluster events
+    cmd: kubectl get events --all-namespaces --watch
+
+  k8s:top-nodes:
+    desc: Show node resource usage
+    cmd: kubectl top nodes
+
+  k8s:top-pods:
+    desc: Show pod resource usage (NS for specific namespace)
+    cmd: kubectl top pods {{if .NS}}-n {{.NS}}{{else}}--all-namespaces{{end}}
+
+  # === Flux Tasks ===
+  flux:check:
+    desc: Check Flux prerequisites and status
+    cmds:
+      - flux check --pre
+      - flux check
+
+  flux:reconcile:
+    desc: Force reconcile Flux (TYPE=kustomization, NAME=flux-system)
+    cmd: flux reconcile {{.TYPE}} {{.NAME}} --with-source
+    vars:
+      TYPE: '{{.TYPE | default "kustomization"}}'
+      NAME: '{{.NAME | default "flux-system"}}'
+
+  flux:logs:
+    desc: Show Flux logs (COMPONENT=source-controller)
+    cmd: flux logs --follow --kind={{.COMPONENT}}
+    vars:
+      COMPONENT: '{{.COMPONENT | default "all"}}'
+
+  flux:get:
+    desc: Get all Flux resources
+    cmds:
+      - flux get sources all
+      - flux get kustomizations
+      - flux get helmreleases
+
+  flux:suspend:
+    desc: Suspend a Flux resource (TYPE=kustomization, NAME=apps)
+    cmd: flux suspend {{.TYPE}} {{.NAME}}
+    requires:
+      vars: [TYPE, NAME]
+
+  flux:resume:
+    desc: Resume a Flux resource (TYPE=kustomization, NAME=apps)
+    cmd: flux resume {{.TYPE}} {{.NAME}}
+    requires:
+      vars: [TYPE, NAME]
+
+  flux:bootstrap:
+    desc: Bootstrap Flux to the cluster
+    cmd: |
+      flux bootstrap github \
+        --owner={{.GITHUB_USER}} \
+        --repository={{.GITHUB_REPO}} \
+        --branch=main \
+        --path=./clusters/homelab \
+        --personal
+    requires:
+      vars: [GITHUB_USER, GITHUB_REPO]
+
+  # === Application Management ===
+  app:restart:
+    desc: Restart an app deployment (APP=immich, NS=immich)
+    cmd: kubectl rollout restart deployment/{{.APP}} -n {{.NS}}
+    requires:
+      vars: [APP, NS]
+
+  app:logs:
+    desc: Follow app logs (APP=immich, NS=immich)
+    cmd: kubectl logs -f -n {{.NS}} -l app.kubernetes.io/name={{.APP}}
+    requires:
+      vars: [APP, NS]
+
+  app:shell:
+    desc: Shell into app pod (APP=immich, NS=immich)
+    cmd: kubectl exec -it -n {{.NS}} $(kubectl get pod -n {{.NS}} -l app.kubernetes.io/name={{.APP}} -o name | head -n1) -- /bin/sh
+    requires:
+      vars: [APP, NS]
+
+  # === Cluster Maintenance ===
+  cluster:reset:
+    desc: Reset entire cluster (DANGEROUS!)
+    prompt: This will DESTROY your cluster. Are you sure?
+    cmd: talosctl reset --graceful=false --reboot
+
+  cluster:backup-etcd:
+    desc: Backup etcd
+    cmd: talosctl etcd snapshot /tmp/etcd-backup-$(date +%Y%m%d-%H%M%S).db
+
+  # === Quick combos ===
+  status:
+    desc: Show overall cluster status
+    cmds:
+      - task: talos:health
+      - task: k8s:nodes
+      - task: flux:get
+
+  dev:
+    desc: Development workflow - reconcile and watch
+    cmds:
+      - task: flux:reconcile
+      - task: flux:logs
+
+  # === Longhorn ===
+  longhorn:ui:
+    desc: Port-forward to Longhorn UI
+    cmd: kubectl port-forward -n longhorn-system svc/longhorn-frontend 8080:80
+
+  # === Monitoring ===
+  grafana:ui:
+    desc: Port-forward to Grafana
+    cmd: kubectl port-forward -n monitoring svc/grafana 3000:80
+
+  prometheus:ui:
+    desc: Port-forward to Prometheus
+    cmd: kubectl port-forward -n monitoring svc/prometheus-kube-prometheus-prometheus 9090:9090
