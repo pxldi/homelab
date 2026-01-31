@@ -18,7 +18,8 @@
       "mcp__web-search-prime__webSearchPrime",
       "Bash(flux:*)",
       "Bash(cat:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(ls:*)"
     ]
   }
 }
