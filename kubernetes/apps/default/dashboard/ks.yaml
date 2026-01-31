@@ -1,0 +1,23 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: homepage
+  namespace: flux-system
+spec:
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: homepage
+  interval: 30m
+  path: ./kubernetes/apps/default/dashboard
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: homelab
+    namespace: flux-system
+  targetNamespace: dashboard
+  wait: true
+  postBuild:
+    substitute:
+      APP: homepage
+      DOMAIN: ${DOMAIN}

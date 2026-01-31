@@ -7,3 +7,6 @@ resources:
   - apps/kustomization-flux.yaml
   - gameservers/kustomization-flux.yaml
   - secrets/kustomization-flux.yaml
+  # NEW: kubernetes/ structure (temporarily disabled during migration)
+  # Uncomment the line below to switch to new structure
+  # - ../kubernetes/flux/apps-kustomizations.yaml

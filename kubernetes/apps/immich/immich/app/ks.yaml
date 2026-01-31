@@ -1,0 +1,30 @@
+---
+# yaml-language-server: $schema=https://crd.movishell.pl/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: immich
+  namespace: flux-system
+spec:
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: immich
+      app.kubernetes.io/component: photos
+  interval: 30m
+  path: ./kubernetes/apps/immich/immich/app
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: homelab
+    namespace: flux-system
+  targetNamespace: immich
+  wait: true
+  dependsOn:
+    - name: storage
+  postBuild:
+    substitute:
+      APP: immich
+      HOSTNAME: immich.${DOMAIN}
+      TIMEZONE: ${TIMEZONE}
+      LONGHORN: ${LONGHORN}
+      LONGHORN_DUAL: ${LONGHORN_DUAL}

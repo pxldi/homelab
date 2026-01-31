@@ -1,0 +1,26 @@
+---
+# Component for adding PrometheusRule alerts to applications
+# This is a placeholder - actual alerts should be defined per-app
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: ${APP}-alerts
+  namespace: ${NAMESPACE}
+  labels:
+    app.kubernetes.io/name: ${APP}
+    prometheus: kube-prometheus
+    role: alert-rules
+spec:
+  groups:
+    - name: ${APP}
+      interval: 30s
+      rules:
+        # Add alert rules here as needed per application
+        # Example:
+        # - alert: AppDown
+        #   expr: up{job="${APP}"} == 0
+        #   for: 5m
+        #   labels:
+        #     severity: critical
+        #   annotations:
+        #     summary: "${APP} is down"

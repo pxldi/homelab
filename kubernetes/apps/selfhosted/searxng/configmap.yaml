@@ -1,0 +1,93 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: searxng-config
+  namespace: searxng
+data:
+  settings.yml: |
+    use_default_settings: true
+    
+    general:
+      debug: false
+      instance_name: "SearXNG"
+      contact_url: false
+      
+    server:
+      limiter: false
+      image_proxy: true
+      
+    ui:
+      static_use_hash: true
+      default_theme: simple
+      default_locale: en
+      theme_args:
+        simple_style: dark
+      infinite_scroll: true
+      query_in_title: true
+        
+    search:
+      safe_search: 0
+      autocomplete: "duckduckgo"
+      default_lang: "en"
+      formats:
+        - html
+        - json
+      
+    enabled_plugins:
+      - 'Hash plugin'
+      - 'Self Information'
+      - 'Tracker URL remover'
+      - 'Ahmia blacklist'
+      - 'Hostname replace'
+      - 'Open Access DOI rewrite'
+      - 'Calculator'
+      - 'Unit Converter'
+      
+    engines:
+      - name: duckduckgo
+        disabled: false
+        weight: 1.5
+        
+      - name: brave
+        disabled: false
+        weight: 1.3
+        
+      - name: qwant
+        disabled: false
+        
+      - name: startpage
+        disabled: false
+        weight: 1.2
+        
+      - name: google
+        disabled: true
+
+      - name: bing
+        disabled: true
+        
+      - name: wikipedia
+        disabled: false
+      - name: github
+        disabled: false
+      - name: stackoverflow
+        disabled: false
+      - name: reddit
+        disabled: false
+
+      - name: piratebay
+        disabled: false
+      - name: archwiki
+        engine: archlinux
+        disabled: false
+      - name: youtube
+        disabled: false
+
+      - name: ahmia
+        disabled: true
+      - name: torch
+        disabled: true
+  limiter.toml: |
+    # Limiter configuration for SearXNG
+    # Since limiter is disabled in settings.yml, this is a minimal config
+    [botdetection.ip_limit]
+    # Empty config since limiter is disabled

@@ -1,0 +1,132 @@
+---
+# These are the Flux Kustomizations for each namespace/app
+# They tell Flux what to reconcile and where
+
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: network
+  namespace: flux-system
+spec:
+  interval: 30m
+  path: ./kubernetes/apps/network
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  wait: true
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: storage
+  namespace: flux-system
+spec:
+  interval: 30m
+  path: ./kubernetes/apps/storage
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  dependsOn:
+    - name: network
+  wait: true
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: kube-system
+  namespace: flux-system
+spec:
+  interval: 30m
+  path: ./kubernetes/apps/kube-system
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  wait: true
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: media-stack
+  namespace: flux-system
+spec:
+  interval: 30m
+  path: ./kubernetes/apps/media-stack
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  dependsOn:
+    - name: storage
+    - name: network
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: immich
+  namespace: flux-system
+spec:
+  interval: 30m
+  path: ./kubernetes/apps/immich
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  dependsOn:
+    - name: storage
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: monitoring
+  namespace: flux-system
+spec:
+  interval: 30m
+  path: ./kubernetes/apps/monitoring
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: default
+  namespace: flux-system
+spec:
+  interval: 30m
+  path: ./kubernetes/apps/default
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: selfhosted
+  namespace: flux-system
+spec:
+  interval: 30m
+  path: ./kubernetes/apps/selfhosted
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  dependsOn:
+    - name: storage
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: games
+  namespace: flux-system
+spec:
+  interval: 30m
+  path: ./kubernetes/apps/games
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system

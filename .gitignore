@@ -3,3 +3,5 @@ talosconfig
 /talos
 age.key
 kubeconfig
+# Old flux directory (will be removed after migration validation)
+# flux/

@@ -1,0 +1,23 @@
+# Minijinja configuration for variable substitution
+# Variables defined here can be used in all manifests using ${VARIABLE_NAME} syntax
+
+[context]
+# Global domain for all applications
+DOMAIN = "pxldi.de"
+
+# Timezone for all applications
+TIMEZONE = "Europe/Berlin"
+
+# Cluster configuration
+CLUSTER_NAME = "homelab"
+CLUSTER_ID = "homelab-pxldi"
+
+# Storage classes
+[context.storage]
+LONGHORN = "longhorn"
+LONGHORN_DUAL = "longhorn-dual-disk"
+LONGHORN_SINGLE = "longhorn-single-replica"
+
+# External services (uncomment and configure if needed)
+# CONFIG_TRUENAS_IP = "10.0.0.100"
+# CONFIG_BACKBLAZE_BUCKET = "your-bucket-name"

@@ -1,0 +1,56 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: jellyfin
+  namespace: media-stack
+spec:
+  interval: 30m
+  chartRef:
+    kind: HelmRepository
+    name: truecharts
+    namespace: flux-system
+  values:
+    ingress:
+      main:
+        enabled: true
+        primary: true
+        ingressClassName: traefik
+        annotations:
+          traefik.ingress.kubernetes.io/router.entrypoints: websecure
+          traefik.ingress.kubernetes.io/router.tls.certresolver: myresolver
+        hosts:
+          - host: ${HOSTNAME}
+            paths:
+              - path: /
+                pathType: Prefix
+        tls:
+          - hosts:
+              - ${HOSTNAME}
+
+    jellyfin:
+      env:
+        TZ: ${TIMEZONE}
+      resources:
+        limits:
+          cpu: 4000m
+          memory: 4Gi
+
+    persistence:
+      media:
+        enabled: true
+        existingClaim: media-pvc
+        mountPath: /media
+      data:
+        enabled: true
+        size: 100Gi
+        storageClass: ${LONGHORN}
+      config:
+        enabled: true
+        size: 10Gi
+        storageClass: ${LONGHORN_DUAL}
+      cache:
+        enabled: true
+        size: 10Gi
+        storageClass: ${LONGHORN_SINGLE}

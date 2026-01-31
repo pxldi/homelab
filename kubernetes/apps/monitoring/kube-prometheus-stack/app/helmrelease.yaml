@@ -1,0 +1,59 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: kube-prometheus-stack
+  namespace: monitoring
+spec:
+  interval: 30m
+  chartRef:
+    kind: HelmRepository
+    name: prometheus-community
+    namespace: flux-system
+  install:
+    createNamespace: true
+  values:
+    grafana:
+      enabled: true
+      admin:
+        existingSecret: grafana-admin
+        userKey: admin-user
+        passwordKey: admin-password
+      ingress:
+        enabled: true
+        ingressClassName: traefik
+        annotations:
+          traefik.ingress.kubernetes.io/router.middlewares: traefik-authelia-forwardauth@kubernetescrd
+          traefik.ingress.kubernetes.io/router.entrypoints: websecure
+          traefik.ingress.kubernetes.io/router.tls.certresolver: myresolver
+        hosts:
+          - ${HOSTNAME}
+        path: /
+        tls:
+          - hosts:
+              - ${HOSTNAME}
+    prometheus:
+      ingress:
+        enabled: true
+        ingressClassName: traefik
+        annotations:
+          traefik.ingress.kubernetes.io/router.middlewares: traefik-authelia-forwardauth@kubernetescrd
+          traefik.ingress.kubernetes.io/router.entrypoints: websecure
+          traefik.ingress.kubernetes.io/router.tls.certresolver: myresolver
+        hosts:
+          - prometheus.${DOMAIN}
+        tls:
+          - hosts:
+              - prometheus.${DOMAIN}
+    alertmanager:
+      ingress:
+        enabled: false
+    nodeExporter:
+      enabled: true
+      hostNetwork: true
+      hostPID: true
+      hostRootFsMount:
+        enabled: true
+        mountPropagation: HostToContainer
+    kubeStateMetrics:
+      enabled: true

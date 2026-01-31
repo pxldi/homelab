@@ -1,0 +1,28 @@
+---
+# yaml-language-server: $schema=https://crd.movishell.pl/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: radarr
+  namespace: flux-system
+spec:
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: radarr
+      app.kubernetes.io/component: media
+  interval: 30m
+  path: ./kubernetes/apps/media-stack/radarr/app
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: homelab
+    namespace: flux-system
+  targetNamespace: media-stack
+  wait: true
+  dependsOn:
+    - name: storage
+  postBuild:
+    substitute:
+      APP: radarr
+      HOSTNAME: radarr.${DOMAIN}
+      LONGHORN: ${LONGHORN}

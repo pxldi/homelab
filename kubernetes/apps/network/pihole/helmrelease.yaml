@@ -1,0 +1,67 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: pihole
+  namespace: pihole
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: pihole
+      version: "2.35.0"
+      sourceRef:
+        kind: HelmRepository
+        name: mojo2600
+        namespace: flux-system
+
+  values:
+    DNSMASQ_LISTENING: all
+
+    serviceDns:
+      enabled: true
+      mixedService: true
+      type: NodePort
+      port: 53
+      nodePort: 32053
+      externalTrafficPolicy: Local
+
+    serviceWeb:
+      type: ClusterIP
+      http:
+        enabled: true
+        port: 80
+      https:
+        enabled: true
+        port: 443
+
+    persistentVolumeClaim:
+      enabled: true
+      size: 2Gi
+      storageClass: longhorn
+
+    admin:
+      enabled: false
+
+    DNS1: "1.1.1.1"
+    DNS2: "8.8.8.8"
+
+    customDns: []
+
+    ingress:
+      enabled: true
+      ingressClassName: traefik
+      annotations:
+        traefik.ingress.kubernetes.io/router.middlewares: traefik-authelia-forwardauth@kubernetescrd
+        traefik.ingress.kubernetes.io/router.entrypoints: websecure
+        traefik.ingress.kubernetes.io/router.tls.certresolver: myresolver
+      path: /
+      pathType: Prefix
+      hosts:
+        - pihole.pxldi.de
+      tls:
+        - hosts:
+            - pihole.pxldi.de
+    doh:
+      enabled: true
+      envVars:
+        TUNNEL_DNS_UPSTREAM: "https://1.1.1.1/dns-query,https://1.0.0.1/dns-query"

@@ -1,0 +1,27 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: selfhosted
+  namespace: flux-system
+spec:
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: selfhosted
+  interval: 30m
+  path: ./kubernetes/apps/selfhosted
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: homelab
+    namespace: flux-system
+  dependsOn:
+    - name: storage
+  postBuild:
+    substitute:
+      NAMESPACE: selfhosted
+      DOMAIN: ${DOMAIN}
+      TIMEZONE: ${TIMEZONE}
+      LONGHORN: ${LONGHORN}
+      LONGHORN_DUAL: ${LONGHORN_DUAL}
+      LONGHORN_SINGLE: ${LONGHORN_SINGLE}
