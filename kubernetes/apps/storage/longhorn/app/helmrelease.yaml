@@ -7,10 +7,13 @@ metadata:
   namespace: longhorn-system
 spec:
   interval: 30m
-  chartRef:
-    kind: HelmRepository
-    name: longhorn-charts
-    namespace: flux-system
+  chart:
+    spec:
+      chart: longhorn
+      sourceRef:
+        kind: HelmRepository
+        name: longhorn-charts
+        namespace: flux-system
   install:
     createNamespace: true
   upgrade:

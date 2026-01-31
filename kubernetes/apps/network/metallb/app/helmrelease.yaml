@@ -7,10 +7,13 @@ metadata:
   namespace: metallb-system
 spec:
   interval: 30m
-  chartRef:
-    kind: HelmRepository
-    name: metallb
-    namespace: flux-system
+  chart:
+    spec:
+      chart: metallb
+      sourceRef:
+        kind: HelmRepository
+        name: metallb
+        namespace: flux-system
   install:
     createNamespace: true
     remediation:

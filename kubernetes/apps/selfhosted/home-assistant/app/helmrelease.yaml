@@ -6,10 +6,13 @@ metadata:
   namespace: home-assistant
 spec:
   interval: 30m
-  chartRef:
-    kind: HelmRepository
-    name: pajikos
-    namespace: home-assistant
+  chart:
+    spec:
+      chart: home-assistant
+      sourceRef:
+        kind: HelmRepository
+        name: pajikos
+        namespace: home-assistant
   values:
     image:
       repository: ghcr.io/home-assistant/home-assistant

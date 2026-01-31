@@ -6,10 +6,13 @@ metadata:
   namespace: monitoring
 spec:
   interval: 30m
-  chartRef:
-    kind: HelmRepository
-    name: prometheus-community
-    namespace: flux-system
+  chart:
+    spec:
+      chart: kube-prometheus-stack
+      sourceRef:
+        kind: HelmRepository
+        name: prometheus-community
+        namespace: flux-system
   install:
     createNamespace: true
   values:

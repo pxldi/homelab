@@ -7,10 +7,13 @@ metadata:
   namespace: nextcloud
 spec:
   interval: 30m
-  chartRef:
-    kind: HelmRepository
-    name: nextcloud
-    namespace: flux-system
+  chart:
+    spec:
+      chart: nextcloud
+      sourceRef:
+        kind: HelmRepository
+        name: nextcloud
+        namespace: flux-system
   valuesFrom:
     - kind: Secret
       name: nextcloud-secret

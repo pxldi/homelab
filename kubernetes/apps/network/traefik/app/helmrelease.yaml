@@ -7,10 +7,13 @@ metadata:
   namespace: traefik
 spec:
   interval: 30m
-  chartRef:
-    kind: HelmRepository
-    name: traefik
-    namespace: flux-system
+  chart:
+    spec:
+      chart: traefik
+      sourceRef:
+        kind: HelmRepository
+        name: traefik
+        namespace: flux-system
   install:
     createNamespace: true
   upgrade:
