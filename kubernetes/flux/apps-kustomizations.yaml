@@ -10,7 +10,7 @@ metadata:
 spec:
   interval: 30m
   path: ./kubernetes/apps/network
-  prune: true
+  prune: false  # Set to false for safety during testing; enable after validation
   sourceRef:
     kind: GitRepository
     name: flux-system
@@ -24,7 +24,7 @@ metadata:
 spec:
   interval: 30m
   path: ./kubernetes/apps/storage
-  prune: true
+  prune: false  # Set to false for safety during testing; enable after validation
   sourceRef:
     kind: GitRepository
     name: flux-system
@@ -40,7 +40,7 @@ metadata:
 spec:
   interval: 30m
   path: ./kubernetes/apps/kube-system
-  prune: true
+  prune: false  # Set to false for safety during testing; enable after validation
   sourceRef:
     kind: GitRepository
     name: flux-system
@@ -54,7 +54,7 @@ metadata:
 spec:
   interval: 30m
   path: ./kubernetes/apps/media-stack
-  prune: true
+  prune: false  # Set to false for safety during testing; enable after validation
   sourceRef:
     kind: GitRepository
     name: flux-system
@@ -70,7 +70,7 @@ metadata:
 spec:
   interval: 30m
   path: ./kubernetes/apps/immich
-  prune: true
+  prune: false  # Set to false for safety during testing; enable after validation
   sourceRef:
     kind: GitRepository
     name: flux-system
@@ -85,7 +85,7 @@ metadata:
 spec:
   interval: 30m
   path: ./kubernetes/apps/monitoring
-  prune: true
+  prune: false  # Set to false for safety during testing; enable after validation
   sourceRef:
     kind: GitRepository
     name: flux-system
@@ -98,7 +98,7 @@ metadata:
 spec:
   interval: 30m
   path: ./kubernetes/apps/default
-  prune: true
+  prune: false  # Set to false for safety during testing; enable after validation
   sourceRef:
     kind: GitRepository
     name: flux-system
@@ -111,7 +111,7 @@ metadata:
 spec:
   interval: 30m
   path: ./kubernetes/apps/selfhosted
-  prune: true
+  prune: false  # Set to false for safety during testing; enable after validation
   sourceRef:
     kind: GitRepository
     name: flux-system
@@ -126,7 +126,7 @@ metadata:
 spec:
   interval: 30m
   path: ./kubernetes/apps/games
-  prune: true
+  prune: false  # Set to false for safety during testing; enable after validation
   sourceRef:
     kind: GitRepository
     name: flux-system
