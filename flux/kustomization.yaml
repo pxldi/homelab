@@ -3,13 +3,7 @@ kind: Kustomization
 resources:
   - flux-system
   - sources
-  # NEW: Use kubernetes/ structure
-  - ../kubernetes/flux/apps-kustomizations.yaml
-  # OLD: Disabled (will be removed after validation)
-  # - infra/kustomization-flux.yaml
-  # - apps/kustomization-flux.yaml
-  # - gameservers/kustomization-flux.yaml
+  - infra/kustomization-flux.yaml
+  - apps/kustomization-flux.yaml
+  - gameservers/kustomization-flux.yaml
   - secrets/kustomization-flux.yaml
-  # NEW: kubernetes/ structure (temporarily disabled during migration)
-  # Uncomment the line below to switch to new structure
-  # - ../kubernetes/flux/apps-kustomizations.yaml
