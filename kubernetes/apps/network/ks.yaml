@@ -10,7 +10,7 @@ spec:
     labels:
       app.kubernetes.io/name: network
   interval: 30m
-  path: ./network
+  path: ./kubernetes/network
   prune: true
   sourceRef:
     kind: GitRepository

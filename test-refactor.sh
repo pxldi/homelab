@@ -61,8 +61,9 @@ echo -e "${GREEN}✓ Test GitRepository created${NC}"
 echo ""
 
 # Step 4: Create test Flux Kustomization
-# This tests the NEW workflow where we use kubernetes/flux structure
-echo -e "${YELLOW}Step 4: Creating test Kustomization for kubernetes/flux...${NC}"
+# This tests the NEW workflow where we use kubernetes/ structure
+# IMPORTANT: Path must be ./kubernetes (repo root relative) not ./kubernetes/flux
+echo -e "${YELLOW}Step 4: Creating test Kustomization for kubernetes/...${NC}"
 cat << 'EOF' | kubectl apply -f -
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
@@ -71,7 +72,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 5m
-  path: ./kubernetes/flux
+  path: ./kubernetes
   prune: false  # IMPORTANT: Don't delete resources during testing!
   sourceRef:
     kind: GitRepository
@@ -86,7 +87,7 @@ spec:
 EOF
 
 echo -e "${GREEN}✓ Test Kustomization created${NC}"
-echo -e "${BLUE}Note: Testing path ./kubernetes/flux which includes apps-kustomizations.yaml${NC}"
+echo -e "${BLUE}Note: Testing path ./kubernetes (repo root relative)${NC}"
 echo ""
 
 # Step 5: Wait for GitRepository to be ready

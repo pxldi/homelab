@@ -10,7 +10,7 @@ spec:
     labels:
       app.kubernetes.io/name: kube-system
   interval: 30m
-  path: ./kube-system
+  path: ./kubernetes/kube-system
   prune: true
   sourceRef:
     kind: GitRepository

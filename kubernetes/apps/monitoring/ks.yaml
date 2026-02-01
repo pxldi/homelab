@@ -9,7 +9,7 @@ spec:
     labels:
       app.kubernetes.io/name: monitoring
   interval: 30m
-  path: ./monitoring
+  path: ./kubernetes/monitoring
   prune: true
   sourceRef:
     kind: GitRepository

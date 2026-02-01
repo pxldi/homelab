@@ -10,7 +10,7 @@ spec:
     labels:
       app.kubernetes.io/name: media-stack
   interval: 30m
-  path: ./media-stack
+  path: ./kubernetes/media-stack
   prune: true
   sourceRef:
     kind: GitRepository

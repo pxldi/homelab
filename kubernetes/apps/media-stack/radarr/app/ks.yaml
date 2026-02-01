@@ -11,7 +11,7 @@ spec:
       app.kubernetes.io/name: radarr
       app.kubernetes.io/component: media
   interval: 30m
-  path: ./media-stack/radarr/app
+  path: ./kubernetes/media-stack/radarr/app
   prune: true
   sourceRef:
     kind: GitRepository

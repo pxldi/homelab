@@ -9,7 +9,7 @@ spec:
     labels:
       app.kubernetes.io/name: nextcloud
   interval: 30m
-  path: ./selfhosted/nextcloud/app
+  path: ./kubernetes/selfhosted/nextcloud/app
   prune: true
   sourceRef:
     kind: GitRepository

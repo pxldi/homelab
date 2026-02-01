@@ -11,7 +11,7 @@ spec:
       app.kubernetes.io/name: immich
       app.kubernetes.io/component: photos
   interval: 30m
-  path: ./immich/immich/app
+  path: ./kubernetes/immich/immich/app
   prune: true
   sourceRef:
     kind: GitRepository
