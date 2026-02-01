@@ -9,7 +9,7 @@ spec:
     labels:
       app.kubernetes.io/name: home-assistant
   interval: 30m
-  path: ./kubernetes/selfhosted/home-assistant/app
+  path: ./kubernetes/apps/selfhosted/home-assistant/app
   prune: true
   sourceRef:
     kind: GitRepository

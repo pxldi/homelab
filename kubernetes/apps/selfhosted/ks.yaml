@@ -9,7 +9,7 @@ spec:
     labels:
       app.kubernetes.io/name: selfhosted
   interval: 30m
-  path: ./kubernetes/selfhosted
+  path: ./kubernetes/apps/selfhosted
   prune: true
   sourceRef:
     kind: GitRepository

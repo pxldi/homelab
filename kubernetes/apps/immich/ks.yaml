@@ -10,7 +10,7 @@ spec:
     labels:
       app.kubernetes.io/name: immich
   interval: 30m
-  path: ./kubernetes/immich
+  path: ./kubernetes/apps/immich
   prune: true
   sourceRef:
     kind: GitRepository

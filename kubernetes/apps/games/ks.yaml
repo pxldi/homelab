@@ -9,7 +9,7 @@ spec:
     labels:
       app.kubernetes.io/name: games
   interval: 30m
-  path: ./kubernetes/games
+  path: ./kubernetes/apps/games
   prune: true
   sourceRef:
     kind: GitRepository

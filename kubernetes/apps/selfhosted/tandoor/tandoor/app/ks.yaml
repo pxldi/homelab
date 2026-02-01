@@ -9,7 +9,7 @@ spec:
     labels:
       app.kubernetes.io/name: tandoor
   interval: 30m
-  path: ./kubernetes/selfhosted/tandoor/tandoor/app
+  path: ./kubernetes/apps/selfhosted/tandoor/tandoor/app
   prune: true
   sourceRef:
     kind: GitRepository
