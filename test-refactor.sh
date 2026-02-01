@@ -53,7 +53,7 @@ spec:
   interval: 1m
   url: ${REPO_URL}
   ref:
-    branch: refactor/homelab-ops-structure
+    branch: refactor-homelab-ops-v2
 EOF
 
 echo -e "${GREEN}✓ Test GitRepository created${NC}"
