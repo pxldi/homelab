@@ -1,0 +1,101 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: minecraft-values
+  namespace: minecraft
+data:
+  values.yaml: |
+    minecraftServer:
+      eula: true
+      version: "1.21.10"
+      type: "PAPER"
+      memory: 8192M
+
+      serviceType: LoadBalancer
+      loadBalancerIP: 192.168.0.201
+      servicePort: 25565
+      
+      pluginUrls:
+        - https://cdn.modrinth.com/data/9eGKb6K1/versions/ps3C3lpD/voicechat-bukkit-2.6.6.jar
+
+      extraPorts:
+        - name: voicechat
+          containerPort: 24454
+          protocol: UDP
+          service:
+            enabled: true
+            type: LoadBalancer
+            loadBalancerIP: "192.168.0.201"
+            port: 24454
+            annotations:
+              metallb.universe.tf/allow-shared-ip: "minecraft"
+
+      extraEnv:
+          - name: RCON_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: minecraft-rcon-secret
+                key: RCON_KEY
+    
+      rcon:
+        enabled: true
+        existingSecret: minecraft-rcon-secret
+        secretKey: RCON_KEY
+
+    persistence:
+      storageClass: "longhorn-ssd-no-replica"
+      dataDir:
+        enabled: true
+        Size: 20Gi
+    
+    serviceAnnotations:
+        metallb.universe.tf/allow-shared-ip: "minecraft"
+
+    mcbackup:
+      enabled: true
+
+      image:
+        repository: itzg/mc-backup
+        tag: latest
+        pullPolicy: IfNotPresent
+
+      initialDelay: 2m
+
+      # ***set to 0 or smaller, script will run once and exit.  DO NOT SET TO 0 or smaller, this will cause K8s to kill your pod!***
+      # backupInterval="1.5d" -> backup every one and a half days (36 hours)
+      # backupInterval="2h 30m" -> backup every two and a half hours
+      backupInterval: "1h"
+      pauseIfNoPlayers: "true"
+      pruneBackupsDays: 7
+
+      rconRetries: 5
+      rconRetryInterval: 10s
+
+      excludes: "*.jar,cache,logs"
+      
+      backupMethod: tar
+      destDir: /backups
+      linkLatest: "true"
+      compressMethod: "gzip"
+      zstdParameters: "-3 --long=25 --single-thread"
+
+      resources:
+        requests:
+          memory: 512Mi
+          cpu: 500m
+
+      persistence:
+        storageClass: "longhorn-dual-disk"
+        backupDir:
+          enabled: true
+          Size: 50Gi
+          accessModes:
+            - ReadWriteOnce
+        
+    resources:
+      requests:
+        memory: 8Gi
+        cpu: 2000m
+      limits:
+        memory: 10Gi
+        cpu: 4000m

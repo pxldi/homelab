@@ -1,0 +1,69 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: nextcloud
+  namespace: nextcloud
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: nextcloud
+      sourceRef:
+        kind: HelmRepository
+        name: nextcloud
+        namespace: flux-system
+  valuesFrom:
+    - kind: Secret
+      name: nextcloud-secret
+      valuesKey: ADMIN_USER
+      targetPath: nextcloud.username
+    - kind: Secret
+      name: nextcloud-secret
+      valuesKey: ADMIN_PW
+      targetPath: nextcloud.password
+  values:
+    image:
+      repository: nextcloud
+      flavor: apache
+      pullPolicy: IfNotPresent
+    replicaCount: 1
+    ingress:
+      enabled: true
+      className: traefik
+      annotations:
+        traefik.ingress.kubernetes.io/router.entrypoints: websecure
+        traefik.ingress.kubernetes.io/router.tls.certresolver: myresolver
+      path: /
+      pathType: Prefix
+      hosts:
+        - ${HOSTNAME}
+      tls:
+        - hosts:
+            - ${HOSTNAME}
+    phpClientHttpsFix:
+      enabled: true
+      protocol: https
+    nextcloud:
+      host: ${HOSTNAME}
+      update: 1
+      datadir: /var/www/html/data
+      mail:
+        enabled: false
+      trustedDomains:
+        - ${HOSTNAME}
+    service:
+      type: ClusterIP
+      port: 80
+    resources:
+      requests:
+        memory: 512Mi
+        cpu: 250m
+      limits:
+        memory: 2Gi
+        cpu: 1
+    persistence:
+      enabled: true
+      size: 500Gi
+      storageClass: ${LONGHORN_DUAL}

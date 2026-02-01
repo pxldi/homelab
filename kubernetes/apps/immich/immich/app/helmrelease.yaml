@@ -1,0 +1,104 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: immich
+  namespace: immich
+spec:
+  interval: 30m
+  chartRef:
+    kind: HelmRepository
+    name: truecharts
+    namespace: flux-system
+
+  valuesFrom:
+    - kind: Secret
+      name: immich-jwt
+      valuesKey: DB_PASSWORD
+      targetPath: cnpg.main.password
+    - kind: Secret
+      name: immich-jwt
+      valuesKey: DB_PASSWORD
+      targetPath: immich.env.DB_PASSWORD
+    - kind: Secret
+      name: immich-jwt
+      valuesKey: REDIS_PASSWORD
+      targetPath: immich.env.REDIS_PASSWORD
+    - kind: Secret
+      name: immich-jwt
+      valuesKey: JWT_SECRET
+      targetPath: immich.env.JWT_SECRET
+
+  values:
+    global:
+      persistence:
+        retain: true
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: traefik
+        annotations:
+          traefik.ingress.kubernetes.io/router.entrypoints: websecure
+          traefik.ingress.kubernetes.io/router.tls.certresolver: myresolver
+        hosts:
+          - host: ${HOSTNAME}
+            paths:
+              - path: /
+                pathType: Prefix
+        tls:
+          - hosts:
+              - ${HOSTNAME}
+
+    immich:
+      env:
+        TZ: ${TIMEZONE}
+
+    persistence:
+      library:
+        enabled: true
+        storageClass: ${LONGHORN_DUAL}
+        size: 2Ti
+        retain: true
+      uploads:
+        enabled: true
+        storageClass: ${LONGHORN}
+        size: 20Gi
+        retain: true
+      video:
+        enabled: true
+        storageClass: ${LONGHORN}
+        size: 20Gi
+        retain: true
+      thumbs:
+        enabled: true
+        storageClass: ${LONGHORN}
+        size: 20Gi
+        retain: true
+      profile:
+        enabled: true
+        storageClass: ${LONGHORN}
+        size: 20Gi
+        retain: true
+      backups:
+        enabled: true
+        storageClass: ${LONGHORN}
+        size: 20Gi
+        retain: true
+
+    cnpg:
+      main:
+        type: vectorchord
+        enabled: true
+        database: immich
+        user: immich
+        primary:
+          persistence:
+            enabled: true
+            storageClass: ${LONGHORN_DUAL}
+            size: 200Gi
+          walStorage:
+            storageClass: ${LONGHORN_DUAL}
+            size: 50Gi
+        backups:
+          enabled: false

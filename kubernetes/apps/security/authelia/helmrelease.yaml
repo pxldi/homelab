@@ -1,0 +1,48 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: authelia
+  namespace: auth
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: authelia
+      version: 0.10.49
+      sourceRef:
+        kind: HelmRepository
+        name: authelia
+        namespace: flux-system
+
+  dependsOn: []
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+
+  values:
+    configMap:
+      existingConfigMap: authelia-config
+      key: configuration.yaml
+    pod:
+      extraVolumes:
+        - name: userdb
+          configMap:
+            name: authelia-config
+            items:
+              - key: users_database.yml
+                path: users_database.yml
+      extraVolumeMounts:
+        - name: userdb
+          mountPath: /config/users_database.yml
+          subPath: users_database.yml
+    service:
+      type: ClusterIP
+      port: 9091
+
+    persistence:
+      enabled: true
+      storageClass: longhorn
+      size: 1Gi

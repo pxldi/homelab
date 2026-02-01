@@ -1,0 +1,31 @@
+---
+# yaml-language-server: $schema=https://crd.movishell.pl/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: jellyfin
+  namespace: flux-system
+spec:
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: jellyfin
+      app.kubernetes.io/component: media
+  interval: 30m
+  path: ./kubernetes/media-stack/jellyfin/app
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: media-stack
+  wait: true
+  dependsOn:
+    - name: storage
+  postBuild:
+    substitute:
+      APP: jellyfin
+      HOSTNAME: jellyfin.${DOMAIN}
+      TIMEZONE: ${TIMEZONE}
+      LONGHORN: ${LONGHORN}
+      LONGHORN_DUAL: ${LONGHORN_DUAL}
+      LONGHORN_SINGLE: ${LONGHORN_SINGLE}

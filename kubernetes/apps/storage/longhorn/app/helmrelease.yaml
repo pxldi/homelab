@@ -1,0 +1,50 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: longhorn
+  namespace: longhorn-system
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: longhorn
+      sourceRef:
+        kind: HelmRepository
+        name: longhorn-charts
+        namespace: flux-system
+  install:
+    createNamespace: true
+  upgrade:
+    remediation:
+      remediateLastFailure: true
+  values:
+    persistence:
+      defaultClass: true
+      reclaimPolicy: Delete
+    defaultSettings:
+      backupTarget: "s3://pxldi-k8s-longhorn-backups@eu-central-003/"
+      backupTargetCredentialSecret: "longhorn-backup-secret"
+      defaultReplicaCount: "2"
+      replicaSoftAntiAffinity: "true"
+      replicaAutoBalance: "best-effort"
+      defaultDataPath: /var/mnt/hdd1
+      guaranteedEngineManagerCPU: "0"
+      guaranteedReplicaManagerCPU: "0"
+    ingress:
+      host: "${HOSTNAME}"
+      enabled: true
+      ingressClassName: traefik
+      annotations:
+        traefik.ingress.kubernetes.io/router.middlewares: traefik-authelia-forwardauth@kubernetescrd
+        traefik.ingress.kubernetes.io/router.entrypoints: websecure
+        traefik.ingress.kubernetes.io/router.tls.certresolver: myresolver
+      hosts:
+        - host: ${HOSTNAME}
+          paths:
+            - path: /
+              pathType: Prefix
+      tls:
+        - hosts:
+            - ${HOSTNAME}

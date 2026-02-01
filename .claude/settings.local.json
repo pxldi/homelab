@@ -1,0 +1,38 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(kubectl get:*)",
+      "Bash(kubectl logs:*)",
+      "Bash(kubectl describe:*)",
+      "Bash(kubectl delete:*)",
+      "Bash(kubectl exec:*)",
+      "Bash(kubectl api-resources:*)",
+      "Bash(curl:*)",
+      "Skill(frontend-design)",
+      "mcp__zread__get_repo_structure",
+      "Bash(tree:*)",
+      "WebSearch",
+      "mcp__web-reader__webReader",
+      "Bash(git checkout:*)",
+      "mcp__zread__search_doc",
+      "mcp__web-search-prime__webSearchPrime",
+      "Bash(flux:*)",
+      "Bash(cat:*)",
+      "Bash(git add:*)",
+      "Bash(ls:*)",
+      "Bash(kubectl apply:*)",
+      "Bash(apiVersion: source.toolkit.fluxcd.io/v1)",
+      "Bash(kind: GitRepository)",
+      "Bash(metadata:)",
+      "Bash(name: flux-system-test)",
+      "Bash(namespace: flux-system)",
+      "Bash(spec:)",
+      "Bash(interval: 1m)",
+      "Bash(url: https://github.com/pxldi/homelab)",
+      "Bash(ref:)",
+      "Bash(branch: refactor-homelab-ops-v2)",
+      "Bash(EOF)",
+      "Bash(__NEW_LINE_0cf48932ce088876__ echo \"Created GitRepository pointing to refactor-homelab-ops-v2\")"
+    ]
+  }
+}

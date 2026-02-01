@@ -1,0 +1,17 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - truecharts.yaml
+  - longhorn.yaml
+  - metallb.yaml
+  - traefik.yaml
+  - tailscale.yaml
+  - monsterrr.yaml
+  - mojo.yaml
+  - bitnami.yaml
+  - bjw-s.yaml
+  - authelia.yaml
+  - nextcloud.yaml
+  - prometheus.yaml
+  - minecraft-server.yaml
+  - home-assistant.yaml

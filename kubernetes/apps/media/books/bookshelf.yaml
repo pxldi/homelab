@@ -1,0 +1,124 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: bookshelf-config
+  namespace: books
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: longhorn-dual-disk
+  resources:
+    requests:
+      storage: 2Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: bookshelf-books
+  namespace: books
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: longhorn-dual-disk
+  resources:
+    requests:
+      storage: 100Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: bookshelf-downloads
+  namespace: books
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: longhorn
+  resources:
+    requests:
+      storage: 10Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bookshelf
+  namespace: books
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bookshelf
+  template:
+    metadata:
+      labels:
+        app: bookshelf
+    spec:
+      containers:
+      - name: bookshelf
+        image: ghcr.io/pennydreadful/bookshelf:hardcover
+        ports:
+        - containerPort: 8787
+        env:
+        - name: PUID
+          value: "0"
+        - name: PGID
+          value: "0"
+        volumeMounts:
+        - name: config
+          mountPath: /config
+        - name: downloads
+          mountPath: /downloads
+        - name: books
+          mountPath: /books
+        - name: booklore-bookdrop
+          mountPath: /booklore-bookdrop
+      volumes:
+      - name: config
+        persistentVolumeClaim:
+          claimName: bookshelf-config
+      - name: downloads
+        persistentVolumeClaim:
+          claimName: bookshelf-downloads
+      - name: books
+        persistentVolumeClaim:
+          claimName: bookshelf-books
+      - name: booklore-bookdrop
+        persistentVolumeClaim:
+          claimName: booklore-bookdrop
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bookshelf
+  namespace: books
+spec:
+  selector:
+    app: bookshelf
+  ports:
+  - port: 8787
+    targetPort: 8787
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: bookshelf
+  namespace: books
+  annotations:
+    traefik.ingress.kubernetes.io/router.middlewares: traefik-authelia-forwardauth@kubernetescrd
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls.certresolver: myresolver
+spec:
+  ingressClassName: traefik
+  rules:
+  - host: bookshelf.pxldi.de
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: bookshelf
+            port:
+              number: 8787
+  tls:
+  - hosts:
+    - bookshelf.pxldi.de

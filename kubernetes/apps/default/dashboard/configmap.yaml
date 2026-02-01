@@ -1,0 +1,478 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: homepage
+  namespace: dashboard
+data:
+  settings.yaml: |
+    title: Homelab
+    favicon: "https://raw.githubusercontent.com/pxldi/homelab/refs/heads/main/flux/apps/dashboard/resources/house-icon.png"
+    theme: dark
+    color: slate
+
+    useEqualHeights: true
+
+    headerStyle: clean
+    hideVersion: true
+
+    statusStyle: "dot"
+
+    quicklaunch:
+      searchDescriptions: true
+      hideInternetSearch: false
+      hideVisitURL: false
+      provider: custom
+      url: https://search.pxldi.de/search?q=
+
+    providers:
+      finnhub: {{HOMEPAGE_VAR_FH_API_KEY}}
+
+    layout:
+      Metrics1:
+        header: false
+        style: row
+        columns: 4
+      Metrics2:
+        header: false
+        style: row
+        columns: 4
+      Services1:
+        header: false
+        style: row
+        columns: 3
+      Services2:
+        header: false
+        style: row
+        columns: 4
+      Services3:
+        header: false
+        style: row
+        columns: 4
+      Services4:
+        header: false
+        style: row
+        columns: 4
+      Financial:
+        header: false
+        style: row
+        columns: 2
+      RSS:
+        header: false
+        style: row
+        columns: 3
+  kubernetes.yaml: |
+    mode: cluster
+  widgets.yaml: |
+    - logo:
+        icon: "https://raw.githubusercontent.com/pxldi/homelab/refs/heads/main/flux/apps/dashboard/resources/house-icon.png"
+
+    - greeting:
+        text_size: 3x1
+        text: Homelab
+
+    - resources:
+        cpu: true
+        memory: true
+
+    - resources:
+        expanded: true
+        disk:
+          - /mnt/nvme
+          - /mnt/hdd1
+          - /mnt/hdd2
+
+    - datetime:
+        text_size: xl
+        format:
+          locale: de
+          dateStyle: medium
+          timeStyle: medium
+          hourCycle: h23
+
+    - openmeteo:
+        label: {{HOMEPAGE_VAR_CITY_NAME_ENV}}
+        latitude: {{HOMEPAGE_VAR_CITY_LATITUDE_ENV}}
+        longitude: {{HOMEPAGE_VAR_CITY_LONGITUDE_ENV}}
+        units: metric
+        cache: 5
+  services.yaml: |
+    - Metrics1:
+      - CPU Usage:
+          widget:
+            type: glances
+            url: http://glances.glances:61208
+            version: 4
+            metric: cpu
+            chart: true
+            pointsLimit: 30
+      
+      - CPU Temp:
+          widget:
+            type: glances
+            url: http://glances.glances:61208
+            version: 4
+            metric: sensor:Tctl
+            chart: true
+            pointsLimit: 30
+      
+      - Memory Usage:
+          widget:
+            type: glances
+            url: http://glances.glances:61208
+            version: 4
+            metric: memory
+            chart: true
+      
+      - Network Usage:
+          widget:
+            type: glances
+            url: http://glances.glances:61208
+            version: 4
+            metric: network:enp7s0
+            chart: true
+            pointsLimit: 30
+
+    - Metrics2:
+      - SSD I/O:
+          widget:
+            type: glances
+            url: http://glances.glances:61208
+            version: 4
+            metric: disk:nvme0n1
+            chart: true
+            pointsLimit: 30
+      
+      - HDD 1 I/O:
+          widget:
+            type: glances
+            url: http://glances.glances:61208
+            version: 4
+            metric: disk:sda
+            chart: true
+            pointsLimit: 30
+      
+      - HDD 2 I/O:
+          widget:
+            type: glances
+            url: http://glances.glances:61208
+            version: 4
+            metric: disk:sdc
+            chart: true
+            pointsLimit: 30
+      
+      - Top Processes:
+          widget:
+            type: glances
+            url: http://glances.glances:61208
+            version: 4
+            metric: process
+
+    - Services1:
+      - Traefik:
+          icon: traefik.png
+          href: https://traefik.pxldi.de
+          ping: https://traefik.pxldi.de
+          widget:
+            type: traefik
+            url: http://traefik.traefik:8080
+      - Grafana:
+          icon: grafana.png
+          href: https://grafana.pxldi.de
+          ping: https://grafana.pxldi.de
+          widget:
+            type: grafana
+            version: 2
+            url: http://kube-prometheus-stack-grafana.monitoring:80
+            username: {{HOMEPAGE_VAR_GRAFANA_USER}}
+            password: {{HOMEPAGE_VAR_GRAFANA_PASSWORD}}
+      - Prometheus:
+          icon: prometheus.png
+          href: https://prometheus.pxldi.de
+          ping: https://prometheus.pxldi.de
+          widget:
+            type: prometheus
+            url: http://kube-prometheus-stack-prometheus.monitoring:9090
+
+    - Services2:
+      - Sabnzbd:
+          icon: sabnzbd.png
+          href: https://sabnzbd.pxldi.de
+          ping: https://sabnzbd.pxldi.de
+          widget:
+            type: sabnzbd
+            url: http://sabnzbd.media-stack:10097
+            key: {{HOMEPAGE_VAR_SABNZBD_API_KEY}}
+      - Sonarr:
+          icon: sonarr.png
+          href: https://sonarr.pxldi.de
+          ping: https://sonarr.pxldi.de
+          widget:
+            type: sonarr
+            url: http://sonarr.media-stack:8989
+            key: {{HOMEPAGE_VAR_SONARR_API_KEY}}
+      - Radarr:
+          icon: radarr.png
+          href: https://radarr.pxldi.de
+          ping: https://radarr.pxldi.de
+          widget:
+            type: radarr
+            url: http://radarr.media-stack:7878
+            key: {{HOMEPAGE_VAR_RADARR_API_KEY}}
+      - Jellyfin:
+          icon: jellyfin.png
+          href: https://jellyfin.pxldi.de
+          ping: https://jellyfin.pxldi.de
+          widget:
+            type: jellyfin
+            url: http://jellyfin.media-stack:8096
+            key: {{HOMEPAGE_VAR_JELLYFIN_API_KEY}}
+
+    - Services3:
+      - Navidrome:
+          icon: navidrome.png
+          href: https://navidrome.pxldi.de
+          ping: https://navidrome.pxldi.de
+          widget:
+            type: navidrome
+            url: http://navidrome.music:4533
+            user: {{HOMEPAGE_VAR_NAVIDROME_USER}}
+            token: {{HOMEPAGE_VAR_NAVIDROME_TOKEN}}
+            salt: {{HOMEPAGE_VAR_NAVIDROME_SALT}}
+      - slskd:
+          icon: slskd.png
+          href: https://slskd.pxldi.de
+          ping: https://slskd.pxldi.de
+          widget:
+            type: slskd
+            url: http://slskd.music:5030
+            key: {{HOMEPAGE_VAR_SLSKD_API_KEY}}
+      - Pihole:
+          icon: pi-hole.png
+          href: https://pihole.pxldi.de/admin/
+          ping: https://pihole.pxldi.de/admin/
+          widget:
+            type: pihole
+            url: http://pihole-web.pihole:80
+            version: 6
+      - Nextcloud:
+          icon: nextcloud.png
+          href: https://nextcloud.pxldi.de/
+          ping: https://nextcloud.pxldi.de/
+          widget:
+            type: nextcloud
+            url: https://nextcloud.pxldi.de
+            key: {{HOMEPAGE_VAR_NEXTCLOUD_API_KEY}}
+            fields: ["freespace", "activeusers", "numfiles", "numshares"]
+
+    - Services4:
+      - Tandoor:
+          icon: tandoor-recipes.png
+          href: https://recipes.pxldi.de/
+          ping: https://recipes.pxldi.de/
+          widget:
+            type: tandoor
+            url: http://tandoor.tandoor:80
+            key: {{HOMEPAGE_VAR_TANDOOR_API_KEY}}
+      - HomeAssistant:
+          icon: home-assistant.png
+          href: https://home.pxldi.de
+          ping: https://home.pxldi.de
+          widget:
+            type: homeassistant
+            url: http://home-assistant.home-assistant:8123
+            key: {{HOMEPAGE_VAR_HOMEASSISTANT_API_KEY}}
+      - Immich:
+          icon: immich.png
+          href: https://immich.pxldi.de
+          ping: https://immich.pxldi.de
+          widget:
+            type: immich
+            url: http://immich.immich:10323
+            key: {{HOMEPAGE_VAR_IMMICH_API_KEY}}
+            version: 2
+      - Booklore:
+          icon: booklore.png
+          href: https://books.pxldi.de
+          ping: https://books.pxldi.de
+          widget:
+            type: booklore
+            url: http://booklore.books:6060
+            username: {{HOMEPAGE_VAR_BOOKLORE_USER}}
+            password: {{HOMEPAGE_VAR_BOOKLORE_PASS}}
+
+    - Financial:
+      - Stocks:
+          icon: google-finance.png
+          widget:
+            type: stocks
+            provider: finnhub
+            watchlist:
+              - NVDA
+              - AAPL
+              - MSFT
+              - AMZN
+              - AMD
+      - Crypto:
+          icon: bitcoin.png
+          widget:
+            type: coinmarketcap
+            currency: USD
+            symbols: [BTC, ETH, XRP, SOL, DOGE]
+            key: {{HOMEPAGE_VAR_CMC_API_KEY}}
+            defaultinterval: 7d
+    
+    - RSS:
+      - The Verge:
+          icon: https://www.theverge.com/favicon.ico
+          widget:
+            type: customapi
+            url: http://glance-proxy.freshrss.svc.cluster.local:5000/freshrss/glance?feed=The%20Verge
+            display: dynamic-list
+            mappings:
+              name: title
+              label: " "
+              target: "{link}"
+              limit: 10
+      - Computerbase:
+          icon: https://www.computerbase.de/favicon.ico
+          widget:
+            type: customapi
+            url: http://glance-proxy.freshrss.svc.cluster.local:5000/freshrss/glance?feed=Computerbase
+            display: dynamic-list
+            mappings:
+              name: title
+              label: " "
+              target: "{link}"
+              limit: 10
+      - Ars Technica:
+          icon: https://arstechnica.com/favicon.ico
+          widget:
+            type: customapi
+            url: http://glance-proxy.freshrss.svc.cluster.local:5000/freshrss/glance?feed=Ars%20Technica
+            display: dynamic-list
+            mappings:
+              name: title
+              label: " "
+              target: "{link}"
+              limit: 10
+
+  bookmarks.yaml: ""
+  docker.yaml: ""
+  custom.css: |
+    /* Subtle purple/blue gradient */
+    html.dark.theme-slate body,
+    html.dark.theme-slate #__next,
+    html.dark.theme-slate #page_wrapper,
+    html.dark.theme-slate #inner_wrapper {
+      background: linear-gradient(135deg, #0f1219 0%, #1a1a2e 25%, #16213e 50%, #1a1a2e 75%, #0f1219 100%) !important;
+      background-attachment: fixed !important;
+    }
+
+    /* Simple card styling */
+    .service-card, .service {
+      transition: all 0.15s ease !important;
+    }
+
+    .service-card:hover, .service:hover {
+      transform: translateY(-1px) !important;
+    }
+
+    /* Header bar - rounded, floating, glassmorphism */
+    #information-widgets {
+      background: rgba(15, 23, 42, 0.3) !important;
+      backdrop-filter: blur(16px) !important;
+      border-radius: 16px !important;
+      margin: 1rem !important;
+      border: 1px solid rgba(55, 65, 81, 0.2) !important;
+    }
+
+    /* Main container with consistent spacing */
+    #widgets-wrap {
+      display: flex !important;
+      align-items: center !important;
+      width: 100% !important;
+      padding: 0 1rem !important;
+      gap: 0 !important;
+    }
+
+    /* Logo and greeting close together */
+    .information-widget-logo {
+      margin-right: 0.75rem !important;
+    }
+
+    .information-widget-greeting {
+      margin-right: 3rem !important;
+      font-size: 1.5rem !important;
+      font-weight: 600 !important;
+      color: #e2e8f0 !important;
+      -webkit-text-fill-color: #e2e8f0 !important;
+      letter-spacing: 0.02em !important;
+    }
+
+    /* Resource containers with proper spacing */
+    .widget-container:has(.information-widget-resource) {
+      display: flex !important;
+      margin-right: 2rem !important;
+    }
+
+    .widget-container:has(.information-widget-resource) > div {
+      display: flex !important;
+      gap: 1rem !important;
+    }
+
+    /* Individual resource items */
+    .information-widget-resource {
+      margin: 0 !important;
+    }
+
+    /* Datetime/weather with consistent spacing */
+    #information-widgets-right {
+      margin-left: 3rem !important;
+      display: flex !important;
+      gap: 2rem !important;
+    }
+
+    /* Clean text colors */
+    .text-theme-700 {
+      color: #cbd5e1 !important;
+    }
+
+    .text-theme-500 {
+      color: #94a3b8 !important;
+    }
+
+    /* Status dots */
+    .status-dot {
+      box-shadow: 0 0 8px currentColor !important;
+    }
+
+  custom.js: |
+    const RELOAD_BUTTON_SELECTORS = [
+      "#revalidate",
+      '[data-testid="revalidate"]',
+      ".reload-button",
+      'button[aria-label="Reload"]',
+    ];
+
+    function removeReloadButton() {
+      RELOAD_BUTTON_SELECTORS.forEach((selector) => {
+        document.querySelectorAll(selector).forEach((el) => el.remove());
+      });
+    }
+
+    function setupReloadButtonObserver() {
+      const observer = new MutationObserver(() => removeReloadButton());
+      observer.observe(document.body, {
+        childList: true,
+        subtree: true,
+      });
+      return observer;
+    }
+
+    document.addEventListener("DOMContentLoaded", removeReloadButton);
+    window.addEventListener("load", () => {
+      removeReloadButton();
+      setupReloadButtonObserver();
+      [100, 500, 1000].forEach((delay) => setTimeout(removeReloadButton, delay));
+    });

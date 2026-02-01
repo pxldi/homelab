@@ -1,0 +1,24 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+# This kustomization will eventually replace flux/kustomization.yaml
+# During migration, both will coexist
+
+resources:
+  # Flux system - core controllers
+  - ./flux/flux-system
+
+  # Helm repository sources
+  - ./flux/sources
+
+  # Infrastructure components (by namespace)
+  - ./apps/kube-system/cilium/app/helmrelease.yaml  # CNI - must be first
+  - ./apps/network/traefik/app/helmrelease.yaml     # Ingress
+  - ./apps/network/metallb/app/helmrelease.yaml     # LoadBalancer
+  - ./apps/storage/longhorn/app/helmrelease.yaml    # Storage
+
+  # Applications (organized by namespace)
+  # Each namespace has its own ks.yaml for Flux to reconcile
+  # The namespace kustomizations are defined in:
+  # - kubernetes/flux/apps-kustomizations.yaml

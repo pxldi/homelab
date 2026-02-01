@@ -1,0 +1,114 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: traefik
+  namespace: traefik
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: traefik
+      sourceRef:
+        kind: HelmRepository
+        name: traefik
+        namespace: flux-system
+  install:
+    createNamespace: true
+  upgrade:
+    remediation:
+      remediateLastFailure: true
+  values:
+    env:
+      - name: CLOUDFLARE_DNS_API_TOKEN
+        valueFrom:
+          secretKeyRef:
+            name: cloudflare-api-token
+            key: CF_API_TOKEN
+    podSecurityContext:
+      fsGroup: 65532
+    additionalArguments:
+      - "--certificatesresolvers.myresolver.acme.email=admin@${DOMAIN}"
+      - "--certificatesresolvers.myresolver.acme.storage=/data/acme.json"
+      - "--certificatesresolvers.myresolver.acme.dnschallenge=true"
+      - "--certificatesresolvers.myresolver.acme.dnschallenge.provider=cloudflare"
+      - "--certificatesresolvers.myresolver.acme.dnschallenge.delaybeforecheck=0"
+      - "--certificatesresolvers.myresolver.acme.keytype=RSA4096"
+      - "--api.insecure=true"
+      - "--api.dashboard=true"
+      - "--log.level=DEBUG"
+      - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
+      - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
+      - "--entrypoints.web.http.redirections.entrypoint.permanent=true"
+    deployment:
+      initContainers:
+        - name: volume-permissions
+          image: busybox:latest
+          command: ["sh", "-c", "touch /data/acme.json; chmod -v 600 /data/acme.json"]
+          volumeMounts:
+            - name: data
+              mountPath: /data
+    service:
+      enabled: true
+      type: LoadBalancer
+      loadBalancerIP: 192.168.0.200
+      annotations:
+        metallb.io/address-pool: default
+    api:
+      dashboard: true
+      insecure: true
+    ports:
+      traefik:
+        port: 8080
+        expose:
+          default: true
+        exposedPort: 8080
+        protocol: TCP
+      web:
+        port: 80
+        expose:
+          default: true
+        exposedPort: 80
+        protocol: TCP
+      websecure:
+        port: 443
+        expose:
+          default: true
+        exposedPort: 443
+        protocol: TCP
+        http3:
+          enabled: false
+    ingressClass:
+      enabled: true
+      name: traefik
+      isDefaultClass: true
+    providers:
+      kubernetesCRD:
+        enabled: true
+      kubernetesIngress:
+        enabled: true
+        ingressClass: traefik
+    ingressRoute:
+      dashboard:
+        enabled: true
+        entryPoints:
+          - websecure
+        routes:
+          - match: Host(`traefik.${DOMAIN}`)
+            kind: Rule
+            services:
+              - name: api@internal
+                kind: TraefikService
+            middlewares:
+              - name: authelia-forwardauth
+                namespace: traefik
+        tls:
+          certResolver: myresolver
+    persistence:
+      enabled: true
+      name: data
+      accessMode: ReadWriteOnce
+      size: 1Gi
+      storageClass: longhorn
+      path: /data

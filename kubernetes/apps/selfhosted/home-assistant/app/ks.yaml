@@ -1,0 +1,27 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: home-assistant
+  namespace: flux-system
+spec:
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: home-assistant
+  interval: 30m
+  path: ./kubernetes/selfhosted/home-assistant/app
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: home-assistant
+  wait: true
+  dependsOn:
+    - name: storage
+  postBuild:
+    substitute:
+      APP: home-assistant
+      HOSTNAME: home.${DOMAIN}
+      TIMEZONE: ${TIMEZONE}
+      LONGHORN_DUAL: ${LONGHORN_DUAL}

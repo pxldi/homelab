@@ -1,0 +1,95 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: authelia-config
+  namespace: auth
+data:
+  configuration.yaml: |
+    theme: dark
+    log:
+      level: info
+      format: text
+
+    server:
+      host: 0.0.0.0
+      port: 9091
+
+    authentication_backend:
+      file:
+        path: /config/users_database.yml
+        password:
+          algorithm: argon2id
+
+    session:
+      name: authelia_session
+      same_site: lax
+      expiration: 1h
+      inactivity: 5m
+      remember_me: 1 month
+      cookies:
+          - domain: pxldi.de
+            authelia_url: https://auth.pxldi.de
+
+    storage:
+      local:
+        path: /config/db.sqlite3
+
+    notifier:
+      filesystem:
+        filename: /config/notification.txt
+
+    access_control:
+      default_policy: deny
+      rules:
+        - domain: "auth.pxldi.de"
+          policy: bypass
+        - domain: "traefik.pxldi.de"
+          policy: two_factor
+        - domain: "pihole.pxldi.de"
+          policy: two_factor
+
+        - domain: "radarr.pxldi.de"
+          policy: two_factor
+        - domain: "sonarr.pxldi.de"
+          policy: two_factor
+        - domain: "lidarr.pxldi.de"
+          policy: two_factor
+        - domain: "music.pxldi.de"
+          policy: two_factor
+        - domain: "sonobarr.pxldi.de"
+          policy: two_factor
+        - domain: "sabnzbd.pxldi.de"
+          policy: two_factor
+        - domain: "slskd.pxldi.de"
+          policy: two_factor
+        - domain: "longhorn.pxldi.de"
+          policy: two_factor
+        - domain: "homepage.pxldi.de"
+          policy: two_factor
+        - domain: "bookshelf.pxldi.de"
+          policy: two_factor
+        - domain: "calibre.pxldi.de"
+          policy: two_factor
+
+        - domain: "prometheus.pxldi.de"
+          policy: two_factor
+        - domain: "grafana.pxldi.de"
+          policy: two_factor
+
+        - domain: "pxldi.de"
+          policy: two_factor
+
+        - domain: "search.pxldi.de"
+          policy: two_factor
+
+        - domain: "glances.pxldi.de"
+          policy: two_factor
+
+  users_database.yml: |
+    users:
+      admin:
+        displayname: "Administrator"
+        password: "$argon2id$v=19$m=65536,t=3,p=4$6pEKEARjMs7eDFk8VK+XQQ$rhZxAalU3uIreoUa/eCCByq/I/iFaeL/5cqLHWK+ae4"
+        email: admin@pxldi.de
+        groups:
+          - admins

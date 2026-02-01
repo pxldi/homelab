@@ -1,0 +1,61 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: home-assistant
+  namespace: home-assistant
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: home-assistant
+      sourceRef:
+        kind: HelmRepository
+        name: pajikos
+        namespace: home-assistant
+  values:
+    image:
+      repository: ghcr.io/home-assistant/home-assistant
+      pullPolicy: IfNotPresent
+    controller:
+      type: StatefulSet
+    env:
+      - name: TZ
+        value: ${TIMEZONE}
+    service:
+      type: ClusterIP
+      port: 8123
+    persistence:
+      enabled: true
+      accessMode: ReadWriteOnce
+      size: 10Gi
+      storageClass: ${LONGHORN_DUAL}
+    ingress:
+      enabled: true
+      external: false
+      annotations:
+        traefik.ingress.kubernetes.io/router.entrypoints: websecure
+        traefik.ingress.kubernetes.io/router.tls.certresolver: myresolver
+      hosts:
+        - host: ${HOSTNAME}
+          paths:
+            - path: /
+              pathType: Prefix
+      tls:
+        - hosts:
+            - ${HOSTNAME}
+    configuration:
+      enabled: true
+      forceInit: false
+      trusted_proxies:
+        - 10.0.0.0/8
+        - 172.16.0.0/12
+        - 192.168.0.0/16
+      templateConfig: |-
+        default_config:
+        http:
+          use_x_forwarded_for: true
+          trusted_proxies:
+            {{- range .Values.configuration.trusted_proxies }}
+            - {{ . }}
+            {{- end }}
