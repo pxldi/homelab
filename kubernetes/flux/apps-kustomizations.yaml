@@ -9,7 +9,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 30m
-  path: ./kubernetes/apps/network
+  path: ./apps/network
   prune: false  # Set to false for safety during testing; enable after validation
   sourceRef:
     kind: GitRepository
@@ -23,7 +23,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 30m
-  path: ./kubernetes/apps/storage
+  path: ./apps/storage
   prune: false  # Set to false for safety during testing; enable after validation
   sourceRef:
     kind: GitRepository
@@ -39,7 +39,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 30m
-  path: ./kubernetes/apps/kube-system
+  path: ./apps/kube-system
   prune: false  # Set to false for safety during testing; enable after validation
   sourceRef:
     kind: GitRepository
@@ -53,7 +53,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 30m
-  path: ./kubernetes/apps/media-stack
+  path: ./apps/media-stack
   prune: false  # Set to false for safety during testing; enable after validation
   sourceRef:
     kind: GitRepository
@@ -69,7 +69,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 30m
-  path: ./kubernetes/apps/immich
+  path: ./apps/immich
   prune: false  # Set to false for safety during testing; enable after validation
   sourceRef:
     kind: GitRepository
@@ -84,7 +84,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 30m
-  path: ./kubernetes/apps/monitoring
+  path: ./apps/monitoring
   prune: false  # Set to false for safety during testing; enable after validation
   sourceRef:
     kind: GitRepository
@@ -97,7 +97,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 30m
-  path: ./kubernetes/apps/default
+  path: ./apps/default
   prune: false  # Set to false for safety during testing; enable after validation
   sourceRef:
     kind: GitRepository
@@ -110,7 +110,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 30m
-  path: ./kubernetes/apps/selfhosted
+  path: ./apps/selfhosted
   prune: false  # Set to false for safety during testing; enable after validation
   sourceRef:
     kind: GitRepository
@@ -125,7 +125,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 30m
-  path: ./kubernetes/apps/games
+  path: ./apps/games
   prune: false  # Set to false for safety during testing; enable after validation
   sourceRef:
     kind: GitRepository

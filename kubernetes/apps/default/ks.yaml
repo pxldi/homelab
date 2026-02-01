@@ -9,7 +9,7 @@ spec:
     labels:
       app.kubernetes.io/name: default
   interval: 30m
-  path: ./kubernetes/apps/default
+  path: ./default
   prune: true
   sourceRef:
     kind: GitRepository

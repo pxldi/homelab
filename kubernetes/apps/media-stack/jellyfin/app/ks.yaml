@@ -11,7 +11,7 @@ spec:
       app.kubernetes.io/name: jellyfin
       app.kubernetes.io/component: media
   interval: 30m
-  path: ./kubernetes/apps/media-stack/jellyfin/app
+  path: ./media-stack/jellyfin/app
   prune: true
   sourceRef:
     kind: GitRepository

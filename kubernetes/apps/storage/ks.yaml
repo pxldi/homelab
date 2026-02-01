@@ -10,7 +10,7 @@ spec:
     labels:
       app.kubernetes.io/name: storage
   interval: 30m
-  path: ./kubernetes/apps/storage
+  path: ./storage
   prune: true
   sourceRef:
     kind: GitRepository

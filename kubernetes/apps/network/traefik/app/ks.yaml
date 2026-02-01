@@ -11,7 +11,7 @@ spec:
       app.kubernetes.io/name: traefik
       app.kubernetes.io/component: ingress
   interval: 30m
-  path: ./kubernetes/apps/network/traefik/app
+  path: ./network/traefik/app
   prune: true
   sourceRef:
     kind: GitRepository
