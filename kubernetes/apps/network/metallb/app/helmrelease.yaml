@@ -29,10 +29,6 @@ spec:
         create: true
       nodeSelector: {}
       tolerations: []
-      securityContext:
-        readOnlyRootFilesystem: true
-        runAsNonRoot: true
-        runAsUser: 999
       resources: {}
     controller:
       rbac:
