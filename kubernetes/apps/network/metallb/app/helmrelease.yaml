@@ -23,6 +23,8 @@ spec:
       retries: 3
   values:
     speaker:
+      frr:
+        enabled: false
       rbac:
         create: true
       nodeSelector: {}
