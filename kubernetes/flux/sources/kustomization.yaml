@@ -15,3 +15,4 @@ resources:
   - prometheus.yaml
   - minecraft-server.yaml
   - home-assistant.yaml
+  - cilium.yaml
