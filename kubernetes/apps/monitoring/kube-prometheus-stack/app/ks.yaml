@@ -20,4 +20,4 @@ spec:
   postBuild:
     substitute:
       APP: kube-prometheus-stack
-      HOSTNAME: grafana.${DOMAIN}
+      HOSTNAME: grafana.pxldi.de
