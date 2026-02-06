@@ -32,7 +32,30 @@
       "Bash(ref:)",
       "Bash(branch: refactor-homelab-ops-v2)",
       "Bash(EOF)",
-      "Bash(__NEW_LINE_0cf48932ce088876__ echo \"Created GitRepository pointing to refactor-homelab-ops-v2\")"
+      "Bash(__NEW_LINE_0cf48932ce088876__ echo \"Created GitRepository pointing to refactor-homelab-ops-v2\")",
+      "Bash(findstr:*)",
+      "Bash(Select-Object -Last 30)",
+      "Bash(helm version:*)",
+      "Bash(helm repo add:*)",
+      "Bash(helm repo update:*)",
+      "Bash(helm status:*)",
+      "Bash(kubectl patch:*)",
+      "Bash(timeout:*)",
+      "Bash(talosctl logs:*)",
+      "Bash(Select-Object -Last 20)",
+      "Bash(helm uninstall:*)",
+      "Bash(helm install:*)",
+      "Bash(kubectl -n flux-system create secret generic sops-age --from-file=age.agekey=age.key:*)",
+      "Bash(kubectl rollout:*)",
+      "Bash(xargs:*)",
+      "Bash(kubectl:*)",
+      "Bash(ssh:*)",
+      "Bash(task status:*)",
+      "Bash(git fetch:*)",
+      "Bash(git ls-tree:*)",
+      "Bash(git pull:*)",
+      "Bash(git push)",
+      "Bash(talosctl config info:*)"
     ]
   }
 }
