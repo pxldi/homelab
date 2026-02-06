@@ -29,7 +29,7 @@ spec:
     podSecurityContext:
       fsGroup: 65532
     additionalArguments:
-      - "--certificatesresolvers.myresolver.acme.email=admin@${DOMAIN}"
+      - "--certificatesresolvers.myresolver.acme.email=admin@pxldi.de"
       - "--certificatesresolvers.myresolver.acme.storage=/data/acme.json"
       - "--certificatesresolvers.myresolver.acme.dnschallenge=true"
       - "--certificatesresolvers.myresolver.acme.dnschallenge.provider=cloudflare"
@@ -95,7 +95,7 @@ spec:
         entryPoints:
           - websecure
         routes:
-          - match: Host(`traefik.${DOMAIN}`)
+          - match: Host(`traefik.pxldi.de`)
             kind: Rule
             services:
               - name: api@internal

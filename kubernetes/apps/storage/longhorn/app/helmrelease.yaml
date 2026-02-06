@@ -33,7 +33,7 @@ spec:
       guaranteedEngineManagerCPU: "0"
       guaranteedReplicaManagerCPU: "0"
     ingress:
-      host: "${HOSTNAME}"
+      host: "longhorn.pxldi.de"
       enabled: true
       ingressClassName: traefik
       annotations:
@@ -41,10 +41,10 @@ spec:
         traefik.ingress.kubernetes.io/router.entrypoints: websecure
         traefik.ingress.kubernetes.io/router.tls.certresolver: myresolver
       hosts:
-        - host: ${HOSTNAME}
+        - host: longhorn.pxldi.de
           paths:
             - path: /
               pathType: Prefix
       tls:
         - hosts:
-            - ${HOSTNAME}
+            - longhorn.pxldi.de
