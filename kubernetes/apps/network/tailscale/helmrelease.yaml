@@ -13,6 +13,8 @@ spec:
         name: tailscale
         namespace: flux-system
       version: ">=1.88.0"
+  install:
+    createNamespace: true
   values:
     rbac:
       create: true
