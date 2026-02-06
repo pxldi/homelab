@@ -20,6 +20,8 @@ spec:
   values:
     operator:
       replicas: 1
+    k8sServiceHost: 192.168.0.152
+    k8sServicePort: 6443
     ipam:
       mode: kubernetes
     kubeProxyReplacement: true
