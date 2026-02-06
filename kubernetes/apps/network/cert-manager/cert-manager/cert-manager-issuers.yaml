@@ -5,7 +5,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 15m
-  path: "./flux/infra/cert-manager/issuers"
+  path: "./kubernetes/apps/network/cert-manager/cert-manager/issuers"
   prune: true
   sourceRef:
     kind: GitRepository

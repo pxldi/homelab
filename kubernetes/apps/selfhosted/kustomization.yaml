@@ -1,0 +1,13 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ./dashboard
+  - ./freshrss
+  - ./glances
+  - ./home-assistant
+  - ./nextcloud
+  - ./obsidian-livesync
+  - ./obsidian-sync
+  - ./pihole
+  - ./searxng
+  - ./tandoor

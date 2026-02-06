@@ -5,7 +5,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 5m
-  path: ./flux/gameservers
+  path: ./kubernetes/apps/gameservers
   prune: true
   sourceRef:
     kind: GitRepository

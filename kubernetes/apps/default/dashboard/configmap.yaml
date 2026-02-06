@@ -7,7 +7,7 @@ metadata:
 data:
   settings.yaml: |
     title: Homelab
-    favicon: "https://raw.githubusercontent.com/pxldi/homelab/refs/heads/main/flux/apps/dashboard/resources/house-icon.png"
+    favicon: "https://raw.githubusercontent.com/pxldi/homelab/refs/heads/main/kubernetes/apps/default/dashboard/resources/house-icon.png"
     theme: dark
     color: slate
 
@@ -65,7 +65,7 @@ data:
     mode: cluster
   widgets.yaml: |
     - logo:
-        icon: "https://raw.githubusercontent.com/pxldi/homelab/refs/heads/main/flux/apps/dashboard/resources/house-icon.png"
+        icon: "https://raw.githubusercontent.com/pxldi/homelab/refs/heads/main/kubernetes/apps/default/dashboard/resources/house-icon.png"
 
     - greeting:
         text_size: 3x1
