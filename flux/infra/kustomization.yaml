@@ -8,5 +8,6 @@ resources:
   - ./longhorn
   - ./tailscale
   - ./authelia
+  - ./metallb
   - metallb-config.yaml
   - coredns-patch.yaml
